@@ -1,0 +1,34 @@
+## top-most EditorConfig
+root = yes
+
+[*]
+indent_style = tab
+insert_final_newline = true
+
+## C#, VB.NET
+[*.{cs,csx,vb,vbx}]
+indent_style = tab
+indent_size = 4
+dotnet_style_qualification_for_field = false:suggestion
+[*.cs]
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_expression_bodied_methods = true:suggestion
+csharp_style_expression_bodied_constructors = true:suggestion
+csharp_style_expression_bodied_operators = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+csharp_preserve_single_line_statements = false
+
+[*.json]
+indent_style = space
+indent_size = 2
+
+[*.md]
+indent_style = space
+indent_size = 2
+
+## XML Project Files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_style = space
+indent_size = 2
