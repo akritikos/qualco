@@ -1,6 +1,13 @@
 # .NET Coding School [![Build Status](https://travis-ci.com/akritikos/qualco.svg?token=mYyotAgYHz5qAPrDsB42&branch=master)](https://travis-ci.com/akritikos/qualco)
 
-## Qualco Project (Team 2)
+## Qualco Project (Team #2)
+
+Guidelines for pull requests:
+
+* Use StyleCop for consistent code styling
+* Provide full documentation on classes & methods
+* Your PR should be able to be build cross-platform (Current CI implementation is Travis CI, on Ubuntu Trusty using dotnet 2.0.0)
+* Upon adding a new project, you should [add as link](https://tinyurl.com/yc5rbzhl) the file stylecop.json from the root of this repository and [enable it](https://tinyurl.com/yczleafl). Make sure to close and reload your project afterwards.
 
 Project specifications:
 
