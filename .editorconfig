@@ -7,7 +7,7 @@ insert_final_newline = true
 
 ## C#, VB.NET
 [*.{cs,csx,vb,vbx}]
-indent_style = tab
+indent_style = space
 indent_size = 4
 dotnet_style_qualification_for_field = false:suggestion
 [*.cs]
