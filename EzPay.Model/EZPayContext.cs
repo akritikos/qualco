@@ -45,7 +45,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=qualco2;Integrated Security=True");
+                optionsBuilder.UseSqlServer(@"Data Source=CGLAPTOP\CGDatabase;Initial Catalog=qualco;Integrated Security=True");
             }
         }
 
