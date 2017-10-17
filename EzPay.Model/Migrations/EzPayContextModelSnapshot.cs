@@ -26,8 +26,8 @@ namespace EzPay.Model.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnName("ID");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("decimal(7, 2)");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(8, 2)");
 
                     b.Property<long>("CitizenId")
                         .HasColumnName("Citizen");
@@ -39,9 +39,13 @@ namespace EzPay.Model.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("date");
 
+                    b.Property<Guid?>("SettlementId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CitizenId");
+
+                    b.HasIndex("SettlementId");
 
                     b.ToTable("Bills");
                 });
@@ -53,11 +57,11 @@ namespace EzPay.Model.Migrations
                         .HasMaxLength(10);
 
                     b.Property<string>("Address")
-                        .HasMaxLength(150)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
                     b.Property<string>("County")
-                        .HasMaxLength(15)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
 
                     b.Property<string>("Email")
@@ -99,27 +103,14 @@ namespace EzPay.Model.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("EzPay.Model.Entities.SettledBills", b =>
-                {
-                    b.Property<Guid>("BillId")
-                        .HasColumnName("Bill");
-
-                    b.Property<Guid>("SettlementId")
-                        .HasColumnName("Settlement");
-
-                    b.HasKey("BillId", "SettlementId");
-
-                    b.HasIndex("SettlementId");
-
-                    b.ToTable("Settled");
-                });
-
             modelBuilder.Entity("EzPay.Model.Entities.Settlement", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newsequentialid())");
+
+                    b.Property<long>("CitizenId");
 
                     b.Property<int>("Installments")
                         .HasMaxLength(3);
@@ -128,6 +119,8 @@ namespace EzPay.Model.Migrations
                         .HasColumnName("Type");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CitizenId");
 
                     b.HasIndex("TypeId");
 
@@ -141,10 +134,10 @@ namespace EzPay.Model.Migrations
                         .HasColumnName("ID")
                         .HasDefaultValueSql("(newsequentialid())");
 
-                    b.Property<double>("Downpayment")
+                    b.Property<decimal>("Downpayment")
                         .HasColumnType("decimal(4, 2)");
 
-                    b.Property<double>("Interest")
+                    b.Property<decimal>("Interest")
                         .HasColumnType("decimal(4, 2)");
 
                     b.Property<int>("MaxInstallments")
@@ -161,6 +154,11 @@ namespace EzPay.Model.Migrations
                         .WithMany("Bills")
                         .HasForeignKey("CitizenId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EzPay.Model.Entities.Settlement", "Settlement")
+                        .WithMany("Bills")
+                        .HasForeignKey("SettlementId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EzPay.Model.Entities.Payment", b =>
@@ -171,21 +169,13 @@ namespace EzPay.Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("EzPay.Model.Entities.SettledBills", b =>
-                {
-                    b.HasOne("EzPay.Model.Entities.Bill", "Bill")
-                        .WithMany("Settled")
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EzPay.Model.Entities.Settlement", "Settlement")
-                        .WithMany("Settled")
-                        .HasForeignKey("SettlementId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("EzPay.Model.Entities.Settlement", b =>
                 {
+                    b.HasOne("EzPay.Model.Entities.Citizen", "Citizen")
+                        .WithMany("Settlements")
+                        .HasForeignKey("CitizenId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("EzPay.Model.Entities.SettlementType", "Type")
                         .WithMany("Settlements")
                         .HasForeignKey("TypeId")
