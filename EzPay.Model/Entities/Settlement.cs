@@ -33,17 +33,17 @@
         /// Navigational property accessing the <see cref="SettlementType"/> 
         /// of <see cref="SettlementType"/>
         /// </summary>
-        public SettlementType Type { get; set; }
+        public virtual SettlementType Type { get; set; }
 
         /// <summary>
         /// Navigational property accessing the <see cref="Citizen"/> owning this bill
         /// </summary>
-        public Citizen Citizen { get; set; }
+        public virtual Citizen Citizen { get; set; }
 
         /// <summary>
         /// Navigational property mapping the many-to-many relationship between 
         /// <see cref="Settlement"/> and <see cref="Bill"/>
         /// </summary>
-        public ICollection<Bill> Bills { get; set; }
+        public virtual ICollection<Bill> Bills { get; set; }
     }
 }

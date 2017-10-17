@@ -31,6 +31,6 @@
         /// <summary>
         /// Navigational field mapping <see cref="Settlement"/> classes referring to this <see cref="SettlementType"/>
         /// </summary>
-        public ICollection<Settlement> Settlements { get; set; }
+        public virtual ICollection<Settlement> Settlements { get; set; }
     }
 }

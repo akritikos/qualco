@@ -41,17 +41,17 @@
         /// <summary>
         /// Navigational property to access the owning <see cref="Entities.Citizen"/>
         /// </summary>
-        public Citizen Citizen { get; set; }
+        public virtual Citizen Citizen { get; set; }
 
         /// <summary>
         /// Navigational property to access a sucessful transaction <see cref="Entities.Payment"/>
         /// </summary>
-        public Payment Payment { get; set; }
+        public virtual Payment Payment { get; set; }
 
         /// <summary>
         /// Navigational property to access possible <see cref="Entities.Settlement"/>
         /// </summary>
-        public Settlement Settlement { get; set; }
+        public virtual Settlement Settlement { get; set; }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
