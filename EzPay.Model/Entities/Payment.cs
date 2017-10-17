@@ -25,6 +25,6 @@
         /// <summary>
         /// Navigational property to access <see cref="Entities.Bill"/> referred to by <see cref="BillId"/>
         /// </summary>
-        public Bill Bill { get; set; }
+        public virtual Bill Bill { get; set; }
     }
 }

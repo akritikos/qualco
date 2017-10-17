@@ -5,12 +5,12 @@
     using EzPay.Model.Entities;
 
     /// <inheritdoc />
-    public class CitizenComparerById : IEqualityComparer<Citizen>
+    /// <summary>
+    /// Handles comparisons on <see cref="Citizen"/> objects based on their ID
+    /// </summary>
+    public class CitizenComparerById : IComparer<Citizen>
     {
         /// <inheritdoc />
-        public bool Equals(Citizen x, Citizen y) => x.Id == y.Id;
-
-        /// <inheritdoc />
-        public int GetHashCode(Citizen obj) => obj.Id.GetHashCode();
+        public int Compare(Citizen x, Citizen y) => x.Id.CompareTo(y.Id);
     }
 }

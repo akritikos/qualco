@@ -11,9 +11,10 @@ using System;
 namespace EzPay.Model.Migrations
 {
     [DbContext(typeof(EzPayContext))]
-    partial class EzPayContextModelSnapshot : ModelSnapshot
+    [Migration("20171017114320_Virtual Properties")]
+    partial class VirtualProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -19,19 +19,31 @@
         public Guid TypeId { get; set; }
 
         /// <summary>
+        /// Identifier of owning <see cref="Citizen"/>
+        /// </summary>
+        public long CitizenId { get; set; }
+
+        /// <summary>
         /// Selected number of installements
         /// (Should be multiples of 3)
         /// </summary>
         public int Installments { get; set; }
 
         /// <summary>
-        /// Navigational property accessing the <see cref="SettlementType"/> of <see cref="TypeId"/>
+        /// Navigational property accessing the <see cref="SettlementType"/> 
+        /// of <see cref="SettlementType"/>
         /// </summary>
-        public SettlementType Type { get; set; }
+        public virtual SettlementType Type { get; set; }
 
         /// <summary>
-        /// Navigational property mapping the many-to-many relationship between <see cref="Settlement"/> and <see cref="Bill"/>
+        /// Navigational property accessing the <see cref="Citizen"/> owning this bill
         /// </summary>
-        public virtual ICollection<SettledBills> Settled { get; set; }
+        public virtual Citizen Citizen { get; set; }
+
+        /// <summary>
+        /// Navigational property mapping the many-to-many relationship between 
+        /// <see cref="Settlement"/> and <see cref="Bill"/>
+        /// </summary>
+        public virtual ICollection<Bill> Bills { get; set; }
     }
 }
