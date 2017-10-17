@@ -35,17 +35,12 @@
         /// </summary>
         public virtual DbSet<SettlementType> SettlementTypes { get; set; }
 
-        /// <summary>
-        /// Mapping of Bills with agreed Settlements
-        /// </summary>
-        public virtual DbSet<SettledBills> Settled { get; set; }
-
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=qualco2;Integrated Security=True");
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=qualco;Integrated Security=True");
             }
         }
 
@@ -72,10 +67,10 @@
                         .HasMaxLength(40)
                         .IsUnicode(false);
                     entity.Property(e => e.Address)
-                        .HasMaxLength(150)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
                     entity.Property(e => e.County)
-                        .HasMaxLength(15)
+                        .HasMaxLength(30)
                         .IsUnicode(false);
                     entity.Property(e => e.Telephone)
                         .HasMaxLength(13)
@@ -102,12 +97,17 @@
                         .IsUnicode(false);
 
                     entity.Property(e => e.Amount)
-                        .HasColumnType("decimal(7, 2)");
+                        .HasColumnType("decimal(8, 2)");
 
                     entity
                         .HasOne(c => c.Citizen)
                         .WithMany(b => b.Bills)
                         .HasForeignKey(c => c.CitizenId);
+
+                    entity
+                        .HasOne(b => b.Settlement)
+                        .WithMany(s => s.Bills)
+                        .HasForeignKey(b => b.SettlementId);
                 });
 
             modelBuilder.Entity<Payment>(
@@ -151,6 +151,17 @@
                         .HasOne(s => s.Type)
                         .WithMany(st => st.Settlements)
                         .HasForeignKey(s => s.TypeId);
+
+                    entity
+                        .HasOne(s => s.Citizen)
+                        .WithMany(c => c.Settlements)
+                        .HasForeignKey(s => s.CitizenId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    entity
+                        .HasMany(s => s.Bills)
+                        .WithOne(b => b.Settlement)
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity<SettlementType>(
@@ -168,18 +179,6 @@
 
                     entity.Property(e => e.MaxInstallments)
                         .HasMaxLength(3);
-                });
-
-            modelBuilder.Entity<SettledBills>(
-                entity =>
-                {
-                    entity
-                        .HasKey(t => new { t.BillId, t.SettlementId });
-
-                    entity.Property(e => e.BillId)
-                        .HasColumnName("Bill");
-                    entity.Property(e => e.SettlementId)
-                        .HasColumnName("Settlement");
                 });
         }
     }
