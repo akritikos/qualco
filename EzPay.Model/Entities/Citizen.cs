@@ -7,13 +7,13 @@
     /// </summary>
     public class Citizen
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Citizen"/> class
-        /// </summary>
-        public Citizen()
-        {
-            this.Bills = new HashSet<Bill>();
-        }
+        // /// <summary>
+        // /// Initializes a new instance of the <see cref="Citizen"/> class
+        // /// </summary>
+        // public Citizen()
+        // {
+        //     this.Bills = new HashSet<Bill>();
+        // }
 
         /// <summary>
         /// VAT Number is used as Identifier
@@ -59,5 +59,25 @@
         /// Navigational field to access bills belonging to this citizen
         /// </summary>
         public ICollection<Bill> Bills { get; set; }
+
+        /// <summary>
+        /// Navigational property mapping the one-to-many relationship of <see cref="Citizen"/>
+        /// with <see cref="Settlement"/>
+        /// </summary>
+        public ICollection<Settlement> Settlements { get; set; }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Citizen))
+            {
+                return false;
+            }
+            var o = (Citizen)obj;
+            return o.Id.Equals(Id);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }

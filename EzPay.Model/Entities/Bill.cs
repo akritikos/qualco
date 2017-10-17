@@ -19,6 +19,11 @@
         public long CitizenId { get; set; }
 
         /// <summary>
+        /// Identifier of possible <see cref="Entities.Settlement"/>
+        /// </summary>
+        public Guid? SettlementId { get; set; }
+
+        /// <summary>
         /// Date (in YYYYMMDD format) of expiration
         /// </summary>
         public DateTime DueDate { get; set; }
@@ -31,7 +36,7 @@
         /// <summary>
         /// Amount to be paid
         /// </summary>
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Navigational property to access the owning <see cref="Entities.Citizen"/>
@@ -41,11 +46,25 @@
         /// <summary>
         /// Navigational property to access a sucessful transaction <see cref="Entities.Payment"/>
         /// </summary>
-        public virtual Payment Payment { get; set; }
+        public Payment Payment { get; set; }
 
         /// <summary>
-        /// Navigational mapping between <see cref="Bill"/> and agreed <see cref="Settlement"/>
+        /// Navigational property to access possible <see cref="Entities.Settlement"/>
         /// </summary>
-        public ICollection<SettledBills> Settled { get; set; }
+        public Settlement Settlement { get; set; }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Bill))
+            {
+                return false;
+            }
+            var o = (Bill)obj;
+            return o.Id.Equals(Id);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }
