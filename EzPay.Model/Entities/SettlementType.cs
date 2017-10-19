@@ -16,12 +16,12 @@
         /// <summary>
         /// Percentage of amount that should be paid upfront
         /// </summary>
-        public double Downpayment { get; set; }
+        public decimal Downpayment { get; set; }
 
         /// <summary>
         /// Interest per annum
         /// </summary>
-        public double Interest { get; set; }
+        public decimal Interest { get; set; }
 
         /// <summary>
         /// Maximum number of allowed installments
