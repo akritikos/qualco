@@ -19,8 +19,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.Web", "EzPay.Web\EzPay.Web.csproj", "{7EBA0942-C6B3-4CE9-8970-3CD202EA88D5}"
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.IO", "EzPay.IO\EzPay.IO.csproj", "{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.ModelUpdater", "EzPay.ModelUpdater\EzPay.ModelUpdater.csproj", "{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
