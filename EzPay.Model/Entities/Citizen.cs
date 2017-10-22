@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Identity;
+
     /// <summary>
     /// Citizen mapper class
     /// </summary>
-    public class Citizen
+    public class Citizen : IdentityUser<long>
     {
         // /// <summary>
         // /// Initializes a new instance of the <see cref="Citizen"/> class

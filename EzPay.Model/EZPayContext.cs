@@ -3,12 +3,14 @@
     using System.Diagnostics.CodeAnalysis;
 
     using EzPay.Model.Entities;
+    using EzPay.Model.IdentityEntities;
 
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global", Justification = "virtual members required for Lazy Loading")]
-    public class EzPayContext : DbContext
+    public class EzPayContext : IdentityDbContext<Citizen, Role, long, CitizenClaim, CitizenRole,CitizenLogin, RoleClaim, CitizenToken >
     {
         /// <summary>
         /// Collection of registered Citizens
@@ -34,6 +36,36 @@
         /// Collection of SettlementTypes
         /// </summary>
         public virtual DbSet<SettlementType> SettlementTypes { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenRoles
+        /// </summary>
+        public virtual DbSet<CitizenClaim> CitizenClaims { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenLogins
+        /// </summary>
+        public virtual DbSet<CitizenLogin> CitizenLogins { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenRoles
+        /// </summary>
+        public virtual DbSet<CitizenRole> CitizenRoles { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenRoles
+        /// </summary>
+        public virtual DbSet<CitizenToken> CitizenTokens { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenRoles
+        /// </summary>
+        public virtual DbSet<Role> EZRoles { get; set; }
+
+        /// <summary>
+        /// Collection of CitizenRoles
+        /// </summary>
+        public virtual DbSet<RoleClaim> EZRoleClaims { get; set; }
 
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -180,6 +212,48 @@
                     entity.Property(e => e.MaxInstallments)
                         .HasMaxLength(3);
                 });
+
+            modelBuilder.Entity<CitizenClaim>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.CitizenClaimId);
+                        
+                    });
+
+            modelBuilder.Entity<CitizenLogin>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.Id);
+
+                    });
+
+            modelBuilder.Entity<CitizenRole>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.Id);
+
+                    });
+
+            modelBuilder.Entity<CitizenToken>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.Id);
+
+                    });
+
+            modelBuilder.Entity<Role>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.RoleId);
+
+                    });
+
+            modelBuilder.Entity<RoleClaim>(
+                entity =>
+                    {
+                        entity.HasKey(e => e.RoleClaimId);
+
+                    });
         }
     }
 }

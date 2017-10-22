@@ -132,7 +132,7 @@ namespace EzPay.ModelUpdater
         private static void ImportData()
         {
             var importCitizens = new Dictionary<long, Citizen>();
-            var import = new Importer();
+            var import = new Importer(@"C:\CitizenDebts_1M_3.txt");
             Console.WriteLine("Beginning data import!");
             w = Stopwatch.StartNew();
             var data = import.GetResults();
