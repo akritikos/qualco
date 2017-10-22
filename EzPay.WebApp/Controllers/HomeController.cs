@@ -10,6 +10,8 @@ namespace EzPay.WebApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Title = "Home";
+
             return View();
         }
     }

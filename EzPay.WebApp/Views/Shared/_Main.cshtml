@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - EzPay</title>
+	<title>@ViewBag.Title - EzPay</title>
 
 	<environment include="Development">
 		<link href="~/css/bootstrap.css" rel="stylesheet" />
@@ -17,7 +17,7 @@
 	</environment>
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -42,7 +42,7 @@
 		@RenderBody()
 		<hr />
 		<footer>
-			<p>EzPay - &copy; 2017</p>
+			<center><p>EzPay - &copy; 2017</p></center>
 		</footer>
 	</div>
 
