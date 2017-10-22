@@ -20,7 +20,7 @@
         /// <summary>
         /// VAT Number is used as Identifier
         /// </summary>
-        public long Id { get; set; }
+        public override long Id { get; set; }
 
         /// <summary>
         /// Citizen's given name
@@ -40,7 +40,7 @@
         /// <summary>
         /// Email to use when sending temporary passwords
         /// </summary>
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
         /// <summary>
         /// Registered citizen address
