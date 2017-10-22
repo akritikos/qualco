@@ -14,5 +14,21 @@ namespace EzPay.WebApp.Controllers
 
             return View();
         }
+
+        public IActionResult About()
+        {
+            ViewBag.Title = "About";
+            ViewBag.Message = "A description of the page.";
+
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewBag.Title = "Contact Us";
+            ViewBag.Message = "Contact page for the portal.";
+
+            return View();
+        }
     }
 }

@@ -1,0 +1,69 @@
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cg-nav-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">EzPay</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="cg-nav-collapse">
+			<ul class="nav navbar-nav">
+				<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+				<li class="dropdown">
+				<li><a asp-area="" asp-controller="Home" asp-action="Index">News</a></li>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Something</a></li>
+						<li><a href="#">Something</a></li>
+						<li><a href="#">Something</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Something</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Something</a></li>
+					</ul>
+				</li>
+				<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				<a asp-area="" asp-controller="Citizen" asp-action="Index" data-toggle="dropdown" class="dropdown">Login</a>
+					<ul id="login-dp" class="dropdown-menu">
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									<center>Login</center>
+									<form class="form" role="form" method="post" action="Login" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+											<label class="sr-only" for="citizenId">Citizen Id</label>
+											<input type="email" class="form-control" id="citizenId" placeholder="Citizen ID" required>
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="password">Password</label>
+											<input type="password" class="form-control" id="password" placeholder="Password" required>
+											<div class="help-block text-right"><a href="">Forgot your password?</a>
+											</div>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-info btn-block">Connect</button>
+										</div>
+										<div class="checkbox">
+											<center>
+												<label>
+													<input type="checkbox"> Stay connected
+												</label>
+											</center>
+										</div>
+									</form>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
