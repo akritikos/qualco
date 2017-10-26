@@ -175,6 +175,7 @@ namespace EzPay.ModelUpdater
 
                 if (importCitizens.ContainsKey(debt.Key.Id))
                 {
+                    debt.Key.UserName = debt.Key.Email;
                     //RegisterCitizen registerCitizen =new RegisterCitizen();
                     //registerCitizen.Register(debt.Key);
 
