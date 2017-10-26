@@ -93,7 +93,7 @@
                         .HasMaxLength(30);
                     entity.Property(e => e.LastName)
                         .HasMaxLength(30);
-                    entity.Property(e => e.Password)
+                    entity.Property(e => e.PasswordHash)
                         .HasMaxLength(64);
                     entity.Property(e => e.Email)
                         .HasMaxLength(40)
@@ -104,7 +104,7 @@
                     entity.Property(e => e.County)
                         .HasMaxLength(30)
                         .IsUnicode(false);
-                    entity.Property(e => e.Telephone)
+                    entity.Property(e => e.PhoneNumber)
                         .HasMaxLength(13)
                         .IsUnicode(false);
                 });

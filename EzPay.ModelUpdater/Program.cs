@@ -13,8 +13,11 @@ namespace EzPay.ModelUpdater
     using EzPay.IO;
     using EzPay.Model.Comparer;
 
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Dummy Program to allow DB migrations
@@ -156,7 +159,7 @@ namespace EzPay.ModelUpdater
             }
 
 
-            var ctb = new EzPayContext();
+           var ctb = new EzPayContext();
             Console.WriteLine("Writing data to database");
             w = Stopwatch.StartNew();
             var processed = 0;
@@ -172,6 +175,10 @@ namespace EzPay.ModelUpdater
 
                 if (importCitizens.ContainsKey(debt.Key.Id))
                 {
+                    debt.Key.UserName = debt.Key.Email;
+                    //RegisterCitizen registerCitizen =new RegisterCitizen();
+                    //registerCitizen.Register(debt.Key);
+
                     ctb.Add(debt.Key);
                 }
 

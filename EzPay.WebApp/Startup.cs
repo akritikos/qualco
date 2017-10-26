@@ -11,6 +11,7 @@ namespace EzPay.WebApp
 {
     using EzPay.Model;
     using EzPay.Model.Entities;
+    using EzPay.Model.IdentityEntities;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace EzPay.WebApp
             /*Identity START*/
             services.AddDbContext<EzPayContext>();
 
-            services.AddIdentity<Citizen, IdentityRole>()
+            services.AddIdentity<Citizen, Role>()
                 .AddEntityFrameworkStores<EzPayContext>()
                 .AddDefaultTokenProviders();
 
