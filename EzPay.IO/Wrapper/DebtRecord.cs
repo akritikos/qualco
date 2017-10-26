@@ -59,7 +59,7 @@ namespace EzPay.IO.Wrapper
                                                           FirstName = CitizenName,
                                                           LastName = CitizenSurname,
                                                           Email = CitizenEmail,
-                                                          Telephone = CitizenPhone.ToString(),
+                                                          PhoneNumber = CitizenPhone.ToString(),
                                                           Address = CitizenAddress,
                                                           County = CitizenCounty
                                                       };

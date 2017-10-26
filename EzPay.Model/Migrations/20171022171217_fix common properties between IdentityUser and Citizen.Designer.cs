@@ -11,9 +11,10 @@ using System;
 namespace EzPay.Model.Migrations
 {
     [DbContext(typeof(EzPayContext))]
-    partial class EzPayContextModelSnapshot : ModelSnapshot
+    [Migration("20171022171217_fix common properties between IdentityUser and Citizen")]
+    partial class fixcommonpropertiesbetweenIdentityUserandCitizen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,16 +89,20 @@ namespace EzPay.Model.Migrations
 
                     b.Property<string>("NormalizedUserName");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .HasMaxLength(64);
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(13)
-                        .IsUnicode(false);
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Telephone")
+                        .HasMaxLength(13)
+                        .IsUnicode(false);
 
                     b.Property<bool>("TwoFactorEnabled");
 

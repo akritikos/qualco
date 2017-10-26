@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Identity;
+
     /// <summary>
     /// Citizen mapper class
     /// </summary>
-    public class Citizen
+    public class Citizen : IdentityUser<long>
     {
         // /// <summary>
         // /// Initializes a new instance of the <see cref="Citizen"/> class
@@ -18,7 +20,7 @@
         /// <summary>
         /// VAT Number is used as Identifier
         /// </summary>
-        public long Id { get; set; }
+        public override long Id { get; set; }
 
         /// <summary>
         /// Citizen's given name
@@ -33,12 +35,12 @@
         /// <summary>
         /// Secure hash of password used to login
         /// </summary>
-        public string Password { get; set; }
+        public override string PasswordHash { get; set; }
 
         /// <summary>
         /// Email to use when sending temporary passwords
         /// </summary>
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
         /// <summary>
         /// Registered citizen address
@@ -53,7 +55,7 @@
         /// <summary>
         /// Telephone number, string format to allow country code prefix following '+'
         /// </summary>
-        public string Telephone { get; set; }
+        public override string PhoneNumber { get; set; }
 
         /// <summary>
         /// Navigational field to access bills belonging to this citizen

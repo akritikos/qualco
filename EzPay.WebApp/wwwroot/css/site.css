@@ -1,0 +1,103 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+	padding-left: 1%;
+    padding-right: 1%;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/****************
+     Navbar
+****************/
+
+#login-dp{
+	min-width: 250px;
+	padding: 14px 14px 0;
+	overflow:hidden;
+	background-image: -webkit-linear-gradient(#313539, #3a3f44 60%, #484e55);
+	background-image: -o-linear-gradient(#484e55, #3a3f44 60%, #313539);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#313539), color-stop(60%, #3a3f44), to(#484e55));
+	background-image: linear-gradient(#313539, #3a3f44 60%, #484e55);
+	background-repeat: no-repeat;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff313539', endColorstr='#484e55', GradientType=0);
+	-webkit-filter: none;
+	filter: none;
+	color: white;
+}
+#login-dp .help-block{
+	font-size:12px    
+}
+#login-dp .bottom{
+	background-color:rgba(39,43,46,1);
+	border-top:1px solid #ddd;
+	clear:both;
+	padding:14px;
+}
+#login-dp .social-buttons{
+	margin:12px 0    
+}
+#login-dp .social-buttons a{
+	width: 99%;
+}
+#login-dp .form-group {
+	margin-bottom: 10px;
+}
+.btn-go{
+	color: #fff;
+	background-color: rgba(214,45,32,1);
+}
+.btn-go:hover{
+	color: #fff;
+	background-color:#496ebc 
+}
+@media(max-width:768px){
+	#login-dp{
+		background-color: inherit;
+		color: #fff;
+	}
+	#login-dp .bottom{
+		background-color: inherit;
+		border-top:0 none;
+	}
+}
