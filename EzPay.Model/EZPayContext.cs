@@ -93,8 +93,8 @@
                         .HasMaxLength(30);
                     entity.Property(e => e.LastName)
                         .HasMaxLength(30);
-                    entity.Property(e => e.PasswordHash)
-                        .HasMaxLength(64);
+                   // entity.Property(e => e.PasswordHash)
+                   //   .HasMaxLength(64);//no max length
                     entity.Property(e => e.Email)
                         .HasMaxLength(40)
                         .IsUnicode(false);
