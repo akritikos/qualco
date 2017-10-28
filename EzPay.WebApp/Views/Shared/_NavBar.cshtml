@@ -1,4 +1,16 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Authentication;
+@using EzPay.WebApp.Models;
+@using EzPay.Model.Entities;
+
+
+@model LoginViewModel
+@inject SignInManager<Citizen> SignInManager
+@inject UserManager<Citizen> UserManager
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -30,20 +42,23 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-				<a asp-area="" asp-controller="Citizen" asp-action="Index" data-toggle="dropdown" class="dropdown">Login</a>
+				<a asp-area="" asp-controller="Citizen" asp-action="Login" data-toggle="dropdown" class="dropdown">Login</a>
 					<ul id="login-dp" class="dropdown-menu">
 						<li>
 							<div class="row">
 								<div class="col-md-12">
 									<center>Login</center>
-									<form class="form" role="form" method="post" action="Login" accept-charset="UTF-8" id="login-nav">
+									<form class="form" role="form" method="post" asp-controller="Citizen" asp-action="Login" accept-charset="UTF-8" id="login-nav">
 										<div class="form-group">
-											<label class="sr-only" for="citizenId">Citizen Id</label>
-											<input type="email" class="form-control" id="citizenId" placeholder="Citizen ID" required>
+											<label asp-for="citizenId" class="sr-only" for="citizenId">Citizen Id</label>
+											<input asp-for="citizenId" type="email" class="form-control" id="citizenId" placeholder="Citizen ID" required>
+											<span asp-validation-for="citizenId" class="text-danger"></span>
+
 										</div>
 										<div class="form-group">
-											<label class="sr-only" for="password">Password</label>
-											<input type="password" class="form-control" id="password" placeholder="Password" required>
+											<label asp-for="password" class="sr-only" for="password">Password</label>
+											<input asp-for="password" type="password" class="form-control" id="password" placeholder="Password" required>
+											<span asp-validation-for="password" class="text-danger"></span>
 											<div class="help-block text-right"><a href="">Forgot your password?</a>
 											</div>
 										</div>
@@ -52,8 +67,8 @@
 										</div>
 										<div class="checkbox">
 											<center>
-												<label>
-													<input type="checkbox"> Stay connected
+												<label asp-for="RememberMe">
+													<input asp-for="RememberMe" type="checkbox"> Stay connected
 												</label>
 											</center>
 										</div>
