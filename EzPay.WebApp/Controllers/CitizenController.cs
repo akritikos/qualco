@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using EzPay.Model.Entities;
 using Microsoft.AspNetCore.Authorization;
+using EzPay.Model;
 
 namespace EzPay.WebApp.Controllers
 {
@@ -17,13 +18,16 @@ namespace EzPay.WebApp.Controllers
     {
         private readonly UserManager<Citizen> _userManager;
         private readonly SignInManager<Citizen> _signInManager;
- 
+        private readonly EzPayContext _context;
+
         public CitizenController(
             UserManager<Citizen> userManager,
-            SignInManager<Citizen> signInManager)
+            SignInManager<Citizen> signInManager,
+            EzPayContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
