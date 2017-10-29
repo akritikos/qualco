@@ -89,5 +89,26 @@ namespace EzPay.WebApp.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        // GET: Citizen/Details/5
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var citizen = _context.Citizens
+                .SingleOrDefault(m => m.Id == id);
+
+
+            if (citizen == null)
+            {
+                return NotFound();
+            }
+
+            return View(citizen);
+        }
+
     }
 }
