@@ -20,70 +20,25 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">EzPay</a>
+			<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/logo.png" height="45" /></a>
 		</div>
 
 		<div class="collapse navbar-collapse" id="cg-nav-collapse">
 			<ul class="nav navbar-nav">
 				<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
 				<li class="dropdown">
-				<li><a asp-area="" asp-controller="Home" asp-action="Index">News</a></li>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Something</a></li>
-						<li><a href="#">Something</a></li>
-						<li><a href="#">Something</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Something</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Something</a></li>
+					<a asp-area="" asp-controller="Home" asp-action="Index" data-toggle="dropdown">News</a>
+					<ul class="dropdown-menu" role="menu" style="margin-top: 1px; border:none; background-color: #393a35;">
+						<li><a href="#">Local</a></li>
+						<li><a href="#">Education</a></li>
+						<li><a href="#">Medical</a></li>
+						<li><a href="#">Global</a></li>
+						<li><a href="#">Economy</a></li>
 					</ul>
 				</li>
 				<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-				<a data-toggle="dropdown" class="dropdown">Login</a>
-					<ul id="login-dp" class="dropdown-menu">
-						<li>
-							<div class="row">
-								<div class="col-md-12">
-									<center>Login</center>
-									<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav" novalidate>
-										<div class="form-group">
-											<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
-											<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
-											<span asp-validation-for="CitizenId" class="text-danger"></span>
-										</div>
-										<div class="form-group">
-											<label asp-for="Password" class="sr-only" for="Password">Password</label>
-											<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" required>
-											<span asp-validation-for="Password" class="text-danger"></span>
-											<div class="help-block text-right">
-												<a href="">Forgot your password?</a>
-											</div>
-										</div>
-										<div class="form-group">
-											<label asp-for="ConfirmPassword" class="sr-only" for="ConfirmPassword">Confirmation</label>
-											<input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword" placeholder="Confirmation" required>
-											<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-										</div>
-										<div class="form-group">
-											<button type="submit" class="btn btn-info btn-block">Connect</button>
-										</div>
-										<div class="checkbox">
-											<center>
-												<label asp-for="RememberMe">
-													<input asp-for="RememberMe" type="checkbox"> Stay connected
-												</label>
-											</center>
-										</div>
-									</form>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div><!-- /.navbar-collapse -->
-	</div><!-- /.container-fluid -->
+			@await Html.PartialAsync("_LoginPartial")
+		</div>
+	</div>
 </nav>

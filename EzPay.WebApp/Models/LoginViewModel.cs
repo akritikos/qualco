@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EzPay.WebApp.Models
 {
@@ -18,6 +14,7 @@ namespace EzPay.WebApp.Models
         public string Password { get; set; }
 
         [NotMapped]
+        [Required(ErrorMessage = "Confirmation is required.")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Confirmation should match")]
         public string ConfirmPassword { get; set; }

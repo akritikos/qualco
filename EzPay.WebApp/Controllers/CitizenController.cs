@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EzPay.WebApp.Controllers
 {
+    [Authorize]
+    [Route("[controller]/[action]")]
     public class CitizenController : Controller
     {
         private readonly UserManager<Citizen> _userManager;
@@ -29,9 +31,13 @@ namespace EzPay.WebApp.Controllers
             return View();
         }
 
+        [TempData]
+        public string ErrorMessage { get; set; }
+
         #region *****Login Action*****
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -55,7 +61,8 @@ namespace EzPay.WebApp.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return View(model);// RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
+                    //return RedirectToAction(nameof(Details));
                 }
                 if (result.IsLockedOut)
                 {
@@ -64,12 +71,22 @@ namespace EzPay.WebApp.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return null;
+                    return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return null;
+            return View(model);
+        }
+
+        #endregion
+
+        #region *****Details*****
+
+        [Authorize]
+        private IActionResult Details()
+        {
+            return View();
         }
 
         #endregion
