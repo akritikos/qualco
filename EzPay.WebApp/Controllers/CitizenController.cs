@@ -29,6 +29,25 @@ namespace EzPay.WebApp.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new LoginViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return View(model);
+        }
+
         #region *****Login Action*****
 
         [HttpGet]
@@ -40,24 +59,6 @@ namespace EzPay.WebApp.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var model = new Citizen
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
-
-            return View(model);
         }
 
         //Login Post
