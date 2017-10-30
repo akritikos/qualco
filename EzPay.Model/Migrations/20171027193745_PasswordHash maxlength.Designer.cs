@@ -11,9 +11,10 @@ using System;
 namespace EzPay.Model.Migrations
 {
     [DbContext(typeof(EzPayContext))]
-    partial class EzPayContextModelSnapshot : ModelSnapshot
+    [Migration("20171027193745_PasswordHash maxlength")]
+    partial class PasswordHashmaxlength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
