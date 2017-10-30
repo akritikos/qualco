@@ -11,8 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EzPay.WebApp.Controllers
 {
-    [Authorize]
-    [Route("[controller]/[action]")]
     public class CitizenController : Controller
     {
         private readonly UserManager<Citizen> _userManager;
@@ -31,7 +29,8 @@ namespace EzPay.WebApp.Controllers
             return View();
         }
 
-        //Login Get
+        #region *****Login Action*****
+
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -53,15 +52,11 @@ namespace EzPay.WebApp.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.citizenId, model.password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return View(model);// RedirectToLocal(returnUrl);
                 }
-                /*if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }*/
                 if (result.IsLockedOut)
                 {
                     return View(model);// RedirectToAction(nameof(Lockout));
@@ -69,13 +64,16 @@ namespace EzPay.WebApp.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return null;
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return null;
         }
+
+        #endregion
+
         //Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,5 +83,28 @@ namespace EzPay.WebApp.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        #region *****Helpers*****
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
+
+        #endregion
     }
 }

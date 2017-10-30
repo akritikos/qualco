@@ -42,25 +42,30 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-				<a asp-area="" asp-controller="Citizen" asp-action="Login" data-toggle="dropdown" class="dropdown">Login</a>
+				<a data-toggle="dropdown" class="dropdown">Login</a>
 					<ul id="login-dp" class="dropdown-menu">
 						<li>
 							<div class="row">
 								<div class="col-md-12">
 									<center>Login</center>
-									<form class="form" role="form" method="post" asp-controller="Citizen" asp-action="Login" accept-charset="UTF-8" id="login-nav">
+									<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav" novalidate>
 										<div class="form-group">
-											<label asp-for="citizenId" class="sr-only" for="citizenId">Citizen Id</label>
-											<input asp-for="citizenId" type="email" class="form-control" id="citizenId" placeholder="Citizen ID" required>
-											<span asp-validation-for="citizenId" class="text-danger"></span>
-
+											<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
+											<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
+											<span asp-validation-for="CitizenId" class="text-danger"></span>
 										</div>
 										<div class="form-group">
-											<label asp-for="password" class="sr-only" for="password">Password</label>
-											<input asp-for="password" type="password" class="form-control" id="password" placeholder="Password" required>
-											<span asp-validation-for="password" class="text-danger"></span>
-											<div class="help-block text-right"><a href="">Forgot your password?</a>
+											<label asp-for="Password" class="sr-only" for="Password">Password</label>
+											<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" required>
+											<span asp-validation-for="Password" class="text-danger"></span>
+											<div class="help-block text-right">
+												<a href="">Forgot your password?</a>
 											</div>
+										</div>
+										<div class="form-group">
+											<label asp-for="ConfirmPassword" class="sr-only" for="ConfirmPassword">Confirmation</label>
+											<input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword" placeholder="Confirmation" required>
+											<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 										</div>
 										<div class="form-group">
 											<button type="submit" class="btn btn-info btn-block">Connect</button>

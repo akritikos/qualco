@@ -10,15 +10,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-	padding-left: 1%;
-    padding-right: 1%;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+	padding-left: 0.1%;
+    padding-right: 0.1%;
 }
 
 /* styles for validation helpers */
@@ -47,57 +40,55 @@ input[type="checkbox"].input-validation-error {
 }
 
 
+/******************
+    Positioning
+******************/
+
+.fixed-bottom {
+	position: fixed;
+	bottom: 0;
+	margin-bottom: 0;
+	width: 100%;
+}
+
+.mtop5c {
+	margin-top: 5%;
+}
+
+
+/******************
+     Styling
+******************/
+
+.lc {
+	text-transform: none !important;
+}
+
+
 /****************
      Navbar
 ****************/
 
-#login-dp{
+#login-dp {
 	min-width: 250px;
 	padding: 14px 14px 0;
-	overflow:hidden;
-	background-image: -webkit-linear-gradient(#313539, #3a3f44 60%, #484e55);
-	background-image: -o-linear-gradient(#484e55, #3a3f44 60%, #313539);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#313539), color-stop(60%, #3a3f44), to(#484e55));
-	background-image: linear-gradient(#313539, #3a3f44 60%, #484e55);
-	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff313539', endColorstr='#484e55', GradientType=0);
-	-webkit-filter: none;
-	filter: none;
+	overflow: hidden;
+	margin-top: 1px;
+	border: none;
+	background-color: #393a35;
 	color: white;
 }
 #login-dp .help-block{
 	font-size:12px    
 }
-#login-dp .bottom{
-	background-color:rgba(39,43,46,1);
-	border-top:1px solid #ddd;
-	clear:both;
-	padding:14px;
-}
-#login-dp .social-buttons{
-	margin:12px 0    
-}
-#login-dp .social-buttons a{
-	width: 99%;
-}
+
 #login-dp .form-group {
 	margin-bottom: 10px;
 }
-.btn-go{
-	color: #fff;
-	background-color: rgba(214,45,32,1);
-}
-.btn-go:hover{
-	color: #fff;
-	background-color:#496ebc 
-}
+
 @media(max-width:768px){
 	#login-dp{
 		background-color: inherit;
 		color: #fff;
-	}
-	#login-dp .bottom{
-		background-color: inherit;
-		border-top:0 none;
 	}
 }
