@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using EzPay.Model.Entities
+
+@model EzPay.Model.Entities.Citizen
+
+@inject SignInManager<Citizen> SignInManager
+
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="container mtop5c">
+	<p>Welcome @Model.FirstName</p>
+</div>
+

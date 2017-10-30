@@ -13,12 +13,6 @@ namespace EzPay.WebApp.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [NotMapped]
-        [Required(ErrorMessage = "Confirmation is required.")]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Confirmation should match")]
-        public string ConfirmPassword { get; set; }
-
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }

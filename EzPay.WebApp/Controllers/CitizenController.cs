@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using EzPay.Model.Entities;
 using Microsoft.AspNetCore.Authorization;
+using EzPay.Services;
+using EzPay.Services.Citizens;
 
 namespace EzPay.WebApp.Controllers
 {
@@ -26,10 +28,7 @@ namespace EzPay.WebApp.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -47,6 +46,24 @@ namespace EzPay.WebApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new Citizen
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return View(model);
+        }
+
         //Login Post
         [HttpPost]
         [AllowAnonymous]
@@ -61,8 +78,7 @@ namespace EzPay.WebApp.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return RedirectToLocal(returnUrl);
-                    //return RedirectToAction(nameof(Details));
+                    return RedirectToAction("Index");
                 }
                 if (result.IsLockedOut)
                 {
@@ -82,12 +98,17 @@ namespace EzPay.WebApp.Controllers
         #endregion
 
         #region *****Details*****
+        
+        //[NonAction]
+        //private IActionResult Details(long id)
+        //{
+        //    var model = new LoginViewModel()
+        //    {
+        //        Citizens = listResult
+        //    };
 
-        [Authorize]
-        private IActionResult Details()
-        {
-            return View();
-        }
+        //    return View(model);
+        //}
 
         #endregion
 

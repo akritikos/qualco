@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EzPay.Model\EzPay.Model.csproj" />
+    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
   </ItemGroup>
 
 </Project>
