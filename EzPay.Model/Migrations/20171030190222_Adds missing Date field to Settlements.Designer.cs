@@ -11,9 +11,10 @@ using System;
 namespace EzPay.Model.Migrations
 {
     [DbContext(typeof(EzPayContext))]
-    partial class EzPayContextModelSnapshot : ModelSnapshot
+    [Migration("20171030190222_Adds missing Date field to Settlements")]
+    partial class AddsmissingDatefieldtoSettlements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
