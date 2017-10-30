@@ -24,6 +24,11 @@
         public long CitizenId { get; set; }
 
         /// <summary>
+        /// Date and Time (should be in UTC format) of request
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
         /// Selected number of installements
         /// (Should be multiples of 3)
         /// </summary>
