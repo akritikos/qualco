@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using EzPay.Model.Entities;
 using EzPay.WebApp.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
-using EzPay.Model.Entities;
 using Microsoft.AspNetCore.Authorization;
-using EzPay.Services;
-using EzPay.Services.Citizens;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace EzPay.WebApp.Controllers
 {
@@ -94,21 +90,6 @@ namespace EzPay.WebApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        #endregion
-
-        #region *****Details*****
-        
-        //[NonAction]
-        //private IActionResult Details(long id)
-        //{
-        //    var model = new LoginViewModel()
-        //    {
-        //        Citizens = listResult
-        //    };
-
-        //    return View(model);
-        //}
 
         #endregion
 
