@@ -181,5 +181,24 @@
                         .HasMaxLength(3);
                 });
         }
+
+        /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public EzPayContext()
+        {
+            Database.ExecuteSqlCommand(
+                @"
+            DROP PROCEDURE IF EXISTS dbo.ClearData");
+            Database.ExecuteSqlCommand(
+                @"
+            CREATE PROCEDURE [dbo].[ClearData]
+            AS
+            BEGIN
+                DELETE FROM Payments;
+                DELETE FROM Bills;
+                DELETE FROM Settlements;
+            END");
+        }
     }
 }
