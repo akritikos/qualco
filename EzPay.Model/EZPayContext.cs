@@ -72,7 +72,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=qualco;Integrated Security=True");
+                optionsBuilder.UseSqlServer(@"Data Source=CGWORKSTATION\CGWORKSTATION;Initial Catalog=Qualco;Integrated Security=True");
             }
         }
 
