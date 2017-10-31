@@ -1,0 +1,105 @@
+﻿@model EzPay.WebApp.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="container">
+	<div class="row profile">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="profile-sidebar">
+				<!-- Profile Photo -->
+				<div class="profile-photo">
+					<img src="~/images/user.png" class="img-responsive" alt="" />
+				</div>
+				<!-- Profile Photo -->
+				<hr />
+				<!-- Profile Info -->
+				<div class="profile-info">
+					<div class="profile-name">
+						@Model.FirstName @Model.LastName
+					</div>
+					<div class="profile-vat">
+						<i class="fa fa-hashtag" aria-hidden="true"></i>&nbsp;@Model.CitizenId
+					</div>
+					<div class="profile-country">
+						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;@Model.Country
+					</div>
+				</div>
+				<!-- Profile Info -->
+				<hr />
+				<!-- Profile Buttons -->
+				<div class="profile-buttons">
+					<button type="button" class="btn btn-primary btn-sm">Change Password</button>
+					<button type="button" class="btn btn-default btn-sm">Change Email</button>
+				</div>
+				<!-- Profile Buttons -->
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="tabbable-panel">
+				<div class="tabbable-line">
+					<ul class="nav nav-tabs ">
+						<li class="active">
+							<a href="#tab1" data-toggle="tab">
+								<i class="fa fa-lg fa-pie-chart" aria-hidden="true"></i>&nbsp; Overview
+							</a>
+						</li>
+						<li>
+							<a href="#tab2" data-toggle="tab">
+								<i class="fa fa-lg fa-list-alt" aria-hidden="true"></i>&nbsp; Bills
+							</a>
+						</li>
+						<li>
+							<a href="#tab3" data-toggle="tab">
+								<i class="fa fa-lg fa-calculator" aria-hidden="true"></i>&nbsp; Settlements
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="tab1">
+							<p>
+								I'm in Tab 1.
+							</p>
+							<p>
+								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla.
+							</p>
+						</div>
+						<div class="tab-pane fade" id="tab2">
+							<p>
+								Holla, I'm in Tab 2.
+							</p>
+							<p>
+								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla.
+							</p>
+							<p>
+								<center>
+									<a class="btn btn-warning" href="#">
+										Choose Bills to Settle
+									</a>
+								</center>
+							</p>
+						</div>
+						<div class="tab-pane fade" id="tab3">
+							<p>
+								Aloha, I'm in Tab 3.
+							</p>
+							<p>
+								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla .
+							</p>
+							<p>
+								<center>
+									<a class="btn btn-info" href="#">
+										Checkout
+									</a>
+								</center>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

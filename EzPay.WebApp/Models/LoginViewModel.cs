@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EzPay.WebApp.Models
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
-        public string citizenId { get; set; }
+        [Required(ErrorMessage = "Your Citizen ID is required.")]
+        [Display(Name ="Citizen ID")]
+        public long CitizenId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Country { get; set; }
     }
 }
