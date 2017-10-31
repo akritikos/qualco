@@ -8,7 +8,7 @@ namespace EzPay.WebApp.Models
     {
         [Required(ErrorMessage = "Your Citizen ID is required.")]
         [Display(Name ="Citizen ID")]
-        public string CitizenId { get; set; }
+        public long CitizenId { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]

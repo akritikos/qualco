@@ -15,10 +15,9 @@
 		<div class="row">
 			<div class="col-xs-12 col-md-4 col-md-offset-4">
 				<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav">
-					<div asp-validation-summary="ModelOnly" class="text-danger lc pleft0"></div>
 					<div class="form-group">
 						<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
-						<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
+						<input asp-for="CitizenId" type="number" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
 						<span asp-validation-for="CitizenId" class="text-danger"></span>
 					</div>
 					<div class="form-group">

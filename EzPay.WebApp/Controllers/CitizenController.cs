@@ -43,7 +43,7 @@ namespace EzPay.WebApp.Controllers
 
             var model = new LoginViewModel
             {
-                CitizenId = user.Id.ToString(),
+                CitizenId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Country = user.County
@@ -74,16 +74,29 @@ namespace EzPay.WebApp.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
-                if (result.Succeeded)
+                Citizen user = await _userManager.FindByIdAsync(model.CitizenId.ToString());
+                if (user != null)
                 {
-                    return RedirectToLocal(returnUrl);
+                    // Cancel existing session 
+                    await _signInManager.SignOutAsync();
+
+                    // Perform the authentication 
+                    Microsoft.AspNetCore.Identity.SignInResult result =
+                        await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(LoginViewModel.Password), "Password is invalid.");
+                        return View(model);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Citizen ID or Password is invalid.");
+                    ModelState.AddModelError(nameof(LoginViewModel.CitizenId), "Citizen ID is invalid.");
                     return View(model);
                 }
             }
@@ -123,6 +136,12 @@ namespace EzPay.WebApp.Controllers
             {
                 return RedirectToAction(nameof(CitizenController.Index), "Citizen");
             }
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
         #endregion
