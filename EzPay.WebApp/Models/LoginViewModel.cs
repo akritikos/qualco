@@ -18,5 +18,8 @@ namespace EzPay.WebApp.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Country { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

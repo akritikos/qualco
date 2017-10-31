@@ -24,11 +24,8 @@ namespace EzPay.WebApp.Controllers
             _signInManager = signInManager;
         }
 
-        
-
         [TempData]
         public string ErrorMessage { get; set; }
-
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -41,8 +38,10 @@ namespace EzPay.WebApp.Controllers
 
             var model = new LoginViewModel
             {
+                CitizenId = user.Id.ToString(),
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Country = user.County
             };
 
             return View(model);
@@ -77,14 +76,9 @@ namespace EzPay.WebApp.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                if (result.IsLockedOut)
-                {
-                    return View(model);// RedirectToAction(nameof(Lockout));
-                }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    ModelState.AddModelError("ErrorMessage", "Citizen ID or Password is invalid.");
                 }
             }
 

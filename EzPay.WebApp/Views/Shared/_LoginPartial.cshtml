@@ -11,10 +11,10 @@
 	<form asp-area="" asp-controller="Citizen" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				<a class="lc">Welcome, @UserManager.GetUserName(User)!</a>
+				<a class="lc"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp; @Model.FirstName @Model.LastName!</a>
 			</li>
 			<li>
-				<button type="submit" class="btn btn-link navbar-btn navbar-link lc" style="margin-right:15px">Logout</button>
+				<button type="submit" class="btn btn-link navbar-btn navbar-link lc" style="margin-right:15px">Logout &nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i></button>
 			</li>
 		</ul>
 	</form>
@@ -32,12 +32,12 @@ else
 								<div class="form-group">
 									<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
 									<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
-									<span asp-validation-for="CitizenId" class="text-danger"></span>
+									<span asp-validation-for="CitizenId" class="text-danger lc"></span>
 								</div>
 								<div class="form-group">
 									<label asp-for="Password" class="sr-only" for="Password">Password</label>
 									<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" required>
-									<span asp-validation-for="Password" class="text-danger"></span>
+									<span asp-validation-for="Password" class="text-danger lc"></span>
 									<div class="help-block text-right">
 										<a href="">Forgot your password?</a>
 									</div>
@@ -48,10 +48,18 @@ else
 								<div class="checkbox">
 									<center>
 										<label asp-for="RememberMe">
-											<input asp-for="RememberMe" type="checkbox"> Stay connected
+											<input asp-for="RememberMe" type="checkbox" class="lc"> Stay connected
 										</label>
 									</center>
 								</div>
+								@if (!ViewData.ModelState.IsValid)
+								{
+									<center>
+										<span class="text-danger">
+											@ViewData.ModelState["ErrorMessage"].Errors[0].ErrorMessage
+										</span>
+									</center>
+								}
 							</form>
 						</div>
 					</div>

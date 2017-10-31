@@ -31,8 +31,20 @@
 							</label>
 						</center>
 					</div>
+					@if (!ViewData.ModelState.IsValid)
+					{
+						<center>
+							<span class="text-danger">
+								@ViewData.ModelState["ErrorMessage"].Errors[0].ErrorMessage
+							</span>
+						</center>
+					}
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
