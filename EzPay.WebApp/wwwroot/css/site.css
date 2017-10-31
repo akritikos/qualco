@@ -30,6 +30,11 @@
 	width: 100%;
 }
 
+.mp0 {
+	margin: 0;
+	padding: 0;
+}
+
 .mtop5c {
 	margin-top: 5%;
 }
@@ -38,6 +43,14 @@
 /******************
      Styling
 ******************/
+
+li {
+	list-style-type: none !important;
+}
+
+div .lc ul {
+	padding-left: 0;
+}
 
 .lc {
 	text-transform: none !important;

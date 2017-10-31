@@ -1,4 +1,11 @@
-﻿@model EzPay.WebApp.Models.LoginViewModel
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using EzPay.Model.Entities
+@model EzPay.WebApp.Models.LoginViewModel
+@inject SignInManager<Citizen> SignInManager
+
 @{
     ViewData["Title"] = "Login";
 }
@@ -7,7 +14,8 @@
 	<div class="mtop5c">
 		<div class="row">
 			<div class="col-xs-12 col-md-4 col-md-offset-4">
-				<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav" novalidate>
+				<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav">
+					<div asp-validation-summary="ModelOnly" class="text-danger lc pleft0"></div>
 					<div class="form-group">
 						<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
 						<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
@@ -30,15 +38,7 @@
 								<input asp-for="RememberMe" type="checkbox" class="lc"> Stay connected
 							</label>
 						</center>
-					</div>
-					@if (!ViewData.ModelState.IsValid)
-					{
-						<center>
-							<span class="text-danger">
-								@ViewData.ModelState["ErrorMessage"].Errors[0].ErrorMessage
-							</span>
-						</center>
-					}
+					</div>					
 				</form>
 			</div>
 		</div>

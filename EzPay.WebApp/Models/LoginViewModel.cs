@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EzPay.WebApp.Models
@@ -13,13 +14,10 @@ namespace EzPay.WebApp.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Country { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }

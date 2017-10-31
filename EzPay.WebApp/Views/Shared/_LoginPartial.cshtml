@@ -1,5 +1,5 @@
-﻿@using EzPay.Model.Entities
-@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Identity;
+@using EzPay.Model.Entities
 
 @model EzPay.WebApp.Models.LoginViewModel
 
@@ -11,7 +11,7 @@
 	<form asp-area="" asp-controller="Citizen" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				<a class="lc"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp; @Model.FirstName @Model.LastName!</a>
+				<a class="lc"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp; @UserManager.GetUserId(User)</a>
 			</li>
 			<li>
 				<button type="submit" class="btn btn-link navbar-btn navbar-link lc" style="margin-right:15px">Logout &nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i></button>
@@ -29,6 +29,7 @@ else
 					<div class="row">
 						<div class="col-md-12">
 							<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav" novalidate>
+								<div asp-validation-summary="ModelOnly" class="text-danger lc pleft0"></div>
 								<div class="form-group">
 									<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
 									<input asp-for="CitizenId" type="email" class="form-control" id="CitizenId" placeholder="Citizen ID" required>
@@ -52,14 +53,6 @@ else
 										</label>
 									</center>
 								</div>
-								@if (!ViewData.ModelState.IsValid)
-								{
-									<center>
-										<span class="text-danger">
-											@ViewData.ModelState["ErrorMessage"].Errors[0].ErrorMessage
-										</span>
-									</center>
-								}
 							</form>
 						</div>
 					</div>
@@ -67,8 +60,4 @@ else
 			</ul>
 		</li>
 	</ul>
-}
-
-@section Scripts {
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

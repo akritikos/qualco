@@ -4,7 +4,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EzPay.WebApp.Controllers
@@ -71,14 +76,15 @@ namespace EzPay.WebApp.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.CitizenId, model.Password, model.RememberMe, lockoutOnFailure: false).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToLocal(returnUrl);
                 }
                 else
                 {
-                    ModelState.AddModelError("ErrorMessage", "Citizen ID or Password is invalid.");
+                    ModelState.AddModelError(string.Empty, "Citizen ID or Password is invalid.");
+                    return View(model);
                 }
             }
 
@@ -115,7 +121,7 @@ namespace EzPay.WebApp.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(CitizenController.Index), "Citizen");
             }
         }
 
