@@ -43,10 +43,18 @@ namespace EzPay.ModelUpdater
                 w.Stop();
                 Console.WriteLine($"\tDatabase is operational, test took: {w.Elapsed:mm\\:ss\\.ff}");
                 AddSettlementTypes(ctx);
-                ImportData();
+                // ImportData();
+                ExportData();
                 Console.WriteLine("Press enter to exit");
                 Console.ReadLine();
             }               
+        }
+
+        public static void ExportData()
+        {
+            var ex = new Exporter();
+            ex.ExportPayments(@"D:\Pay.csv");
+            ex.ExportSettlements(@"D:\Settle.csv");
         }
 
         /// <summary>
@@ -161,16 +169,20 @@ namespace EzPay.ModelUpdater
 
            var ctb = new EzPayContext();
             Console.WriteLine("Writing data to database");
+            var size = data.Keys.Count;
             w = Stopwatch.StartNew();
             var processed = 0;
+            var times = 0;
             foreach (var debt in data)
             {
                 if (processed >= 100)
                 {
                     processed = 0;
+                    times++;
                     ctb.SaveChanges();
                     ctb.Dispose();
                     ctb = new EzPayContext();
+                    Console.WriteLine($"\t\tCurrently at {times*1000/size:N0}%");
                 }
 
                 if (importCitizens.ContainsKey(debt.Key.Id))
