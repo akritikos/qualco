@@ -22,14 +22,8 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Citizen.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Settlement.Id)
-            </td>
-            <td>
                 <a asp-action="SelectSettlement" asp-route-id="@item.Id">Settlement</a> |
-				<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a> |
+				<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
             </td>
         </tr>
 }
