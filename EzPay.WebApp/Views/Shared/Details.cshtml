@@ -1,12 +1,11 @@
-﻿@model EzPay.Model.Entities.Citizen
-
+﻿@model EzPay.WebApp.Models.DetailsViewModel
 @{
     ViewData["Title"] = "Details";
 }
 
 <h2>Details</h2> 
 
-<div asp-controller="CitizenDetails" asp-action="Details">
+<div asp-action="Details" asp-controller="CitizenDetails">
     <h4>Citizen</h4>
     <hr />
     <dl class="dl-horizontal">

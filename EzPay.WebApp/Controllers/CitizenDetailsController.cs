@@ -1,4 +1,5 @@
 ﻿using EzPay.Model;
+using EzPay.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,9 +21,9 @@ namespace EzPay.WebApp.Controllers
 
         // GET: Citizen/Details/5
         [HttpGet("{id:long}")]
-        public async Task<IActionResult> Details(long id)
+        public async Task<IActionResult> Details(DetailsViewModel model, long id)
         {
-            var model = await _context.Citizens.Where(c => c.Id == id)
+            await _context.Citizens.Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
 
 
