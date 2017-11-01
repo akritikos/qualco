@@ -10,12 +10,12 @@ using EzPay.Model;
 
 namespace EzPay.WebApp.Controllers
 {
-    public class BillsController : Controller
+    public class SettlementsController : Controller
     {
         private readonly UserManager<Citizen> _userManager;
         private readonly SignInManager<Citizen> _signInManager;
 
-        public BillsController(
+        public SettlementsController(
             UserManager<Citizen> userManager,
             SignInManager<Citizen> signInManager)
         {
@@ -37,7 +37,29 @@ namespace EzPay.WebApp.Controllers
             {
                 //Bills = user.Bills
 
-                Bills = ctx.Bills.Where(c => c.CitizenId==user.Id && c.SettlementId==null)
+                Bills = ctx.Bills.Where(c => c.CitizenId == user.Id && c.SettlementId != null),
+                Settlements = ctx.Settlements.Where(c => c.CitizenId == user.Id)
+            };
+
+            return View(model);
+
+        }
+
+        public async Task<IActionResult> BillsInSettlement(Guid settlementId)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var ctx = new EzPayContext();
+            var model = new LoginViewModel
+            {
+                //Bills = user.Bills
+
+                Bills = ctx.Bills.Where(c => c.CitizenId == user.Id && c.SettlementId == settlementId)
             };
 
             return View(model);

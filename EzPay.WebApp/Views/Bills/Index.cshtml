@@ -1,8 +1,5 @@
 ﻿@model LoginViewModel
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,8 +19,14 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                <a asp-action="SelectSettlement" asp-route-id="@item.Id">Settlement</a> |
-				<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+				@if (item.SettlementId != null)
+				{	
+					<p>Settled</p>
+				}
+				
+					<a asp-action="SelectSettlement" asp-route-id="@item.Id">Settlement</a> |
+					<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+				
             </td>
         </tr>
 }
