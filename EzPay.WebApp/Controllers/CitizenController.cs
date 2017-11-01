@@ -46,7 +46,10 @@ namespace EzPay.WebApp.Controllers
                 CitizenId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Country = user.County
+                County = user.County,
+                Address = user.Address,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
             };
 
             return View(model);

@@ -1,11 +1,11 @@
-﻿@model EzPay.WebApp.Models.DetailsViewModel
+﻿@model EzPay.WebApp.Models.LoginViewModel
 @{
     ViewData["Title"] = "Details";
 }
 
 <h2>Details</h2> 
 
-<div asp-action="Details" asp-controller="CitizenDetails">
+<div asp-action="Details" asp-controller="Citizen">
     <h4>Citizen</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -48,6 +48,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.CitizenId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
