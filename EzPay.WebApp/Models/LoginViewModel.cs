@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EzPay.Model.Entities;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +24,7 @@ namespace EzPay.WebApp.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+
+        public IEnumerable<Bill> Bills { get; set; }
     }
 }
