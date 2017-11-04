@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,9 @@ namespace EzPay.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             /*Identity START*/
-            services.AddDbContext<EzPayContext>();
+            services.AddDbContext<EzPayContext>(
+                options => options
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<Citizen, Role>()
                 .AddEntityFrameworkStores<EzPayContext>()
