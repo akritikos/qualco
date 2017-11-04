@@ -5,13 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewBag.Title - EzPay</title>
 
-	<environment include="Development">
+	<environment names="Development">
 		<link href="~/css/bootstrap.css" rel="stylesheet" />
 		<link href="~/css/site.css" rel="stylesheet" />
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<script src="~/js/modernizr-2.8.3.js"></script>
 	</environment>
-	<environment exclude="Development">
+	<environment names="Staging,Production">
 		<link href="~/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 		<script src="~/js/modernizr-2.8.3.js"></script>
@@ -22,18 +22,19 @@
 
 <div class="container body-content">
 	@RenderBody()
-	<hr/>
-	<footer>
-		<center><p>EzPay - &copy; 2017</p></center>
+	
+	<footer class="fixed-bottom">
+		<hr />
+		<center><p>EzPay - &copy; @DateTime.Now.Year</p></center>
 	</footer>
 </div>
 
-<environment include="Development">
+<environment names="Development">
 	<script src="~/js/jquery-3.2.1.js"></script>
 	<script src="~/js/bootstrap.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
-<environment exclude="Development">
+<environment names="Staging,Production">
 	<script src="~/js/jquery-3.2.1.min.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
 	<script src="~/js/site.min.js" asp-append-version="true"></script>

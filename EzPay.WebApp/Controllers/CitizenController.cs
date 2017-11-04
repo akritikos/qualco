@@ -1,13 +1,16 @@
-﻿using System;
+﻿using EzPay.Model.Entities;
+using EzPay.WebApp.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using EzPay.WebApp.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using EzPay.Model.Entities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EzPay.WebApp.Controllers
 {
@@ -26,13 +29,33 @@ namespace EzPay.WebApp.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new LoginViewModel
+            {
+                CitizenId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Country = user.County
+            };
+
+            return View(model);
         }
 
-        //Login Get
+        #region *****Login Action*****
+
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -51,24 +74,29 @@ namespace EzPay.WebApp.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.citizenId, model.password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                Citizen user = await _userManager.FindByIdAsync(model.CitizenId.ToString());
+                if (user != null)
                 {
-                    return View(model);// RedirectToLocal(returnUrl);
-                }
-                /*if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }*/
-                if (result.IsLockedOut)
-                {
-                    return View(model);// RedirectToAction(nameof(Lockout));
+                    // Cancel existing session 
+                    await _signInManager.SignOutAsync();
+
+                    // Perform the authentication 
+                    Microsoft.AspNetCore.Identity.SignInResult result =
+                        await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(LoginViewModel.Password), "Password is invalid.");
+                        return View(model);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(nameof(LoginViewModel.CitizenId), "Citizen ID is invalid.");
                     return View(model);
                 }
             }
@@ -76,6 +104,9 @@ namespace EzPay.WebApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        #endregion
+
         //Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,5 +116,34 @@ namespace EzPay.WebApp.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        #region *****Helpers*****
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(CitizenController.Index), "Citizen");
+            }
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

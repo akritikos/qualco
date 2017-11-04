@@ -13,7 +13,6 @@ namespace EzPay.WebApp
     using EzPay.Model;
     using EzPay.Model.Entities;
     using EzPay.Model.IdentityEntities;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -83,6 +82,8 @@ namespace EzPay.WebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+                app.UseDatabaseErrorPage();
             }
             else
             {
