@@ -21,21 +21,22 @@ namespace EzPay.WebApp
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            /*Identity START*/
             services.AddDbContext<EzPayContext>(
-                options => options
-                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // Identity START
             services.AddIdentity<Citizen, Role>()
                 .AddEntityFrameworkStores<EzPayContext>()
                 .AddDefaultTokenProviders();
