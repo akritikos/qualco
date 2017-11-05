@@ -23,16 +23,17 @@
 						<i class="fa fa-hashtag" aria-hidden="true"></i>&nbsp;@Model.CitizenId
 					</div>
 					<div class="profile-country">
-						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;@Model.Country
+						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;@Model.Address, @Model.County
 					</div>
 				</div>
 				<!-- Profile Info -->
 				<hr />
 				<!-- Profile Buttons -->
 				<div class="profile-buttons">
-					<button type="button" class="btn btn-primary btn-sm">Change Password</button>
+					<a asp-controller="Citizen" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
 					<button type="button" class="btn btn-default btn-sm">Change Email</button>
 				</div>
+				<p>@Model.StatusMessage</p>
 				<!-- Profile Buttons -->
 			</div>
 		</div>
