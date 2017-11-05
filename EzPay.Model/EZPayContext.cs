@@ -72,16 +72,7 @@
         /// Collection of CitizenRoles
         /// </summary>
         public virtual DbSet<RoleClaim> EZRoleClaims { get; set; }
-
-        /// <summary>
-        /// Returns a DataSet of entities allowing r/w operations
-        /// (Identity-specific data is not retrievable)
-        /// </summary>
-        /// <typeparam name="T">The Entity type to return</typeparam>
-        /// <returns>DataSet of <see cref="T"/> currently in the database</returns>
-        public virtual DbSet<T> GetSet<T>()
-            where T : class, IEntity => GetSet<T>();
-
+        
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

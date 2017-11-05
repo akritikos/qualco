@@ -38,7 +38,7 @@ namespace EzPay.IO
         /// <param name="filepath">
         /// The complete filepath of the CSV to be imported
         /// </param>
-        public Importer(string filepath = @"D:\CitizenDebts_1M_3.csv")
+        public Importer(string filepath = @"C:\CitizenDebts_1M_3.csv")
         {
             data = data ?? new Dictionary<Citizen, List<Bill>>();
             engine = new FileHelperAsyncEngine<DebtRecord>();

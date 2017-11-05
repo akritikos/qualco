@@ -50,7 +50,7 @@ namespace EzPay.ModelUpdater
                 w.Stop();
                 Console.WriteLine($"\tDatabase is operational, test took: {w.Elapsed:mm\\:ss\\.ff}");
                 AddSettlementTypes(ctx);
-                // ImportData();
+                //ImportData();
                 ExportData();
                 Console.WriteLine("Press enter to exit");
                 Console.ReadLine();
@@ -60,8 +60,8 @@ namespace EzPay.ModelUpdater
         public static void ExportData()
         {
             var ex = new Exporter();
-            ex.ExportPayments(@"D:\Pay.csv");
-            ex.ExportSettlements(@"D:\Settle.csv");
+            ex.ExportPayments(@"C:\Users\CGDesigner\Desktop\Pay.csv");
+            ex.ExportSettlements(@"C:\Users\CGDesigner\Desktop\Settle.csv");
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace EzPay.ModelUpdater
         /// <param name="ctx">Database Context to use</param>
         private static void AddSettlementTypes(EzPayContext ctx)
         {
-            if (ctx.GetSet<SettlementType>().Any())
+            if (ctx.SettlementTypes.Any())
             {
                 return;
             }
@@ -108,7 +108,7 @@ namespace EzPay.ModelUpdater
                                         Interest = new decimal(2.6)
                                     }
                             };
-            ctx.GetSet<SettlementType>().AddRange(types);
+            ctx.SettlementTypes.AddRange(types);
             ctx.SaveChanges();
         }
 
@@ -161,7 +161,7 @@ namespace EzPay.ModelUpdater
             {
                 Console.WriteLine("Filtering out duplicate citizens");
                 w = Stopwatch.StartNew();
-                var currentCitizens = ctx.GetSet<Citizen>().ToDictionary(c => c.Id, c => c);
+                var currentCitizens = ctx.Citizens.ToDictionary(c => c.Id, c => c);
                 importCitizens = data.ToDictionary(c => c.Key.Id, c => c.Key).Except(currentCitizens)
                     .ToDictionary(c => c.Key, c => c.Value);
                 w.Stop();
