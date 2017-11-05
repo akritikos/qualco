@@ -50,7 +50,7 @@ namespace EzPay.ModelUpdater
                 w.Stop();
                 Console.WriteLine($"\tDatabase is operational, test took: {w.Elapsed:mm\\:ss\\.ff}");
                 AddSettlementTypes(ctx);
-                // ImportData();
+                ImportData();
                 ExportData();
                 Console.WriteLine("Press enter to exit");
                 Console.ReadLine();
