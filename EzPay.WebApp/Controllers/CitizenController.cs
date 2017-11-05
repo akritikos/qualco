@@ -1,10 +1,12 @@
-﻿using EzPay.Model.Entities;
+﻿using EzPay.Model;
+using EzPay.Model.Entities;
 using EzPay.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,16 @@ namespace EzPay.WebApp.Controllers
     {
         private readonly UserManager<Citizen> _userManager;
         private readonly SignInManager<Citizen> _signInManager;
- 
+        private readonly EzPayContext _ctx;
+
         public CitizenController(
             UserManager<Citizen> userManager,
-            SignInManager<Citizen> signInManager)
+            SignInManager<Citizen> signInManager,
+            EzPayContext ctx)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _ctx = ctx;
         }
 
         [TempData]
@@ -46,7 +51,12 @@ namespace EzPay.WebApp.Controllers
                 CitizenId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Country = user.County
+                Country = user.County,
+                Bills = _ctx.Bills.Where(c => c.CitizenId == user.Id)
+                    .Include(b => b.Settlement)
+                    .Include(b => b.Payment),
+                Settlements = _ctx.Settlements.Where(c => c.CitizenId == user.Id)
+                    .Include(b => b.Bills)
             };
 
             return View(model);
@@ -145,5 +155,13 @@ namespace EzPay.WebApp.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        public IActionResult BillsInSettlement(Guid SettlementId)
+        {
+
+
+            return View();
+        }
     }
 }

@@ -23,5 +23,7 @@ namespace EzPay.WebApp.Models
         public string Country { get; set; }
 
         public IEnumerable<Bill> Bills { get; set; }
+        public IEnumerable<Settlement> Settlements { get; set; }
+ 
     }
 }

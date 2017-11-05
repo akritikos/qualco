@@ -69,11 +69,50 @@
 						</div>
 						<div class="tab-pane fade" id="tab2">
 							<p>
-								Holla, I'm in Tab 2.
+								You can choose to pay or request a settlement for the below bills:
 							</p>
-							<p>
-								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla.
-							</p>
+							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
+								<table class="table">
+									<thead>
+										<tr>
+											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
+											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
+											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (var item in Model.Bills)
+										{
+											<tr>
+												<td>
+													@Html.DisplayFor(modelItem => item.DueDate)
+												</td>
+												<td>
+													@Html.DisplayFor(modelItem => item.Description)
+												</td>
+												<td>
+													@Html.DisplayFor(modelItem => item.Amount)
+												</td>
+												<td>
+													@if (item.SettlementId != null)
+													{
+														<p>Settlement Requested</p>
+													}
+													else if (item.Payment != null)
+													{
+														<p>Paid</p>
+													}
+													else
+													{
+														<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+													}
+											</td>
+											</tr>
+										}
+								</tbody>
+							</table>
+							
 							<p>
 								<center>
 									<a class="btn btn-warning" href="#">
@@ -84,11 +123,40 @@
 						</div>
 						<div class="tab-pane fade" id="tab3">
 							<p>
-								Aloha, I'm in Tab 3.
+								You have already asked for the below settlements:
 							</p>
-							<p>
-								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla .
-							</p>
+							@{ var SettlementsDetail = Model.Settlements.FirstOrDefault(); }
+							<table class="table">
+								<thead>
+									<tr>
+										<th>@Html.DisplayNameFor(model => SettlementsDetail.Date)</th>
+										<th>@Html.DisplayNameFor(model => SettlementsDetail.Installments)</th>
+										<th>@Html.DisplayNameFor(model => SettlementsDetail.TypeId)</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									@foreach (var item in Model.Settlements)
+									{
+										<tr>
+											<td>
+												@Html.DisplayFor(modelItem => item.Date)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.Installments)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.TypeId)
+											</td>
+											<td>
+												<a asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
+											</td>
+										</tr>
+
+									}
+								</tbody>
+							</table>
 							<p>
 								<center>
 									<a class="btn btn-info" href="#">
