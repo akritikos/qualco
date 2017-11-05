@@ -7,12 +7,14 @@ namespace EzPay.ModelUpdater
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Security.Cryptography;
 
     using EzPay.Model;
     using EzPay.Model.Entities;
     using EzPay.IO;
     using EzPay.Model.Comparer;
 
+    using Microsoft.AspNetCore.Cryptography.KeyDerivation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,11 @@ namespace EzPay.ModelUpdater
         /// <param name="args">Optional arguments</param>
         public static void Main(string[] args)
         {
+            Console.WriteLine("Enter password to hash:");
+            var plaintext = Console.ReadLine();
+            var hash = Hasher(plaintext ?? String.Empty);
+            Console.WriteLine($"Hash is: {hash}");
+            Console.WriteLine($"Size: {hash.Length}");
             using (var ctx = new EzPayContext())
             {
                 w = Stopwatch.StartNew();
@@ -63,7 +70,7 @@ namespace EzPay.ModelUpdater
         /// <param name="ctx">Database Context to use</param>
         private static void AddSettlementTypes(EzPayContext ctx)
         {
-            if (ctx.SettlementTypes.Any())
+            if (ctx.GetSet<SettlementType>().Any())
             {
                 return;
             }
@@ -101,7 +108,7 @@ namespace EzPay.ModelUpdater
                                         Interest = new decimal(2.6)
                                     }
                             };
-            ctx.SettlementTypes.AddRange(types);
+            ctx.GetSet<SettlementType>().AddRange(types);
             ctx.SaveChanges();
         }
 
@@ -154,7 +161,7 @@ namespace EzPay.ModelUpdater
             {
                 Console.WriteLine("Filtering out duplicate citizens");
                 w = Stopwatch.StartNew();
-                var currentCitizens = ctx.Citizens.ToDictionary(c => c.Id, c => c);
+                var currentCitizens = ctx.GetSet<Citizen>().ToDictionary(c => c.Id, c => c);
                 importCitizens = data.ToDictionary(c => c.Key.Id, c => c.Key).Except(currentCitizens)
                     .ToDictionary(c => c.Key, c => c.Value);
                 w.Stop();
@@ -203,6 +210,37 @@ namespace EzPay.ModelUpdater
             w.Stop();
             Console.WriteLine($"\tElapsed time: {w.Elapsed:mm\\:ss\\.ff}");
             import.Dispose();
+        }
+
+        public static string Hasher(string plaintext)
+        {
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            return Convert.ToBase64String(HashPasswordV3(plaintext, rng, KeyDerivationPrf.HMACSHA256, 10000, 128 / 8, 256 / 8));
+        }
+
+        private static byte[] HashPasswordV3(string password, RandomNumberGenerator rng, KeyDerivationPrf prf, int iterCount, int saltSize, int numBytesRequested)
+        {
+            // Produce a version 3 (see comment above) text hash.
+            byte[] salt = new byte[saltSize];
+            rng.GetBytes(salt);
+            byte[] subkey = KeyDerivation.Pbkdf2(password, salt, prf, iterCount, numBytesRequested);
+
+            var outputBytes = new byte[13 + salt.Length + subkey.Length];
+            outputBytes[0] = 0x01; // format marker
+            WriteNetworkByteOrder(outputBytes, 1, (uint)prf);
+            WriteNetworkByteOrder(outputBytes, 5, (uint)iterCount);
+            WriteNetworkByteOrder(outputBytes, 9, (uint)saltSize);
+            Buffer.BlockCopy(salt, 0, outputBytes, 13, salt.Length);
+            Buffer.BlockCopy(subkey, 0, outputBytes, 13 + saltSize, subkey.Length);
+            return outputBytes;
+        }
+
+        private static void WriteNetworkByteOrder(byte[] buffer, int offset, uint value)
+        {
+            buffer[offset + 0] = (byte)(value >> 24);
+            buffer[offset + 1] = (byte)(value >> 16);
+            buffer[offset + 2] = (byte)(value >> 8);
+            buffer[offset + 3] = (byte)(value >> 0);
         }
     }
 }
