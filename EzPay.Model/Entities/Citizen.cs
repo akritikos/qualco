@@ -2,12 +2,14 @@
 {
     using System.Collections.Generic;
 
+    using EzPay.Model.Interfaces;
+
     using Microsoft.AspNetCore.Identity;
 
     /// <summary>
     /// Citizen mapper class
     /// </summary>
-    public class Citizen : IdentityUser<long>
+    public sealed class Citizen : IdentityUser<long>, IEntity
     {
         // /// <summary>
         // /// Initializes a new instance of the <see cref="Citizen"/> class
@@ -60,13 +62,13 @@
         /// <summary>
         /// Navigational field to access bills belonging to this citizen
         /// </summary>
-        public virtual ICollection<Bill> Bills { get; set; }
+        public ICollection<Bill> Bills { get; set; }
 
         /// <summary>
         /// Navigational property mapping the one-to-many relationship of <see cref="Citizen"/>
         /// with <see cref="Settlement"/>
         /// </summary>
-        public virtual ICollection<Settlement> Settlements { get; set; }
+        public ICollection<Settlement> Settlements { get; set; }
 
         /// <inheritdoc />
         public override bool Equals(object obj)

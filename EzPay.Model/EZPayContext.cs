@@ -4,6 +4,7 @@
 
     using EzPay.Model.Entities;
     using EzPay.Model.IdentityEntities;
+    using EzPay.Model.Interfaces;
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,11 @@
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global", Justification = "virtual members required for Lazy Loading")]
     public class EzPayContext : IdentityDbContext<Citizen, Role, long, CitizenClaim, CitizenRole,CitizenLogin, RoleClaim, CitizenToken >
     {
+        /// <inheritdoc />
+        public EzPayContext(DbContextOptions options) : base(options)
+        {
+        }
+
         /// <summary>
         /// Collection of registered Citizens
         /// </summary>
@@ -67,6 +73,15 @@
         /// </summary>
         public virtual DbSet<RoleClaim> EZRoleClaims { get; set; }
 
+        /// <summary>
+        /// Returns a DataSet of entities allowing r/w operations
+        /// (Identity-specific data is not retrievable)
+        /// </summary>
+        /// <typeparam name="T">The Entity type to return</typeparam>
+        /// <returns>DataSet of <see cref="T"/> currently in the database</returns>
+        public virtual DbSet<T> GetSet<T>()
+            where T : class, IEntity => GetSet<T>();
+
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -94,8 +109,8 @@
                         .HasMaxLength(30);
                     entity.Property(e => e.LastName)
                         .HasMaxLength(30);
-                   // entity.Property(e => e.PasswordHash)
-                   //   .HasMaxLength(64);//no max length
+                    entity.Property(e => e.PasswordHash)
+                      .HasMaxLength(84);
                     entity.Property(e => e.Email)
                         .HasMaxLength(40)
                         .IsUnicode(false);
