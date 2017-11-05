@@ -2,10 +2,12 @@
 {
     using System;
 
+    using EzPay.Model.Interfaces;
+
     /// <summary>
     /// Payment mapper class
     /// </summary>
-    public class Payment
+    public sealed class Payment : IEntity
     {
         /// <summary>
         /// Unique Identifier of bill being paid by this transaction
@@ -25,6 +27,6 @@
         /// <summary>
         /// Navigational property to access <see cref="Entities.Bill"/> referred to by <see cref="BillId"/>
         /// </summary>
-        public virtual Bill Bill { get; set; }
+        public Bill Bill { get; set; }
     }
 }
