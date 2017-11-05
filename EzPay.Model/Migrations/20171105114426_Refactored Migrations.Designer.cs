@@ -11,8 +11,8 @@ using System;
 namespace EzPay.Model.Migrations
 {
     [DbContext(typeof(EzPayContext))]
-    [Migration("20171022114237_Added Identity")]
-    partial class AddedIdentity
+    [Migration("20171105114426_Refactored Migrations")]
+    partial class RefactoredMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,20 +89,16 @@ namespace EzPay.Model.Migrations
 
                     b.Property<string>("NormalizedUserName");
 
-                    b.Property<string>("Password")
-                        .HasMaxLength(64);
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(84);
 
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(13)
+                        .IsUnicode(false);
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("Telephone")
-                        .HasMaxLength(13)
-                        .IsUnicode(false);
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -138,6 +134,8 @@ namespace EzPay.Model.Migrations
                         .HasDefaultValueSql("(newsequentialid())");
 
                     b.Property<long>("CitizenId");
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<int>("Installments")
                         .HasMaxLength(3);
