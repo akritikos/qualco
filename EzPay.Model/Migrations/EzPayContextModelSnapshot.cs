@@ -88,7 +88,8 @@ namespace EzPay.Model.Migrations
 
                     b.Property<string>("NormalizedUserName");
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(84);
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(13)
