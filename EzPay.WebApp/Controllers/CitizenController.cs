@@ -36,6 +36,8 @@ namespace EzPay.WebApp.Controllers
 
         [TempData]
         public string ErrorMessage { get; set; }
+        [TempData]
+        public string CitizenStatusMessage { get; set; }
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -51,12 +53,16 @@ namespace EzPay.WebApp.Controllers
                 CitizenId = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Country = user.County,
+                Address = user.Address,
+                County = user.County,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
                 Bills = _ctx.Bills.Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Settlement)
                     .Include(b => b.Payment),
                 Settlements = _ctx.Settlements.Where(c => c.CitizenId == user.Id)
-                    .Include(b => b.Bills)
+                    .Include(b => b.Bills),
+                StatusMessage= CitizenStatusMessage
             };
 
             return View(model);
@@ -124,6 +130,53 @@ namespace EzPay.WebApp.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            /*var hasPassword = await _userManager.HasPasswordAsync(user);
+            if (!hasPassword)
+            {
+                return RedirectToAction(nameof(SetPassword));
+            }*/
+
+            var model = new LoginViewModel { StatusMessage = CitizenStatusMessage };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                AddErrors(changePasswordResult);
+                return View(model);
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            CitizenStatusMessage = "Your password has been changed.";
+
+            return RedirectToAction(nameof(CitizenController.Index), "Citizen");
         }
 
         #region *****Helpers*****
