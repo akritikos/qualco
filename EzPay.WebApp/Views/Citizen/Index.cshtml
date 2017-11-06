@@ -67,12 +67,15 @@
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="tab1">
-							<p>
-								I'm in Tab 1.
-							</p>
-							<p>
-								Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla.
-							</p>
+							
+								@{	var CountBills = Model.Bills.Count();
+									var CountPaidBills = Model.Bills.Where(b => b.Payment != null).Count();
+									var CountSettledBills = Model.Bills.Where(b => b.SettlementId != null).Count();
+									var CountSettlements = Model.Settlements.Count();
+								}
+							<p>You have @CountBills active Bill(s).</p>
+							<p>You have paid @CountPaidBills Bill(s) today.</p>
+							<p>You have @CountSettlements Settlement(s) requested, including @CountSettledBills Bill(s).</p>
 						</div>
 						<div class="tab-pane fade" id="tab2">
 							<p>
