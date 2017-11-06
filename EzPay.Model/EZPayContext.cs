@@ -80,7 +80,7 @@
         /// <typeparam name="T">The Entity type to return</typeparam>
         /// <returns>DataSet of <see cref="T"/> currently in the database</returns>
         public virtual DbSet<T> GetSet<T>()
-            where T : class, IEntity => GetSet<T>();
+            where T : class, IEntity => Set<T>();
 
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
