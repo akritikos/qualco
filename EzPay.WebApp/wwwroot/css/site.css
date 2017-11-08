@@ -116,35 +116,35 @@ div .lc ul {
 	color: #393a35;
 	font-size: 16px;
 	font-weight: 600;
-	margin-bottom: 7px;
+	margin-bottom: 3px;
 }
 
 .profile-vat {
 	color: #393a35;
 	font-size: 12px;
 	font-weight: 600;
-	margin-bottom: 5px;
+
 }
 
 .profile-tel {
 	color: #393a35;
 	font-size: 12px;
 	font-weight: 600;
-	margin-bottom: 5px;
+
 }
 
 .profile-email {
 	color: #393a35;
 	font-size: 12px;
 	font-weight: 600;
-	margin-bottom: 5px;
+
 }
 
 .profile-county {
 	color: #393a35;
-	font-size: 16px;
+	font-size: 12px;
 	font-weight: 600;
-	margin-bottom: 15px;
+
 }
 
 .profile-buttons {
