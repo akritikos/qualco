@@ -62,7 +62,8 @@ namespace EzPay.WebApp.Controllers
                     .Include(b => b.Payment),
                 Settlements = _ctx.Settlements.Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
-                StatusMessage= CitizenStatusMessage
+                SettlementTypes = _ctx.SettlementTypes.AsQueryable(),
+                StatusMessage = CitizenStatusMessage
             };
 
             return View(model);

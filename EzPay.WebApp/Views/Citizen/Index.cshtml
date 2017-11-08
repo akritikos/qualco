@@ -140,24 +140,43 @@
 								<thead>
 									<tr>
 										<th>@Html.DisplayNameFor(model => SettlementsDetail.Date)</th>
+										<th>Total Amount</th>
+										<th>Downpayment</th>
 										<th>@Html.DisplayNameFor(model => SettlementsDetail.Installments)</th>
-										<th>@Html.DisplayNameFor(model => SettlementsDetail.TypeId)</th>
-										<th>Status</th>
+										<th>Monthly Amount</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 
 									@foreach (var item in Model.Settlements)
 									{
+										var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
+										decimal TotalAmount = item.Bills.Sum(b => b.Amount);
+										decimal DownpaymentAmount = Math.Round((TypeInfo.Downpayment * TotalAmount) / (decimal)100,2);
+
+										decimal P = TotalAmount - DownpaymentAmount;
+										int N = item.Installments;
+
+										decimal R = TypeInfo.Interest / (decimal)(12 * 100);
+
+										decimal MonthlyAmount = Math.Round((P * R * ((decimal)Math.Pow((double)(1 + R), (double)N))) / ((decimal)(Math.Pow((double)(1 + R), (double)N) - 1)),2);
+										
 										<tr>
 											<td>
 												@Html.DisplayFor(modelItem => item.Date)
 											</td>
 											<td>
+												@TotalAmount
+											</td>
+											<td>
+												@DownpaymentAmount
+											</td>
+											<td>
 												@Html.DisplayFor(modelItem => item.Installments)
 											</td>
 											<td>
-												@Html.DisplayFor(modelItem => item.TypeId)
+												@MonthlyAmount
 											</td>
 											<td>
 												<a asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
