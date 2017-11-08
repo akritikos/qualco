@@ -76,19 +76,20 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-								<table class="table">
+								<table class="table table-striped">
 									<thead>
-										<tr>
+										<tr>											
 											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
 											<th>Status</th>
+											<th>Settle</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach (var item in Model.Bills)
 										{
-											<tr>
+											<tr>												
 												<td>
 													@Html.DisplayFor(modelItem => item.DueDate)
 												</td>
@@ -109,20 +110,37 @@
 													}
 													else
 													{
-														<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+														<a asp-action="SelectPayment" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
 													}
 											</td>
+											<td>
+													@*@{
+														var state = String.Empty;
+														if (item.SettlementId!=null || item.Payment != null)
+														{
+															state = "disabled";
+														}
+													}*@
+													@if (item.SettlementId == null && item.Payment == null)
+													{
+														<center>
+															<div class="checkbox">
+																<label asp-for="Settle">
+																	<input asp-for="Settle" type="checkbox">
+																</label>
+															</div>
+														</center>
+													}
+												</td>
 											</tr>
 										}
 								</tbody>
 							</table>
 							
-							<p>
-								<center>
-									<a class="btn btn-warning" href="#">
-										Choose Bills to Settle
+							<p class="pull-right">
+									<a class="btn btn-warning lc" href="#">
+										Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 									</a>
-								</center>
 							</p>
 						</div>
 						<div class="tab-pane fade" id="tab3">
