@@ -4,8 +4,12 @@ using System.Text;
 
 namespace EzPay.Model.IdentityEntities
 {
+    using EzPay.Model.Interfaces;
+
     using Microsoft.AspNetCore.Identity;
-    public class CitizenLogin : IdentityUserLogin<long>
+
+    /// <inheritdoc cref="IdentityUserLogin{TKey}" />
+    public class CitizenLogin : IdentityUserLogin<long>, IIdentityEntity
     {
         /// <summary>
         /// VAT Number is used as Identifier
