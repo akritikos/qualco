@@ -57,5 +57,16 @@ namespace EzPay.WebApp.Controllers
             model.newSettlement.Id = Guid.NewGuid();
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult BillsInSettlement(Guid id)
+        {
+            var model = new LoginViewModel
+            {
+                Bills = _ctx.Bills.Where(c => c.SettlementId == id)
+            };
+
+            return View(model);
+        }
     }
 }

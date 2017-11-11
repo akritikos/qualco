@@ -76,9 +76,11 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
+
+							<form asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" method="post">
 								<table class="table table-striped">
 									<thead>
-										<tr>											
+										<tr>
 											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
@@ -89,7 +91,7 @@
 									<tbody>
 										@foreach (var item in Model.Bills)
 										{
-											<tr>												
+											<tr>
 												<td>
 													@Html.DisplayFor(modelItem => item.DueDate)
 												</td>
@@ -115,18 +117,18 @@
 												</td>
 												<td>
 													@*@{
-														var state = String.Empty;
-														if (item.SettlementId!=null || item.Payment != null)
-														{
-															state = "disabled";
-														}
-													}*@
+									var state = String.Empty;
+									if (item.SettlementId!=null || item.Payment != null)
+									{
+										state = "disabled";
+									}
+								}*@
 													@if (item.SettlementId == null && item.Payment == null)
 													{
 														<center>
 															<div class="checkbox">
 																<label asp-for="@item.ToSettle">
-																	<input asp-for="@item.ToSettle" type="checkbox">
+																	<input asp-for="@item.ToSettle" type="checkbox"/>
 																</label>
 															</div>
 														</center>
@@ -134,16 +136,23 @@
 												</td>
 											</tr>
 										}
-								</tbody>
-							</table>
+									</tbody>
+								</table>
 
-							
-							<p class="pull-right">
-								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
-									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-								</a>
-							</p>
-						</div>
+								<p class="pull-right">
+									<button type="submit" class="btn btn-warning lc" onclick="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+										Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+									</button>
+								</p>
+
+								</form>
+
+								@*<p class="pull-right">
+		<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+			Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+		</a>
+	</p>*@
+</div>
 
 						<div class="tab-pane fade" id="tab3">
 							<p>
@@ -193,7 +202,7 @@
 												@MonthlyAmount
 											</td>
 											<td>
-												<a asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
+												<a asp-controller="SettlementDetails" asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
 											</td>
 										</tr>
 
