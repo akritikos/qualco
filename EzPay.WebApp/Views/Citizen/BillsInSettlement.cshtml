@@ -1,36 +1,42 @@
 ﻿@model LoginViewModel
 
-<table class="table">
-    <thead>
-        <tr>
-                
-        </tr>
-    </thead>
-    <tbody>
-
-	@foreach (var item in Model.Bills)
-	{
-		
+<div class="container col-md-8 col-md-offset-2">
+	<table class="table row container" style="margin-top:60px">
+		@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
+		<thead>
 			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.DueDate)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Description)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Amount)
-				</td>
-				<td>
-					@if (item.SettlementId != null)
-					{
-						<p>Settled</p>
-					}
-				</td>
+				<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
+				<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
+				<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
+				<th>Status</th>
 			</tr>
-		
-	}
+		</thead>
+		<tbody>
 
-	
-    </tbody>
-</table>
+			@foreach (var item in Model.Bills)
+			{
+
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.DueDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Description)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Amount)
+					</td>
+					<td>
+						@if (item.SettlementId != null)
+						{
+							<p>Settled</p>
+						}
+					</td>
+				</tr>
+
+			}
+
+
+		</tbody>
+	</table>
+</div>
