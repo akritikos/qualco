@@ -1,7 +1,7 @@
 ﻿@model EzPay.WebApp.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Welcome";
+	ViewData["Title"] = "Welcome";
 }
 
 <div class="container">
@@ -112,8 +112,8 @@
 													{
 														<a asp-action="SelectPayment" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
 													}
-											</td>
-											<td>
+												</td>
+												<td>
 													@*@{
 														var state = String.Empty;
 														if (item.SettlementId!=null || item.Payment != null)
@@ -125,8 +125,8 @@
 													{
 														<center>
 															<div class="checkbox">
-																<label asp-for="Settle">
-																	<input asp-for="Settle" type="checkbox">
+																<label asp-for="@item.ToSettle">
+																	<input asp-for="@item.ToSettle" type="checkbox">
 																</label>
 															</div>
 														</center>
@@ -136,13 +136,15 @@
 										}
 								</tbody>
 							</table>
+
 							
 							<p class="pull-right">
-									<a class="btn btn-warning lc" href="#">
-										Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-									</a>
+								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+								</a>
 							</p>
 						</div>
+
 						<div class="tab-pane fade" id="tab3">
 							<p>
 								You have already asked for the below settlements:

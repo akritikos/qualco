@@ -30,6 +30,7 @@ namespace EzPay.WebApp.Models
         public IEnumerable<Settlement> Settlements { get; set; }
         public IEnumerable<SettlementType> SettlementTypes { get; set; }
 
+        public Settlement newSettlement { get; set; }
 
         /*change password*/
 
