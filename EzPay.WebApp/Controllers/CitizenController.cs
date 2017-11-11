@@ -211,11 +211,14 @@ namespace EzPay.WebApp.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult BillsInSettlement(Guid SettlementId)
+        public IActionResult BillsInSettlement(Guid id)
         {
+            var model = new LoginViewModel
+            {
+                Bills = _ctx.Bills.Where(c => c.SettlementId == id)
+            };
 
-
-            return View();
+            return View(model);
         }
     }
 }
