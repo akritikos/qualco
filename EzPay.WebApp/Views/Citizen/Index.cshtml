@@ -1,7 +1,7 @@
 ﻿@model EzPay.WebApp.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Welcome";
+	ViewData["Title"] = "Welcome";
 }
 
 <div class="container">
@@ -17,16 +17,10 @@
 				<!-- Profile Info -->
 				<div class="profile-info">
 					<div class="profile-name">
-						@Model.FirstName @Model.LastName
-					</div>
-					<div class="profile-vat">
-						<i class="fa fa-hashtag" aria-hidden="true"></i>&nbsp;@Model.CitizenId
+						@Model.FirstName @Model.LastName  <i class="fa fa-hashtag" aria-hidden="true"></i>&nbsp;@Model.CitizenId
 					</div>
 					<div class="profile-tel">
-						<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;@Model.PhoneNumber
-					</div>
-					<div class="profile-email">
-						<i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;@Model.Email
+						<i class="fa fa-phone" aria-hidden="true"></i>&nbsp;@Model.PhoneNumber  <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;@Model.Email
 					</div>
 					<div class="profile-county">
 						<i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;@Model.Address, @Model.County
@@ -82,19 +76,20 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-								<table class="table">
+								<table class="table table-striped">
 									<thead>
-										<tr>
+										<tr>											
 											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
 											<th>Status</th>
+											<th>Settle</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach (var item in Model.Bills)
 										{
-											<tr>
+											<tr>												
 												<td>
 													@Html.DisplayFor(modelItem => item.DueDate)
 												</td>
@@ -115,22 +110,41 @@
 													}
 													else
 													{
-														<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+														<a asp-action="SelectPayment" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
 													}
-											</td>
+												</td>
+												<td>
+													@*@{
+														var state = String.Empty;
+														if (item.SettlementId!=null || item.Payment != null)
+														{
+															state = "disabled";
+														}
+													}*@
+													@if (item.SettlementId == null && item.Payment == null)
+													{
+														<center>
+															<div class="checkbox">
+																<label asp-for="@item.ToSettle">
+																	<input asp-for="@item.ToSettle" type="checkbox">
+																</label>
+															</div>
+														</center>
+													}
+												</td>
 											</tr>
 										}
 								</tbody>
 							</table>
+
 							
-							<p>
-								<center>
-									<a class="btn btn-warning" href="#">
-										Choose Bills to Settle
-									</a>
-								</center>
+							<p class="pull-right">
+								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+								</a>
 							</p>
 						</div>
+
 						<div class="tab-pane fade" id="tab3">
 							<p>
 								You have already asked for the below settlements:
@@ -140,24 +154,43 @@
 								<thead>
 									<tr>
 										<th>@Html.DisplayNameFor(model => SettlementsDetail.Date)</th>
+										<th>Total Amount</th>
+										<th>Downpayment</th>
 										<th>@Html.DisplayNameFor(model => SettlementsDetail.Installments)</th>
-										<th>@Html.DisplayNameFor(model => SettlementsDetail.TypeId)</th>
-										<th>Status</th>
+										<th>Monthly Amount</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 
 									@foreach (var item in Model.Settlements)
 									{
+										var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
+										decimal TotalAmount = item.Bills.Sum(b => b.Amount);
+										decimal DownpaymentAmount = Math.Round((TypeInfo.Downpayment * TotalAmount) / (decimal)100,2);
+
+										decimal P = TotalAmount - DownpaymentAmount;
+										int N = item.Installments;
+
+										decimal R = TypeInfo.Interest / (decimal)(12 * 100);
+
+										decimal MonthlyAmount = Math.Round((P * R * ((decimal)Math.Pow((double)(1 + R), (double)N))) / ((decimal)(Math.Pow((double)(1 + R), (double)N) - 1)),2);
+										
 										<tr>
 											<td>
 												@Html.DisplayFor(modelItem => item.Date)
 											</td>
 											<td>
+												@TotalAmount
+											</td>
+											<td>
+												@DownpaymentAmount
+											</td>
+											<td>
 												@Html.DisplayFor(modelItem => item.Installments)
 											</td>
 											<td>
-												@Html.DisplayFor(modelItem => item.TypeId)
+												@MonthlyAmount
 											</td>
 											<td>
 												<a asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>

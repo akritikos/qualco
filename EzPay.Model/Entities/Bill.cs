@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using EzPay.Model.Interfaces;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Bill mapper class
@@ -54,6 +55,9 @@
         /// Navigational property to access possible <see cref="Entities.Settlement"/>
         /// </summary>
         public Settlement Settlement { get; set; }
+
+        [NotMapped]
+        public bool ToSettle { get; set; }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
