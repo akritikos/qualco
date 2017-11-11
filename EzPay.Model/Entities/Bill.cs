@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
 
+    using EzPay.Model.Interfaces;
+
     /// <summary>
     /// Bill mapper class
     /// </summary>
-    public class Bill
+    public sealed class Bill : IEntity
     {
         /// <summary>
         /// Auto-generated unique identifier
@@ -41,17 +43,17 @@
         /// <summary>
         /// Navigational property to access the owning <see cref="Entities.Citizen"/>
         /// </summary>
-        public virtual Citizen Citizen { get; set; }
+        public Citizen Citizen { get; set; }
 
         /// <summary>
         /// Navigational property to access a sucessful transaction <see cref="Entities.Payment"/>
         /// </summary>
-        public virtual Payment Payment { get; set; }
+        public Payment Payment { get; set; }
 
         /// <summary>
         /// Navigational property to access possible <see cref="Entities.Settlement"/>
         /// </summary>
-        public virtual Settlement Settlement { get; set; }
+        public Settlement Settlement { get; set; }
 
         /// <inheritdoc />
         public override bool Equals(object obj)

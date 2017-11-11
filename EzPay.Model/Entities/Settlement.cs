@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
 
+    using EzPay.Model.Interfaces;
+
     /// <summary>
     /// Mapper for Settlement Requests
     /// </summary>
-    public class Settlement
+    public sealed class Settlement : IEntity
     {
         /// <summary>
         /// Auto-generated identifier
@@ -38,17 +40,17 @@
         /// Navigational property accessing the <see cref="SettlementType"/> 
         /// of <see cref="SettlementType"/>
         /// </summary>
-        public virtual SettlementType Type { get; set; }
+        public SettlementType Type { get; set; }
 
         /// <summary>
         /// Navigational property accessing the <see cref="Citizen"/> owning this bill
         /// </summary>
-        public virtual Citizen Citizen { get; set; }
+        public Citizen Citizen { get; set; }
 
         /// <summary>
         /// Navigational property mapping the many-to-many relationship between 
         /// <see cref="Settlement"/> and <see cref="Bill"/>
         /// </summary>
-        public virtual ICollection<Bill> Bills { get; set; }
+        public ICollection<Bill> Bills { get; set; }
     }
 }
