@@ -1,7 +1,7 @@
 ﻿@model EzPay.WebApp.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Welcome";
+	ViewData["Title"] = "Welcome";
 }
 
 <div class="container">
@@ -76,19 +76,20 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-								<table class="table">
+								<table class="table table-striped">
 									<thead>
-										<tr>
+										<tr>											
 											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
 											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
 											<th>Status</th>
+											<th>Settle</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach (var item in Model.Bills)
 										{
-											<tr>
+											<tr>												
 												<td>
 													@Html.DisplayFor(modelItem => item.DueDate)
 												</td>
@@ -109,22 +110,41 @@
 													}
 													else
 													{
-														<a asp-action="SelectPayment" asp-route-id="@item.Id">Payment</a>
+														<a asp-action="SelectPayment" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
 													}
-											</td>
+												</td>
+												<td>
+													@*@{
+														var state = String.Empty;
+														if (item.SettlementId!=null || item.Payment != null)
+														{
+															state = "disabled";
+														}
+													}*@
+													@if (item.SettlementId == null && item.Payment == null)
+													{
+														<center>
+															<div class="checkbox">
+																<label asp-for="@item.ToSettle">
+																	<input asp-for="@item.ToSettle" type="checkbox">
+																</label>
+															</div>
+														</center>
+													}
+												</td>
 											</tr>
 										}
 								</tbody>
 							</table>
+
 							
-							<p>
-								<center>
-									<a class="btn btn-warning" href="#">
-										Choose Bills to Settle
-									</a>
-								</center>
+							<p class="pull-right">
+								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+								</a>
 							</p>
 						</div>
+
 						<div class="tab-pane fade" id="tab3">
 							<p>
 								You have already asked for the below settlements:
