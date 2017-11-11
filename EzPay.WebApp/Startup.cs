@@ -100,12 +100,6 @@ namespace EzPay.WebApp
                     routes.MapRoute(
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
-
-                    routes.MapRoute(
-                        "Settlement",                                                           // Route name
-                        "{controller}/{action}/{id}",                                           // URL with parameters
-                        new { controller = "Citizen", action = "BillsInSettlement", id = "" }   // Parameter defaults
-                    );
                 });
         }
     }
