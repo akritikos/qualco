@@ -76,70 +76,70 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-								<table class="table table-striped">
-									<thead>
-										<tr>											
-											<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
-											<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
-											<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
-											<th>Status</th>
-											<th>Settle</th>
+
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
+										<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
+										<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
+										<th>Status</th>
+										<th>Settle</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model.Bills)
+									{
+										<tr>
+											<td>
+												@Html.DisplayFor(modelItem => item.DueDate)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.Description)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => item.Amount)
+											</td>
+											<td>
+												@if (item.SettlementId != null)
+												{
+													<p>Settlement Requested</p>
+												}
+												else if (item.Payment != null)
+												{
+													<p>Paid</p>
+												}
+												else
+												{
+													<a asp-controller="SettlementDetails" asp-action="PayBill" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
+												}
+											</td>
+											<td>
+												@*@{
+								var state = String.Empty;
+								if (item.SettlementId!=null || item.Payment != null)
+								{
+									state = "disabled";
+								}
+							}*@
+												@if (item.SettlementId == null && item.Payment == null)
+												{
+													<center>
+														<div class="checkbox">
+															<label asp-for="@item.ToSettle">
+																<input asp-for="@item.ToSettle" type="checkbox" />
+															</label>
+														</div>
+													</center>
+												}
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										@foreach (var item in Model.Bills)
-										{
-											<tr>												
-												<td>
-													@Html.DisplayFor(modelItem => item.DueDate)
-												</td>
-												<td>
-													@Html.DisplayFor(modelItem => item.Description)
-												</td>
-												<td>
-													@Html.DisplayFor(modelItem => item.Amount)
-												</td>
-												<td>
-													@if (item.SettlementId != null)
-													{
-														<p>Settlement Requested</p>
-													}
-													else if (item.Payment != null)
-													{
-														<p>Paid</p>
-													}
-													else
-													{
-														<a asp-action="SelectPayment" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
-													}
-												</td>
-												<td>
-													@*@{
-														var state = String.Empty;
-														if (item.SettlementId!=null || item.Payment != null)
-														{
-															state = "disabled";
-														}
-													}*@
-													@if (item.SettlementId == null && item.Payment == null)
-													{
-														<center>
-															<div class="checkbox">
-																<label asp-for="@item.ToSettle">
-																	<input asp-for="@item.ToSettle" type="checkbox">
-																</label>
-															</div>
-														</center>
-													}
-												</td>
-											</tr>
-										}
+									}
 								</tbody>
 							</table>
-
-							
+							@*onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}"*@
 							<p class="pull-right">
-								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.newSettlement" class="btn btn-warning lc" onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}">
+								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.Settlements.First()" class="btn btn-warning lc">
 									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 								</a>
 							</p>
@@ -193,7 +193,7 @@
 												@MonthlyAmount
 											</td>
 											<td>
-												<a asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
+												<a asp-controller="SettlementDetails" asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
 											</td>
 										</tr>
 
