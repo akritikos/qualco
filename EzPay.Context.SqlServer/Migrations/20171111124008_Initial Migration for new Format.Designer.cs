@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace EzPay.Model.Migrations
+namespace EzPay.Context.SqlServer.Migrations
 {
-    [DbContext(typeof(EzPayContext))]
-    [Migration("20171105114426_Refactored Migrations")]
-    partial class RefactoredMigrations
+    [DbContext(typeof(EzPaySqlServerContext))]
+    [Migration("20171111124008_Initial Migration for new Format")]
+    partial class InitialMigrationfornewFormat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,8 +54,7 @@ namespace EzPay.Model.Migrations
             modelBuilder.Entity("EzPay.Model.Entities.Citizen", b =>
                 {
                     b.Property<long>("Id")
-                        .HasColumnName("ID")
-                        .HasMaxLength(10);
+                        .HasColumnName("ID");
 
                     b.Property<int>("AccessFailedCount");
 
@@ -106,7 +105,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Citizen");
+                    b.ToTable("Citizens");
                 });
 
             modelBuilder.Entity("EzPay.Model.Entities.Payment", b =>
@@ -170,7 +169,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SettlementTypes");
+                    b.ToTable("SettlementType");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.CitizenClaim", b =>

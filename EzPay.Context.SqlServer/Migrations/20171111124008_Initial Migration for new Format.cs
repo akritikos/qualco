@@ -3,44 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace EzPay.Model.Migrations
+namespace EzPay.Context.SqlServer.Migrations
 {
-    public partial class RefactoredMigrations : Migration
+    public partial class InitialMigrationfornewFormat : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
-
-            migrationBuilder.CreateTable(
-                name: "Citizen",
-                schema: "dbo",
-                columns: table => new
-                {
-                    ID = table.Column<long>(type: "bigint", maxLength: 10, nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    County = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
-                    Email = table.Column<string>(type: "varchar(40)", unicode: false, maxLength: 40, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(84)", maxLength: 84, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "varchar(13)", unicode: false, maxLength: 13, nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Citizen", x => x.ID);
-                });
 
             migrationBuilder.CreateTable(
                 name: "CitizenClaim",
@@ -89,6 +59,36 @@ namespace EzPay.Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CitizenRole", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Citizens",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "bigint", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    County = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
+                    Email = table.Column<string>(type: "varchar(40)", unicode: false, maxLength: 40, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(84)", maxLength: 84, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(13)", unicode: false, maxLength: 13, nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Citizens", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,7 +143,7 @@ namespace EzPay.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SettlementTypes",
+                name: "SettlementType",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -154,7 +154,7 @@ namespace EzPay.Model.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SettlementTypes", x => x.ID);
+                    table.PrimaryKey("PK_SettlementType", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,17 +172,17 @@ namespace EzPay.Model.Migrations
                 {
                     table.PrimaryKey("PK_Settlements", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Settlements_Citizen_CitizenId",
+                        name: "FK_Settlements_Citizens_CitizenId",
                         column: x => x.CitizenId,
                         principalSchema: "dbo",
-                        principalTable: "Citizen",
+                        principalTable: "Citizens",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Settlements_SettlementTypes_Type",
+                        name: "FK_Settlements_SettlementType_Type",
                         column: x => x.Type,
                         principalSchema: "dbo",
-                        principalTable: "SettlementTypes",
+                        principalTable: "SettlementType",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -203,10 +203,10 @@ namespace EzPay.Model.Migrations
                 {
                     table.PrimaryKey("PK_Bills", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Bills_Citizen_Citizen",
+                        name: "FK_Bills_Citizens_Citizen",
                         column: x => x.Citizen,
                         principalSchema: "dbo",
-                        principalTable: "Citizen",
+                        principalTable: "Citizens",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -303,11 +303,11 @@ namespace EzPay.Model.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Citizen",
+                name: "Citizens",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "SettlementTypes",
+                name: "SettlementType",
                 schema: "dbo");
         }
     }

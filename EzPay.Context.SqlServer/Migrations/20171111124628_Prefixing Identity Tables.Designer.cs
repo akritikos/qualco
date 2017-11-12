@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace EzPay.Model.Migrations
+namespace EzPay.Context.SqlServer.Migrations
 {
-    [DbContext(typeof(EzPayContext))]
-    partial class EzPayContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EzPaySqlServerContext))]
+    [Migration("20171111124628_Prefixing Identity Tables")]
+    partial class PrefixingIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,8 +54,7 @@ namespace EzPay.Model.Migrations
             modelBuilder.Entity("EzPay.Model.Entities.Citizen", b =>
                 {
                     b.Property<long>("Id")
-                        .HasColumnName("ID")
-                        .HasMaxLength(10);
+                        .HasColumnName("ID");
 
                     b.Property<int>("AccessFailedCount");
 
@@ -105,7 +105,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Citizen");
+                    b.ToTable("Citizens");
                 });
 
             modelBuilder.Entity("EzPay.Model.Entities.Payment", b =>
@@ -187,7 +187,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("CitizenClaimId");
 
-                    b.ToTable("CitizenClaim");
+                    b.ToTable("_CitizenClaim");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.CitizenLogin", b =>
@@ -205,7 +205,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CitizenLogin");
+                    b.ToTable("_CitizenLogin");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.CitizenRole", b =>
@@ -219,7 +219,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CitizenRole");
+                    b.ToTable("_CitizenRole");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.CitizenToken", b =>
@@ -237,7 +237,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CitizenToken");
+                    b.ToTable("_CitizenToken");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.Role", b =>
@@ -255,7 +255,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Role");
+                    b.ToTable("_Role");
                 });
 
             modelBuilder.Entity("EzPay.Model.IdentityEntities.RoleClaim", b =>
@@ -273,7 +273,7 @@ namespace EzPay.Model.Migrations
 
                     b.HasKey("RoleClaimId");
 
-                    b.ToTable("RoleClaim");
+                    b.ToTable("_RoleClaim");
                 });
 
             modelBuilder.Entity("EzPay.Model.Entities.Bill", b =>
