@@ -27,6 +27,7 @@ namespace EzPay.WebApp.Controllers
             _ctx = ctx;
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Settlement settlement)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -64,6 +65,17 @@ namespace EzPay.WebApp.Controllers
             var model = new LoginViewModel
             {
                 Bills = _ctx.Bills.Where(c => c.SettlementId == id)
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult PayBill(Guid id)
+        {
+            var model = new LoginViewModel
+            {
+                Bills = _ctx.Bills.Where(c => c.Id == id)
             };
 
             return View(model);
