@@ -70,15 +70,5 @@ namespace EzPay.WebApp.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult PayBill(Guid id)
-        {
-            var model = new LoginViewModel
-            {
-                Bills = _ctx.GetSet<Bill>().Where(c => c.Id == id)
-            };
-
-            return View(model);
-        }
     }
 }
