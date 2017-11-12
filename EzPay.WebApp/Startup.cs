@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,34 +9,39 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EzPay.WebApp
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using EzPay.Model;
     using EzPay.Model.Entities;
     using EzPay.Model.IdentityEntities;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
 
+    [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "ASP Net Core template")]
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-        public IHostingEnvironment Env { get; }
-
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
             Env = env;
         }
 
+        public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment Env { get; } 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EzPayContext>(
-                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EzPaySqlServerContext>(
+                    options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+                .AddScoped<IEzPayRepository, EzPaySqlServerContext>();
 
-            // Identity START
             services.AddIdentity<Citizen, Role>()
-                .AddEntityFrameworkStores<EzPayContext>()
+                .AddEntityFrameworkStores<EzPaySqlServerContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
@@ -70,9 +74,8 @@ namespace EzPay.WebApp
                     options.SlidingExpiration = true;
                 });
 
-            // Add application services.
-            //           services.AddTransient<IEmailSender, EmailSender>();
-            /*Identity END*/
+            // services.AddTransient<IEmailSender, EmailSender>();
+
 
             services.AddMvc();
         }

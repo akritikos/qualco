@@ -18,10 +18,10 @@ namespace EzPay.WebApp.Models
             SettlementType settlementType;
             decimal TotalAmount = 0;
 
-            using (var ctx = new EzPayContext())
+            using (var ctx = new EzPaySqlServerContext())
             {
-                settlementType = ctx.SettlementTypes.Where(c => c.Id == settlement.TypeId).FirstOrDefault();
-                TotalAmount = ctx.Bills.Where(c => c.SettlementId == settlement.Id).Sum(b => b.Amount);
+                settlementType = ctx.GetSet<SettlementType>().Where(c => c.Id == settlement.TypeId).FirstOrDefault();
+                TotalAmount = ctx.GetSet<Bill>().Where(c => c.SettlementId == settlement.Id).Sum(b => b.Amount);
             }
 
             DownpaymentAmount = SettlementDownpaymentAmount(TotalAmount, settlementType);

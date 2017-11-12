@@ -7,6 +7,7 @@ namespace EzPay.ModelUpdater
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Security.Cryptography;
 
     using EzPay.Model;
@@ -39,7 +40,7 @@ namespace EzPay.ModelUpdater
             var hash = Hasher(plaintext ?? String.Empty);
             Console.WriteLine($"Hash is: {hash}");
             Console.WriteLine($"Size: {hash.Length}");
-            using (var ctx = new EzPayContext())
+            using (var ctx = new EzPaySqlServerContext())
             {
                 w = Stopwatch.StartNew();
                 Console.WriteLine("Testing Database and migrating if needed.");
@@ -68,7 +69,7 @@ namespace EzPay.ModelUpdater
         /// Adds default Settlement types to a newly created database
         /// </summary>
         /// <param name="ctx">Database Context to use</param>
-        private static void AddSettlementTypes(EzPayContext ctx)
+        private static void AddSettlementTypes(EzPaySqlServerContext ctx)
         {
             if (ctx.GetSet<SettlementType>().Any())
             {
@@ -117,7 +118,7 @@ namespace EzPay.ModelUpdater
         /// </summary>
         /// <param name="ctx">The DbContext to check</param>
         /// <returns>If the Context is working as it should</returns>
-        private static bool CheckContext(EzPayContext ctx)
+        private static bool CheckContext(EzPaySqlServerContext ctx)
         {
             var isValid = false;
             try
@@ -157,7 +158,7 @@ namespace EzPay.ModelUpdater
             w.Stop();
             Console.WriteLine(
                 $"\tRead {data.Count:N0} Citizens and {data.Values.SelectMany(x => x).ToList().Count:N0} Bills\n\tin {w.Elapsed:mm\\:ss\\.ff}");
-            using (var ctx = new EzPayContext())
+            using (var ctx = new EzPaySqlServerContext())
             {
                 Console.WriteLine("Filtering out duplicate citizens");
                 w = Stopwatch.StartNew();
@@ -174,7 +175,7 @@ namespace EzPay.ModelUpdater
             }
 
 
-           var ctb = new EzPayContext();
+           var ctb = new EzPaySqlServerContext();
             Console.WriteLine("Writing data to database");
             var size = data.Keys.Count;
             w = Stopwatch.StartNew();
@@ -188,7 +189,7 @@ namespace EzPay.ModelUpdater
                     times++;
                     ctb.SaveChanges();
                     ctb.Dispose();
-                    ctb = new EzPayContext();
+                    ctb = new EzPaySqlServerContext();
                     Console.WriteLine($"\t\tCurrently at {times*1000/size:N0}%");
                 }
 
@@ -235,12 +236,80 @@ namespace EzPay.ModelUpdater
             return outputBytes;
         }
 
+        private static bool VerifyHashedPasswordV3(byte[] hashedPassword, string password, out int iterCount)
+        {
+            iterCount = default(int);
+
+            try
+            {
+                // Read header information
+                KeyDerivationPrf prf = (KeyDerivationPrf)ReadNetworkByteOrder(hashedPassword, 1);
+                iterCount = (int)ReadNetworkByteOrder(hashedPassword, 5);
+                int saltLength = (int)ReadNetworkByteOrder(hashedPassword, 9);
+
+                // Read the salt: must be >= 128 bits
+                if (saltLength < 128 / 8)
+                {
+                    return false;
+                }
+                byte[] salt = new byte[saltLength];
+                Buffer.BlockCopy(hashedPassword, 13, salt, 0, salt.Length);
+
+                // Read the subkey (the rest of the payload): must be >= 128 bits
+                int subkeyLength = hashedPassword.Length - 13 - salt.Length;
+                if (subkeyLength < 128 / 8)
+                {
+                    return false;
+                }
+                byte[] expectedSubkey = new byte[subkeyLength];
+                Buffer.BlockCopy(hashedPassword, 13 + salt.Length, expectedSubkey, 0, expectedSubkey.Length);
+
+                // Hash the incoming password and verify it
+                byte[] actualSubkey = KeyDerivation.Pbkdf2(password, salt, prf, iterCount, subkeyLength);
+                return ByteArraysEqual(actualSubkey, expectedSubkey);
+            }
+            catch
+            {
+                // This should never occur except in the case of a malformed payload, where
+                // we might go off the end of the array. Regardless, a malformed payload
+                // implies verification failed.
+                return false;
+            }
+        }
+
         private static void WriteNetworkByteOrder(byte[] buffer, int offset, uint value)
         {
             buffer[offset + 0] = (byte)(value >> 24);
             buffer[offset + 1] = (byte)(value >> 16);
             buffer[offset + 2] = (byte)(value >> 8);
             buffer[offset + 3] = (byte)(value >> 0);
+        }
+
+        private static uint ReadNetworkByteOrder(byte[] buffer, int offset)
+        {
+            return ((uint)(buffer[offset + 0]) << 24)
+                   | ((uint)(buffer[offset + 1]) << 16)
+                   | ((uint)(buffer[offset + 2]) << 8)
+                   | ((uint)(buffer[offset + 3]));
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static bool ByteArraysEqual(byte[] a, byte[] b)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+            if (a == null || b == null || a.Length != b.Length)
+            {
+                return false;
+            }
+            var areSame = true;
+            for (var i = 0; i < a.Length; i++)
+            {
+                areSame &= (a[i] == b[i]);
+            }
+            return areSame;
         }
     }
 }

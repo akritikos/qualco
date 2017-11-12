@@ -19,6 +19,7 @@ namespace EzPay.WebApp
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }
