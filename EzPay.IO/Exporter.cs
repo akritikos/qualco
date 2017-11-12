@@ -58,10 +58,10 @@ namespace EzPay.IO
 
             paymentEngine = new FileHelperEngine<PaymentExport>() { HeaderText = PaymentHeader };
             settlementEngine = new FileHelperEngine<SettlementExport>() { HeaderText = SettlementHeader };
-            using (var ctx = new EzPayContext())
+            using (var ctx = new EzPaySqlServerContext())
             {
-                var payments = ctx.Payments.Include(c => c.Bill).ToList();
-                var settlements = ctx.Settlements
+                var payments = ctx.GetSet<Payment>().Include(c => c.Bill).ToList();
+                var settlements = ctx.GetSet<Settlement>()
                     .Include(s => s.Bills)
                     .Include(s => s.Type)
                     .Include(s => s.Citizen)

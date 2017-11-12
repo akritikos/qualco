@@ -9,7 +9,7 @@ namespace EzPay.Model.IdentityEntities
     using Microsoft.AspNetCore.Identity;
 
     /// <inheritdoc cref="IdentityRole{TKey}" />
-    public class Role : IdentityRole<long>, IIdentityEntity
+    public class Role : IdentityRole<long>, IEntity
     {
         /// <summary>
         /// VAT Number is used as Identifier
