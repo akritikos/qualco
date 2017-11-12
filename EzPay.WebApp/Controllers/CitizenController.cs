@@ -22,12 +22,12 @@ namespace EzPay.WebApp.Controllers
     {
         private readonly UserManager<Citizen> _userManager;
         private readonly SignInManager<Citizen> _signInManager;
-        private readonly EzPayContext _ctx;
+        private readonly IEzPayRepository _ctx;
 
         public CitizenController(
             UserManager<Citizen> userManager,
             SignInManager<Citizen> signInManager,
-            EzPayContext ctx)
+            IEzPayRepository ctx)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -57,12 +57,12 @@ namespace EzPay.WebApp.Controllers
                 County = user.County,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Bills = _ctx.Bills.Where(c => c.CitizenId == user.Id)
+                Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Settlement)
                     .Include(b => b.Payment),
-                Settlements = _ctx.Settlements.Where(c => c.CitizenId == user.Id)
+                Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
-                SettlementTypes = _ctx.SettlementTypes.AsQueryable(),
+                SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
                 newSettlement = new Settlement {
                     Id=new Guid(),
                     Bills=new List<Bill>()
