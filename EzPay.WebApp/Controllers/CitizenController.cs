@@ -62,7 +62,7 @@ namespace EzPay.WebApp.Controllers
                     .Include(b => b.Payment),
                 Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
-                SettlementTypes = _ctx.SettlementTypes.AsQueryable(),
+                SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
                 newSettlement = new Settlement {
                     Id=new Guid(),
                     Bills=new List<Bill>()
