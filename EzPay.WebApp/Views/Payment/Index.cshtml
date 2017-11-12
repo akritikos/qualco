@@ -58,7 +58,7 @@
 			<input type="number" />
 		</label>
 
-		<button asp-action="Pay" asp-route-id="@BillsDetail.Id">Submit</button>
+		<a asp-controller="Payment" asp-action="Pay" asp-route-id="@BillsDetail.Id"  class="btn btn-primary">Pay</a>
 
 		<script>
 			function valid_credit_card(value) {
