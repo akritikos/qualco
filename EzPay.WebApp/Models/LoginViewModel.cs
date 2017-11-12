@@ -26,8 +26,11 @@ namespace EzPay.WebApp.Models
         public string PhoneNumber { get; set; }
 
         public IEnumerable<Bill> Bills { get; set; }
+        public bool Settle { get; set; }
         public IEnumerable<Settlement> Settlements { get; set; }
+        public IEnumerable<SettlementType> SettlementTypes { get; set; }
 
+        public Settlement newSettlement { get; set; }
 
         /*change password*/
 

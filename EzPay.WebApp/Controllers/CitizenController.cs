@@ -62,9 +62,14 @@ namespace EzPay.WebApp.Controllers
                     .Include(b => b.Payment),
                 Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
-                StatusMessage= CitizenStatusMessage
+                SettlementTypes = _ctx.SettlementTypes.AsQueryable(),
+                newSettlement = new Settlement {
+                    Id=new Guid(),
+                    Bills=new List<Bill>()
+                },
+                StatusMessage = CitizenStatusMessage
             };
-
+            
             return View(model);
         }
 
@@ -209,12 +214,5 @@ namespace EzPay.WebApp.Controllers
 
         #endregion
 
-        [HttpGet]
-        public IActionResult BillsInSettlement(Guid SettlementId)
-        {
-
-
-            return View();
-        }
     }
 }
