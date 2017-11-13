@@ -27,8 +27,9 @@ namespace EzPay.WebApp.Controllers
             _ctx = ctx;
         }
 
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(Settlement settlement)
+        public async Task<IActionResult> Index(Bill bill)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -48,14 +49,12 @@ namespace EzPay.WebApp.Controllers
                 Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Settlement)
                     .Include(b => b.Payment),
+                ToSettle = bill.IsSelected,
                 Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
                 SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
-                newSettlement = settlement
             };
 
-
-            model.newSettlement.Id = Guid.NewGuid();
             return View(model);
         }
 

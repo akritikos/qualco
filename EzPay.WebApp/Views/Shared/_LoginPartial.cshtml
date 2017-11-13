@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using EzPay.Model.Entities
+@using EzPay.Model.IdentityEntities
 
 @model EzPay.WebApp.Models.LoginViewModel
 
@@ -11,7 +12,7 @@
 	<form asp-area="" asp-controller="Citizen" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				<a asp-controller="Citizen" asp-action="Index" class="lc"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp; @UserManager.GetUserId(User)</a>
+				<a asp-controller="Citizen" asp-action="Index" class="lc"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp; @UserManager.GetUserName(User)</a>
 			</li>
 			<li>
 				<button type="submit" class="btn btn-link navbar-btn navbar-link lc" style="margin-right:15px">Logout &nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i></button>
