@@ -116,7 +116,7 @@
 											</td>
 											<td>
 												@if (item.SettlementId == null && item.Payment == null)
-												{													
+												{
 													@Html.CheckBoxFor(modelItem => item.IsSelected)
 												}
 											</td>
@@ -127,7 +127,7 @@
 							</table>
 
 							<p class="pull-right">
-								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.Settlements.FirstOrDefault()" class="btn btn-warning lc">
+								<a asp-controller="Citizen" asp-action="Settlements" method="post" class="btn btn-warning lc">
 									Settle&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 								</a>
 							</p>
