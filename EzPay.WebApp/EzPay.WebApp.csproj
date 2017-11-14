@@ -4,17 +4,30 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/5abaf4c6-61f5-4a95-a4dd-1cf95fbb0267/resourcegroups/EzPay_Azure/providers/microsoft.insights/components/qualco</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/5abaf4c6-61f5-4a95-a4dd-1cf95fbb0267/resourcegroups/EzPay_Azure/providers/microsoft.insights/components/qualco</ApplicationInsightsAnnotationResourceId>
+    <Authors>Qualco Team #2</Authors>
+    <Company>Qualco</Company>
+    <Description>Web Portal allowing easy transactions for county based bills</Description>
+    <Copyright>Qualco Team #2 (2017)</Copyright>
+    <PackageProjectUrl>https://github.com/akritikos/qualco</PackageProjectUrl>
   </PropertyGroup>
+
+  <Target Name="Version">
+    <GitVersion LocalPath="$(MSBuildProjectDirectory)">
+        <Output TaskParameter="CommitHash" PropertyName="Revision" />
+    </GitVersion>
+    <AssemblyInfo CodeLanguage="CS" OutputFile="Properties\AssemblyInfo.cs" AssemblyTitle="EzPay.WebApp" AssemblyDescription="Web Portal allowing easy transactions for county based bills" AssemblyCompany="Qualco" AssemblyProduct="EzPay" AssemblyCopyright="Qualco Team #2 (2017)" ComVisible="false" CLSCompliant="true" AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyVersion="$(Major).$(Minor).$(Build)" AssemblyFileVersion="$(Major).$(Minor).$(Build)" />
+</Target>
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="MSBuildTasks" Version="1.5.0.235" />
   </ItemGroup>
 
   <ItemGroup>

@@ -24,16 +24,10 @@
         IEzPayRepository
     {
         /// <inheritdoc />
-        public EzPaySqlServerContext(DbContextOptions options) : base(options)
-        {
-            Database.Migrate();
-        }
+        public EzPaySqlServerContext(DbContextOptions options) : base(options) => Database.Migrate();
 
         /// <inheritdoc />
-        public EzPaySqlServerContext()
-        {
-            Database.Migrate();
-        }
+        public EzPaySqlServerContext() => Database.Migrate();
 
         #region IEzPayRepository
         /// <inheritdoc />
