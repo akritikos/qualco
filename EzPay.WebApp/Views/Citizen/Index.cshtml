@@ -111,7 +111,7 @@
 												}
 												else
 												{
-													<a asp-controller="SettlementDetails" asp-action="PayBill" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
+													<a asp-controller="Payment" asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
 												}
 											</td>
 											<td>
@@ -139,7 +139,7 @@
 							</table>
 							@*onsubmit="@{Model.newSettlement.Bills = Model.Bills.Where(b => b.ToSettle == true).ToList();}"*@
 							<p class="pull-right">
-								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.Settlements.First()" class="btn btn-warning lc">
+								<a asp-controller="SettlementDetails" asp-action="Index" asp-route-id="@Model.Settlements.FirstOrDefault()" class="btn btn-warning lc">
 									Settling&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
 								</a>
 							</p>
