@@ -27,61 +27,33 @@ namespace EzPay.WebApp.Controllers
             _ctx = ctx;
         }
 
-        [HttpGet]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> Settle(LoginViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var model = new LoginViewModel
-            {
-                CitizenId = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Address = user.Address,
-                County = user.County,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
-                    .Where(c => c.IsSelected == true)
-                    .Include(b => b.Settlement)
-                    .Include(b => b.Payment),
-                Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
-                    .Include(b => b.Bills),
-                SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
-            };
+            //var model = new LoginViewModel
+            //{
+            //    CitizenId = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Address = user.Address,
+            //    County = user.County,
+            //    Email = user.Email,
+            //    PhoneNumber = user.PhoneNumber,
+            //    Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
+            //        .Where(c => c.IsSelected == true)
+            //        .Include(b => b.Settlement)
+            //        .Include(b => b.Payment),
+            //    Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
+            //        .Include(b => b.Bills),
+            //    SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
+            //};
 
             return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index (List<Bill> billSelected)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var yesChecked = 0; var noChecked = 0;
-
-            for (var i = 0; i < billSelected.Count; i++)
-            {
-                if (billSelected[i].IsSelected == true)
-                {
-                    yesChecked = yesChecked + 1;
-                }
-                else
-                {
-                    noChecked = noChecked + 1;
-                }
-            }
-            return View(billSelected);
         }
 
         [HttpGet]

@@ -60,6 +60,10 @@ namespace EzPay.WebApp.Controllers
                 Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Settlement)
                     .Include(b => b.Payment),
+                BillsList = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
+                    .Include(b => b.Settlement)
+                    .Include(b => b.Payment)
+                    .ToList(),
                 Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
                 SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),

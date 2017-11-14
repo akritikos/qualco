@@ -28,7 +28,7 @@ namespace EzPay.WebApp.Controllers
         }
 
         [TempData]
-        public string CitizenStatusMessage { get; set; }
+        public string BillStatusMessage { get; set; }
 
         public async Task<IActionResult> Index(Guid id)
         {
@@ -56,10 +56,20 @@ namespace EzPay.WebApp.Controllers
             _ctx.Add(payment);
             _ctx.SaveChanges();
 
-           //CitizenStatusMessage = "Your payment is complete.";
+           BillStatusMessage = "Your payment is complete.";
 
             return RedirectToAction(nameof(CitizenController.Index), "Citizen");
 
         }
+
+        #region Payment Helpers
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+        #endregion
     }
 }

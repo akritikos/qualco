@@ -76,61 +76,48 @@
 								You can choose to pay or request a settlement for the below bills:
 							</p>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
-										<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
-										<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
-										<th>Status</th>
-										<th>To Settle</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach (var item in Model.Bills)
+							
+								<form asp-controller="SettlementDetails" asp-action="Settle" method="post">
+									@for (int i = 0; i < Model.BillsList.Count(); i++)
 									{
-										<tr>
-											<td>
-												@Html.DisplayFor(modelItem => item.DueDate)
-											</td>
-											<td>
-												@Html.DisplayFor(modelItem => item.Description)
-											</td>
-											<td>
-												@Html.DisplayFor(modelItem => item.Amount)
-											</td>
-											<td>
-												@if (item.SettlementId != null)
-												{
-													<p>Settlement Requested</p>
-												}
-												else if (item.Payment != null)
-												{
-													<p>Paid</p>
-												}
-												else
-												{
-													<a asp-controller="Payment" asp-action="Index" asp-route-id="@item.Id" class="btn btn-primary">Pay</a>
-												}
-											</td>
-											<td>
-												@if (item.SettlementId == null && item.Payment == null)
-												{
-													@Html.CheckBoxFor(modelItem => item.IsSelected)
-												}
-											</td>
-										</tr>
+										<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
+										<input asp-for="@Model.BillsList[i].Id" type="hidden" />
+										
+										<div class="form-group">
+											<label asp-for="@Model.BillsList[i].DueDate">@Model.BillsList[i].DueDate</label>
+											<input asp-for="@Model.BillsList[i].DueDate" type="hidden"/>										
+										</div>
+										<div class="form-group">
+											<label asp-for="@Model.BillsList[i].Description">@Model.BillsList[i].Description</label>
+											<input asp-for="@Model.BillsList[i].Description" type="hidden" />										
+										</div>
+										<div class="form-group">
+											<label asp-for="@Model.BillsList[i].Amount">@Model.BillsList[i].Amount</label>
+											<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
+										</div>
+										<div class="form-group">
+											@if (Model.BillsList[i].SettlementId != null)
+											{
+												<p>Settlement Requested</p>		}
+											else if (Model.BillsList[i].Payment != null)
+											{
+												<p>Paid</p>		}
+											else
+											{
+												<a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.BillsList[i].Id" class="btn btn-primary">Pay</a>		}
+										</div>
+										<div class="form-group">
+											@if (Model.BillsList[i].SettlementId == null && Model.BillsList[i].Payment == null)
+											{
+												<input asp-for="@Model.BillsList[i].IsSelected" type="checkbox" />
+											}
+										</div>
 									}
-								</tbody>
-
-							</table>
-
-							<p class="pull-right">
-								<a asp-controller="Citizen" asp-action="Settlements" method="post" class="btn btn-warning lc">
-									Settle&nbsp;<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
-								</a>
-							</p>
+									<div class="pull-right">
+										<button class="btn btn-warning lc" type="submit">Blala</button>
+									</div>
+								</form>
+							
 						</div>
 
 						<div class="tab-pane fade" id="tab3">

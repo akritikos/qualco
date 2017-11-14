@@ -12,8 +12,4 @@
     <ProjectReference Include="..\EzPay.Model\EzPay.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Bills\" />
-  </ItemGroup>
-
 </Project>
