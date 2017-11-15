@@ -4,66 +4,99 @@
 	ViewData["Title"] = "Welcome";
 }
 
-@*@{var minDP = Model.SettlementTypes.Min(c => c.Downpayment).ToString();
-	var maxDP = Model.SettlementTypes.Max(c => c.Downpayment).ToString();
-	var Types = Model.SettlementTypes.ToList();}*@
-
 <div class="container">
-	<div class="row">
-		<div class="col-xs-6">
-			<h2>Downpayment</h2>
-			<div class="range">
-				<input type="range" name="range" min="10" max="50" step="10" value="50" onchange="DownpaymentSlider(value,Types)">
-				<output id="rangeDP">50</output>
-			</div>
-		</div>
-		@*@{var maxInst = Model.SettlementTypes.Where(b => b.Downpayment == Model.Downpayment).Select(c=>c.MaxInstallments); }*@
-		<div class="col-xs-6">
-			<h2>Installments</h2>
-			<div class="range">
-				<input id="rangeInstInput" type="range" name="range" min="0" max="48" step="3" value="0" onchange="rangeInst.value=value">
-				<output id="rangeInst">0</output>
-			</div>
-		</div>
+	<div class="col-sm-6 col-sm-offset-3">
+		<table class="table table-striped table-hover">
+			@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
+			<thead>
+				<tr>
+					<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
+					<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
+					<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Bills)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.DueDate)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Description)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Amount)
+							<i class="fa fa-eur" aria-hidden="true"></i>
+						</td>
+					</tr>
+
+				}
+			</tbody>
+		</table>
 	</div>
 </div>
 
-<script>
-							function SetMin()
-							{
-								min = 10;
-								return min;
+@{var TotalAmount = Model.Bills.Sum(c => c.Amount);}
 
-							}
-							function DownpaymentSlider(value,Types)
-							{
-								document.getElementById("rangeDP").value = value;
+<center><h2>Total amount @TotalAmount</h2></center>
 
-								document.getElementById("rangeInstInput").max= "60";
-								document.getElementById("rangeInstInput").min = "30";
-								document.getElementById("rangeInst").value = "30";
-								instance.web.Model('');
-							}
-</script>
+<form asp-controller="SettlementDetails" asp-action="SubmitSettlement" method="post">
+	@for (int i = 0; i < Model.Bills.Count(); i++)
+	{
+		<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
+		<input asp-for="@Model.BillsList[i].Id" type="hidden" />
+		<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
+		<input asp-for="@Model.BillsList[i].Description" type="hidden" />
+		<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
+	}
 
-@*test3*@
+	<center>
+		<div class="container">
+			<div class="dropdown">
+				Downpayment:
+				<select asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange(value)">
+					<option value="0">Choose downpayment</option>
+					@foreach (var type in Model.SettlementTypes)
+					{
+						<option value=@type.Id>@(Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2)) </option>
+					}
+				</select>
+			</div>
+		</div>
+	
 
 
-<script>
-								$(function () {
-									$("#rangeDP").slider({
-										range: true,
-										min: 50,
-										max: 200,
-										values: [50, 200],
-										slide: function (event, ui) {
-											$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-										}
-									});
-									$("#amount").val("$" + $("#slider-range").slider("values", 0) +
-										" - $" + $("#slider-range").slider("values", 1));
-								});
 
-								$("#rangeDP").slider("option", "max", 60);
-								$("#rangeDP").slider("option", "min", 300);
-</script>
+	<script>
+		function DownpaymentChange(value) {
+			//var type = 'Model.SettlementTypes.Where(c => c.Id == value)';
+			//var maxInst = type.MaxInstallments.toString();
+			document.getElementById("rangeInstInput").max = maxInst;
+			document.getElementById("rangeInstInput").min = "3";
+			document.getElementById("rangeInst").value = "0";
+			document.getElementById("rangeInstInput").value = "0";
+		}
+
+	</script>
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
+					<h2>Installments</h2>
+					<div class="range">
+						<input asp-for="InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="0" step="3" value="0" onchange="rangeInst.value=value">
+						<output id="rangeInst">0</output>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<button class="btn btn-warning lc" type="submit">Submit</button>
+	</center>
+</form>
+
+
+

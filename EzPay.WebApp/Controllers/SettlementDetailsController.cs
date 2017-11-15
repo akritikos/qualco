@@ -50,8 +50,20 @@ namespace EzPay.WebApp.Controllers
             //        .Include(b => b.Payment),
             //    Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
             //        .Include(b => b.Bills),
-            //    SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
+            model.SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable();
             //};
+            model.Bills = model.BillsList.Where(b => b.IsSelected == true);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitSettlement(LoginViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
 
             return View(model);
         }
