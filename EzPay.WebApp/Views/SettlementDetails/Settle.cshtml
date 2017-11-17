@@ -55,11 +55,13 @@
 		<div class="container">
 			<div class="dropdown">
 				Downpayment:
-				<select asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange(value)">
+				<select asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange(value,59)">
 					<option value="0">Choose downpayment</option>
 					@foreach (var type in Model.SettlementTypes)
 					{
 						<option value=@type.Id>@(Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2)) </option>
+						<option value=@(Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2)) type="hidden" id="downpayment"/>
+						
 					}
 				</select>
 			</div>
@@ -67,35 +69,72 @@
 	
 
 
-
 	<script>
-		function DownpaymentChange(value) {
+		function DownpaymentChange(value,maxinst) {
 			//var type = 'Model.SettlementTypes.Where(c => c.Id == value)';
 			//var maxInst = type.MaxInstallments.toString();
-			document.getElementById("rangeInstInput").max = maxInst;
+
+			var newmax = 56;
+
+			document.getElementById("rangeInstInput").max = maxinst;
 			document.getElementById("rangeInstInput").min = "3";
 			document.getElementById("rangeInst").value = "0";
 			document.getElementById("rangeInstInput").value = "0";
+
 		}
 
-	</script>
+		function InstallmentChange(value, TotalAmount)
+		{
+
+			if (document.getElementById("rangeInstInput").value != "0")
+			{
+				
+				var N = document.getElementById("rangeInstInput").value;
+				alert(N);
+				alert(TotalAmount);
+
+				var downpayment = document.getElementById("downpayment").value;
+				alert(downpayment);
+
+			/*	var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
+				var TotalAmount = TotalAmount;
+				var DownpaymentAmount = (TypeInfo.Downpayment * TotalAmount) / 100.00;
+
+				var P = TotalAmount - DownpaymentAmount;
+				var N = document.getElementById("rangeInstInput").value;
+
+				var R = TypeInfo.Interest / (12.00 * 100.00);
+
+				var MonthlyAmount = (P * R * (math.Pow((1 + R), N))) /
+						((math.Pow((1 + R), N) - 1));
+
+				var MonthlyAmount = 10.00;
+				var DownpaymentAmount = 13.55;
+				document.getElementById("Total").innerHTML =
+					"You have chosen to pay" + TotalAmount + " in " + N + " installments of " +
+				MonthlyAmount + ", providing " + DownpaymentAmount+" as downpayment";
+			*/
+			}
+		}
+		</script>
 
 
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
-					<h2>Installments</h2>
-					<div class="range">
-						<input asp-for="InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="0" step="3" value="0" onchange="rangeInst.value=value">
-						<output id="rangeInst">0</output>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-3">
+						<h2>Installments</h2>
+						<div class="range">
+							<input asp-for="@Model.InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="100" step="3" value="0" onchange="InstallmentChange(value,@TotalAmount)" oninput="rangeInst.value = value">
+							<output id="rangeInst">0</output>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		
+			<p id="Total"></p>
 
-
-		<button class="btn btn-warning lc" type="submit">Submit</button>
-	</center>
+			<button class="btn btn-warning lc" type="submit">Submit</button>
+</center>
 </form>
 
 

@@ -27,6 +27,10 @@ namespace EzPay.WebApp.Controllers
             _ctx = ctx;
         }
 
+        [TempData]
+        public string SettlementStatusMessage { get; set; }
+
+
         [HttpPost]
         public async Task<IActionResult> Settle(LoginViewModel model)
         {
@@ -65,7 +69,35 @@ namespace EzPay.WebApp.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            return View(model);
+            Settlement settlement= new Settlement();
+            settlement.Id = Guid.NewGuid();
+            settlement.Date = DateTime.Now;
+            settlement.CitizenId = user.Id;
+            settlement.TypeId = model.SettlementTypeSelected;
+            settlement.Installments = model.InstallmentsSelected;
+            //settlement.Bills = model.BillsList;
+
+            _ctx.Add(settlement);
+            bool status=_ctx.SaveChanges();
+
+            foreach(var bill in model.BillsList)
+            {
+                var upd_bill = _ctx.GetSet<Bill>().SingleOrDefault(c => c.Id == bill.Id);
+                upd_bill.SettlementId = settlement.Id;
+                status = _ctx.SaveChanges();
+               
+            }
+            status = _ctx.SaveChanges();
+
+            
+
+            if(status==true)
+                SettlementStatusMessage = "Settlement has been requested.";
+            else
+                SettlementStatusMessage = "Settlement unsuccessful. Please try again.";
+
+            return RedirectToAction(nameof(CitizenController.Index), "Citizen");
+
         }
 
         [HttpGet]
