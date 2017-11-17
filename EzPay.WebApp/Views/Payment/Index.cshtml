@@ -44,7 +44,7 @@
 		<label for="cardno" class="sr-only">Card Number:</label>
 		<div class="col-xs-12 col-sm-6 col-sm-offset-3">
 			<div class="input-group">
-				<input type="number" value="" onsubmit="if(valid_credit_card(value)==false) error(" Not valid card number.")" class="form-control" name="cardno" id="cardno" placeholder="Enter your Card No." />
+				<input type="number" value="" min="13" maxlength="20" required class="form-control" name="cardno" id="cardno" placeholder="Enter your Card No." />
 				<span class="input-group-addon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 		<div class="col-xs-6 col-sm-2 mtop15-mob">
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
-				<input type="number" min="3" maxlength="4" class="form-control" name="cvv2" id="cvv2" placeholder="CVV" />
+				<input type="number" min="3" maxlength="4" required class="form-control" name="cvv2" id="cvv2" placeholder="CVV" />
 			</div>
 		</div>
 
@@ -83,7 +83,7 @@
 		</div>
 	</div>
 
-<script>
+@*<script>
 	function valid_credit_card(value) {
 		// accept only digits, dashes or spaces
 		if (/[^0-9-\s]+/.test(value)) return false;
@@ -106,5 +106,9 @@
 
 		return (nCheck % 10) == 0;
 	}
-</script>
+</script>*@
 </form>
+
+@section Scripts {
+	@await Html.PartialAsync("_ValidationScriptsPartial")
+}

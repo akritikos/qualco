@@ -87,6 +87,22 @@
 		margin: 0;
 	}
 
+.alert, .success, .error {
+	border: 1px solid black;
+	padding: 5px;
+	color: #333333;
+}
+
+.success {
+	border-color: #98efb4;
+}
+
+.error {
+	color: #ef675f;
+	border-color: #ef675f;
+	font-weight: bold;
+}
+
 
 	/******************
       Navbar
