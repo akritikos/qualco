@@ -23,6 +23,22 @@
 	padding: 10px 15px !important;
 }
 
+.jumbotron {
+	margin-top: -40px !important;
+}
+
+.img-wrapper {
+	margin-top: -50px;
+	width: 100%;
+}
+.img-style {
+	width: 100%;
+	margin-left: 0;
+	left: 0;
+	margin-right: 0;
+	right: 0;
+}
+
 .fixed-bottom {
 	bottom: 0;
 	margin-bottom: 0;
@@ -32,6 +48,10 @@
 .mp0 {
 	margin: 0;
 	padding: 0;
+}
+
+.mtop20 {
+	margin-top: 20px;
 }
 
 .mtop5c {
