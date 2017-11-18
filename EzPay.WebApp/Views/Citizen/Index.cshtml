@@ -122,10 +122,10 @@
 														<center>
 															@if (Model.BillsList[i].SettlementId != null)
 															{
-																<p class="text-warning">Settled</p>		}
+																<p class="text-warning">Settled <i class="fa fa-check-square-o" aria-hidden="true"></i></p>		}
 															else if (Model.BillsList[i].Payment != null)
 															{
-																<p class="text-success">Paid</p>		}
+																<p class="text-success">Paid <i class="fa fa-check-square-o" aria-hidden="true"></i></p>		}
 															else
 															{
 																<a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.BillsList[i].Id" class="btn btn-sm btn-primary">Pay</a>

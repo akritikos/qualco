@@ -94,14 +94,10 @@ div .lc ul {
 }
 
 .text-success {
-	border: 1px solid #00BA75;
-	border-radius: 4px;
 	color: #00BA75 !important;
 }
 
 .text-warning {
-	border: 1px solid #f47c3c;
-	border-radius: 4px;
 	color: #f47c3c !important;
 }
 
