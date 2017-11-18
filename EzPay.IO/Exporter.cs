@@ -3,101 +3,35 @@
 namespace EzPay.IO
 {
     using System.IO;
-    using System.Linq;
-
-    using EzPay.IO.Wrapper;
-    using EzPay.Model;
-    using EzPay.Model.Entities;
-
+    using EzPay.IO.Interfaces;
     using FileHelpers;
-
-    using Microsoft.EntityFrameworkCore;
-
+    
     /// <summary>
-    /// Exporter handing <see cref="Payment"/> and <see cref="Settlement"/> entities
+    /// Exporter handing generic EzPay entities
     /// </summary>
-    public class Exporter
+    public static class Exporter
     {
         /// <summary>
-        /// Header for Settlement export file
+        /// Saves an exportable IEnumerable to a flat file in the path provided
         /// </summary>
-        private const string SettlementHeader = "VAT; TIME;BILLS;DOWNPAYMENT;INSTALLMENTS;INTEREST";
-
-        /// <summary>
-        /// Header for Payment export file
-        /// </summary>
-        private const string PaymentHeader = "BILL_ID;TIME;AMOUNT;METHOD";
-
-        /// <summary>
-        /// FileHelperEngine managing <see cref="Payment"/> records
-        /// </summary>
-        private readonly FileHelperEngine<PaymentExport> paymentEngine;
-
-        /// <summary>
-        /// FileHelperEngine managing <see cref="Settlement"/> records
-        /// </summary>
-        private readonly FileHelperEngine<SettlementExport> settlementEngine;
-
-        /// <summary>
-        /// List containing <see cref="Payment"/> records to be exported
-        /// </summary>
-        private readonly List<PaymentExport> paymentExports;
-
-        /// <summary>
-        /// List containing <see cref="Settlement"/> records to be exported
-        /// </summary>
-        private readonly List<SettlementExport> settlementExports;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Exporter"/> class.
-        /// </summary>
-        public Exporter()
+        /// <typeparam name="T">Type being saved</typeparam>
+        /// <param name="entities">The IEnumerable to save</param>
+        /// <param name="filepath">Where to save the file</param>
+        /// <param name="headertext">Optional header for the resulting file</param>
+        public static void ExportRecords<T>(IEnumerable<T> entities, string filepath, string headertext = null)
+            where T : class, IEntityRecord
         {
-            paymentExports = new List<PaymentExport>();
-            settlementExports = new List<SettlementExport>();
-
-            paymentEngine = new FileHelperEngine<PaymentExport>() { HeaderText = PaymentHeader };
-            settlementEngine = new FileHelperEngine<SettlementExport>() { HeaderText = SettlementHeader };
-            using (var ctx = new EzPaySqlServerContext())
+            var engine = new FileHelperEngine<T>() { HeaderText = headertext ?? string.Empty };
+            var f = new FileInfo(filepath);
+            if (f.Exists)
             {
-                var payments = ctx.GetSet<Payment>().Include(c => c.Bill).ToList();
-                var settlements = ctx.GetSet<Settlement>()
-                    .Include(s => s.Bills)
-                    .Include(s => s.Type)
-                    .Include(s => s.Citizen)
-                    .ToList();
-                foreach (var payment in payments)
-                {
-                    paymentExports.Add(new PaymentExport(payment));
-                }
-                foreach (var settlement in settlements)
-                {
-                    settlementExports.Add(new SettlementExport(settlement));
-                }
+                f.Delete();
             }
-        }
 
-        /// <summary>
-        /// Writes a list of available <see cref="Payment"/> records
-        /// </summary>
-        /// <param name="path">The file to write data to</param>
-        public void ExportPayments(string path)
-        {
-            using (var fi = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                StreamWriter write = new StreamWriter(fi);
-                paymentEngine.WriteStream(write, paymentExports);
-                write.Flush();
-                write.Close();
-            }
-        }
-
-        public void ExportSettlements(string path)
-        {
-            using (var fi = new FileStream(path, FileMode.OpenOrCreate))
+            using (var fi = new FileStream(filepath, FileMode.CreateNew))
             {
                 var write = new StreamWriter(fi);
-                settlementEngine.WriteStream(write, settlementExports);
+                engine.WriteStream(write, entities);
                 write.Flush();
                 write.Close();
             }

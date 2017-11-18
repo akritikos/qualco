@@ -14,15 +14,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Model", "EzPay.Model\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.IO", "EzPay.IO\EzPay.IO.csproj", "{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.ModelUpdater", "EzPay.ModelUpdater\EzPay.ModelUpdater.csproj", "{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.WebApp", "EzPay.WebApp\EzPay.WebApp.csproj", "{332F63B5-0319-41EB-91CC-BD236133185D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Context.SqlServer", "EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj", "{3E223113-C981-4C3C-808E-33F4777778BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.EmailSender", "EzPay.EmailSender\EzPay.EmailSender.csproj", "{4B2F9016-9A92-4FEB-8479-36854E08B81C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.EmailSender", "EzPay.EmailSender\EzPay.EmailSender.csproj", "{4B2F9016-9A92-4FEB-8479-36854E08B81C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.Services", "EzPay.Services\EzPay.Services.csproj", "{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Services", "EzPay.Services\EzPay.Services.csproj", "{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Export", "EzPay.Export\EzPay.Export.csproj", "{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.Debug", "EzPay.Debug\EzPay.Debug.csproj", "{A436B692-C825-4A3E-8B27-93FBBF9C5036}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +40,6 @@ Global
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +56,14 @@ Global
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A436B692-C825-4A3E-8B27-93FBBF9C5036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A436B692-C825-4A3E-8B27-93FBBF9C5036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A436B692-C825-4A3E-8B27-93FBBF9C5036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A436B692-C825-4A3E-8B27-93FBBF9C5036}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

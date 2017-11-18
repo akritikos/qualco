@@ -6,13 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
     <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
-    <ProjectReference Include="..\EzPay.Model\EzPay.Model.csproj" />
+    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
   </ItemGroup>
 
 </Project>

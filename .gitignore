@@ -1,3 +1,6 @@
+## EzPay Specific
+EzPay.Debug/**/*.cs
+
 ## Visual Studio Code
 
 .vscode/*
