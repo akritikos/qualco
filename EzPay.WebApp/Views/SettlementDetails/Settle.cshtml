@@ -39,56 +39,65 @@
 
 @{var TotalAmount = Model.Bills.Sum(c => c.Amount);}
 
-<center><h2>Total amount @TotalAmount</h2></center>
-
 <form asp-controller="SettlementDetails" asp-action="SubmitSettlement" method="post">
-	@for (int i = 0; i < Model.BillsList.Count(); i++)
-	{
-		<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
-		<input asp-for="@Model.BillsList[i].Id" type="hidden" />
-		<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
-		<input asp-for="@Model.BillsList[i].Description" type="hidden" />
-		<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
-		<input asp-for="@Model.BillsList[i].IsSelected" type="hidden" />
-	}
+	<div class="container">
+		@for (int i = 0; i < Model.BillsList.Count(); i++)
+		{
+			<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
+			<input asp-for="@Model.BillsList[i].Id" type="hidden" />
+			<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
+			<input asp-for="@Model.BillsList[i].Description" type="hidden" />
+			<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
+			<input asp-for="@Model.BillsList[i].IsSelected" type="hidden" />
+		}
+		
+		<div class="form-group">
+			<label for="cardno" class="sr-only">Downpayment:</label>
+			<div class="col-xs-12 col-sm-3 col-sm-offset-3">
+				<div class="input-group">
+					<span class="input-group-addon">Choose downpayment :</span>
+					<select id="SettlementType" asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange()" class="form-control">
+						<option value="0">................</option>
+						@foreach (var type in Model.SettlementTypes)
+						{
+							var downpayment = Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2);
+							<option class="SettlementType" id="settlementtype" value="@type.Id" data-downpayment=@downpayment data-interest=@type.Interest data-maxinst=@type.MaxInstallments>@downpayment</option>
 
-
-	<center>
-		<div class="container">
-			<div class="dropdown">
-				Downpayment:
-				<select id="SettlementType" asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange()">
-					<option value="0">Choose downpayment</option>
-					@foreach (var type in Model.SettlementTypes)
-					{
-						var downpayment = Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2);
-						<option class="SettlementType" id="settlementtype" value=@type.Id data-downpayment=@downpayment data-interest=@type.Interest data-maxinst=@type.MaxInstallments>@downpayment</option>
-						
-					}
-				</select>
-			</div>
-		</div>
-	
-
-
-
-
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 col-sm-offset-3">
-						<h2 id="InstTitle">Installments</h2>
-						<div class="range">
-							<input asp-for="@Model.InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="0" step="3" value="0" onchange="InstallmentChange('@TotalAmount')" oninput="rangeInst.value = value">
-							<output id="rangeInst">0</output>
-						</div>
-					</div>
+						}
+					</select>
 				</div>
 			</div>
-		
-			<p id="Total"></p>
+			<div class="col-xs-12 col-sm-3">
+				<div class="input-group mtop15-mob">
+					<span class="input-group-addon">Total amount:</span>
+					<label class="form-control text-center">@TotalAmount</label>
+					<span class="input-group-addon"><i class="fa fa-eur" aria-hidden="true"></i></span>
+				</div>
+			</div>
+		</div>
 
-			<button class="btn btn-warning lc" type="submit" onclick="CheckValues()">Submit</button>
-</center>
+		<div class="card">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<center><h3 id="InstTitle" class="card-header">Installments</h3></center>
+				<div class="card-body">
+					<div class="range">
+						<input asp-for="@Model.InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="0" step="3" value="" onchange="InstallmentChange('@TotalAmount')" oninput="rangeInst.value = value">
+						<output id="rangeInst"></output>
+					</div>
+				</div>				
+				<div class="card-footer text-muted">
+					<span id="Total" class="text-success"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<button type="submit" onclick="CheckValues()" class="btn btn-warning col-xs-3 col-sm-3 lc">Settle</button>
+				<a asp-controller="Citizen" asp-action="Index" class="btn btn-default col-xs-3 col-sm-3 pull-right lc">Go Back</a>
+			</div>
+		</div>
+	</div>
 </form>
 
 <script>
@@ -100,7 +109,7 @@
 			if (sel.selectedIndex == '0') {
 				document.getElementById("rangeInstInput").max = "0";
 				document.getElementById("rangeInstInput").min = "0";
-				document.getElementById("InstTitle").innerText = "Instalments";
+				document.getElementById("InstTitle").innerText = "Installments";
 
 			}
 			else {
@@ -109,7 +118,7 @@
 
 				document.getElementById("rangeInstInput").max = data.maxinst;
 				document.getElementById("rangeInstInput").min = "3";
-				document.getElementById("InstTitle").innerText = "Instalments (3-" + data.maxinst + ")";
+				document.getElementById("InstTitle").innerText = "Installments (3-" + data.maxinst + ")";
 			}
 
 			document.getElementById("rangeInst").value = "0";
@@ -150,3 +159,7 @@
 	}
 		
 </script>
+
+@section Scripts {
+	@await Html.PartialAsync("_ValidationScriptsPartial")
+}
