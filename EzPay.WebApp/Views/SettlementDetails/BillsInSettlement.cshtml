@@ -1,35 +1,36 @@
 ﻿@model LoginViewModel
 
-<div class="container col-md-8 col-md-offset-2">
-	<table class="table row container" style="margin-top:60px">
-		@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
-		<thead>
-			<tr>
-				<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
-				<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
-				<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
-			</tr>
-		</thead>
-		<tbody>
-
-			@foreach (var item in Model.Bills)
-			{
-
+<div class="container mtop5c mtop15-mob">
+	<div class="col-sm-6 col-sm-offset-3">
+		<table class="table table-striped table-hover">
+			@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
+			<thead>
 				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.DueDate)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Description)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Amount)
-					</td>
+					<th>Due Date</th>
+					<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
+					<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
 				</tr>
-
-			}
-
-
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Bills)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.DueDate)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Description)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Amount) €
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		
+		<div class="pull-right">
+			<a asp-controller="Citizen" asp-action="Index" class="btn btn-default lc">Go Back</a>
+		</div>
+	</div>
 </div>
