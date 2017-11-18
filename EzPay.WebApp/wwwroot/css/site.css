@@ -76,7 +76,9 @@
 li {
 	list-style-type: none !important;
 }
-
+footer hr {
+	border-top: 1px solid #000000 !important;
+}
 div .lc ul {
 	padding-left: 0;
 }
