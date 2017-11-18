@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.EmailSender", "EzPay.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.Services", "EzPay.Services\EzPay.Services.csproj", "{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzPay.Export", "EzPay.Export\EzPay.Export.csproj", "{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7587C8D3-ECDF-4EAC-818B-B167DCD640FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C49B5F1-2A1E-4366-9D08-3557F75B67DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
