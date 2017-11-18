@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="11/16/2017 7:30:33 PM"
@@ -11,8 +11,8 @@
   DTS:LocaleID="1032"
   DTS:ObjectName="Azure_Import"
   DTS:PackageType="2"
-  DTS:VersionBuild="62"
-  DTS:VersionGUID="{36CB8ECB-852B-4BDA-8892-C7B61EDAAEE7}">
+  DTS:VersionBuild="64"
+  DTS:VersionGUID="{4B5AED45-01F1-4766-80D1-C56238DC97D2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAAVIWvWr2WkKtuRB8UmKG6AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAZH5nhwUGcS5qDqdQ7dswjAJe73mxxBoNu2SLuU7n99wAAAAAOgAAAAAIAACAAAADkq4fZFiEHQvr1LwB82gDSgmvcWH25+mQMDPRRBes49SAAAAC3oWwOZg6Vk4oq0GIGfRjb/40NfMkEYaGHClFMWBndqkAAAABZi50AeT8brqI8V6TyCwDnH8YXzsmoclax0QoOlLWr8YdGKTgrIJczm7cPSnM6+u57PwdLRdzyr3CU5Rpl6c5u</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAAVIWvWr2WkKtuRB8UmKG6AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADldtiJJsSWeI2QEfMQBIUO3zoCgIwfu/gFQ01DAmEhyQAAAAAOgAAAAAIAACAAAABwk0/PD1k1ssaqcf/dWtkoQCuiap9B1/tJbMS2QdOzwyAAAACHt4en41MU9y+SaaH0SQzNcmTqpjQbg+PtaRFXZEZYy0AAAAD+bjqp4DE1rxK+C1PffSUTwiZo8NfEFF1uEF351fBvw6LYvel1EieOgAjeLcgt/IV03m2E9WV0XaR4S7UDdO+I</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -301,12 +301,12 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear Staged Updates"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{FA518550-9348-4516-8B1D-E629CFC414CD}"
-          SQLTask:SqlStatementSource="DELETE FROM StagedCitizenUpdates" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="exec dbo.ClearStagedCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -318,7 +318,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear stale transactions"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -758,7 +758,7 @@
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -1782,13 +1782,13 @@
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Citizens]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [dbo].[Citizens]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Citizens]) [refTable]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [dbo].[Citizens]) [refTable]
 where [refTable].[ID] = ?</property>
                 <property
                   dataType="System.Int32"
@@ -1934,7 +1934,7 @@ where [refTable].[ID] = ?</property>
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -2207,7 +2207,7 @@ where [refTable].[ID] = ?</property>
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -2602,13 +2602,13 @@ where [refTable].[ID] = ?</property>
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[SettlementTypes]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [dbo].[SettlementTypes]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[SettlementTypes]) [refTable]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [dbo].[SettlementTypes]) [refTable]
 where [refTable].[ID] = ?</property>
                 <property
                   dataType="System.Int32"
@@ -2931,7 +2931,7 @@ where [refTable].[ID] = ?</property>
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -3085,12 +3085,12 @@ where [refTable].[ID] = ?</property>
       DTS:LocaleID="-1"
       DTS:ObjectName="Update Existing Citizens"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{FA518550-9348-4516-8B1D-E629CFC414CD}"
-          SQLTask:SqlStatementSource="UPDATE Citizens&#xA;SET          FirstName = StagedCitizenUpdates.FIRST_NAME, LastName = StagedCitizenUpdates.LAST_NAME, Email = StagedCitizenUpdates.EMAIL, PhoneNumber = StagedCitizenUpdates.PHONE, Address = StagedCitizenUpdates.ADDRESS, &#xA;                  County = StagedCitizenUpdates.COUNTY&#xA;FROM     Citizens INNER JOIN&#xA;                  StagedCitizenUpdates ON Citizens.ID = StagedCitizenUpdates.VAT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="exec dbo.StageCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -3155,7 +3155,7 @@ where [refTable].[ID] = ?</property>
         <NodeLayout
           Size="188,41.6"
           Id="Package\Clear stale transactions"
-          TopLeft="385.142863701801,195.152943913417" />
+          TopLeft="382.857149377161,193.317649770031" />
         <NodeLayout
           Size="132,41.6"
           Id="Package\Import Bills"
@@ -3234,26 +3234,26 @@ where [refTable].[ID] = ?</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="90.4190494972023,42.21176588131"
+              EndConnector="88.1333351725626,40.3764717379236"
               Start="0,0"
-              End="90.4190494972023,34.71176588131">
+              End="88.1333351725626,32.8764717379236">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,13.1170646968248" />
+                    End="0,12.3728445029011" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,13.1170646968248"
-                    Point2="0,17.1170646968248"
-                    Point3="4,17.1170646968248" />
+                    Point1="0,12.3728445029011"
+                    Point2="0,16.3728445029011"
+                    Point3="4,16.3728445029011" />
                   <mssgle:LineSegment
-                    End="86.4190494972023,17.1170646968248" />
+                    End="84.1333351725626,16.3728445029011" />
                   <mssgle:CubicBezierSegment
-                    Point1="86.4190494972023,17.1170646968248"
-                    Point2="90.4190494972023,17.1170646968248"
-                    Point3="90.4190494972023,21.1170646968248" />
+                    Point1="84.1333351725626,16.3728445029011"
+                    Point2="88.1333351725626,16.3728445029011"
+                    Point3="88.1333351725626,20.3728445029011" />
                   <mssgle:LineSegment
-                    End="90.4190494972023,34.71176588131" />
+                    End="88.1333351725626,32.8764717379236" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3286,18 +3286,18 @@ where [refTable].[ID] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="480.00000681196,236.752943913417">
+          TopLeft="478.85714964964,234.917649770031">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,44.0470600246968"
+              EndConnector="0,45.8823541680834"
               Start="0,0"
-              End="0,36.5470600246968">
+              End="0,38.3823541680834">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,36.5470600246968" />
+                    End="0,38.3823541680834" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3412,28 +3412,6 @@ where [refTable].[ID] = ?</property>
           Id="Package\Import new Citizens\Filter Citizens"
           TopLeft="54.8571437913544,175.105884472144" />
         <EdgeLayout
-          Id="Package\Import new Citizens.Paths[Data Conversion Output]"
-          TopLeft="124.000000851495,140.705883742864">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34.4000007292803"
-              Start="0,0"
-              End="0,26.9000007292803">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.9000007292803" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Import new Citizens.Paths[Lookup No Match Output]"
           TopLeft="127.314286560915,216.705884472144">
           <EdgeLayout.Curve>
@@ -3500,7 +3478,33 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import new Citizens.Paths[Data Conversion Output]"
+          TopLeft="124.000000851495,140.705883742864">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.4000007292803"
+              Start="0,0"
+              End="0,26.9000007292803">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.9000007292803" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3595,7 +3599,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3641,7 +3647,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
