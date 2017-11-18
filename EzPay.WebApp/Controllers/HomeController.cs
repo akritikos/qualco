@@ -6,14 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using EzPay.WebApp.Models;
 using System.Diagnostics;
 using EzPay.EmailSender;
+using EzPay.Model;
+using EzPay.Model.Entities;
 
 namespace EzPay.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEzPayRepository _ctx;
+
+        public HomeController(IEzPayRepository ctx)
+        {
+            _ctx = ctx;
+        }
+
         public IActionResult Index()
         {
             ViewBag.Title = "Home";
+
+            if(_ctx.GetSet<Bill>().Any()==false)
+                return RedirectToAction(nameof(HomeController.Maintenance), "Home");
+            else
+                return View();
+        }
+
+        public IActionResult Maintenance()
+        {
+            ViewBag.Title = "We are Sorry...";
+            ViewBag.Message = "We are currenty not available due to maintenance.";
 
             return View();
         }
