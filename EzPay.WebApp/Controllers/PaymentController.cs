@@ -54,9 +54,12 @@ namespace EzPay.WebApp.Controllers
             payment.Method = "CREDIT";
 
             _ctx.Add(payment);
-            _ctx.SaveChanges();
+            bool status= _ctx.SaveChanges();
 
-           BillStatusMessage = "Your payment is complete.";
+           if (status==true)
+                BillStatusMessage = "Your payment is complete.";
+           else
+                BillStatusMessage = "Your payment is unsuccessful.Please try again.";
 
             return RedirectToAction(nameof(CitizenController.Index), "Citizen");
 
