@@ -1,2 +1,34 @@
-﻿<center><h2>@ViewBag.Title</h2></center>
-<h3>@ViewBag.Message</h3>
+﻿@model EzPay.WebApp.Models.ContactViewModel
+
+<center><h2>@ViewBag.Title</h2></center>
+
+<center><h4>We are here for you! Please provide your comments or contact us for any issue:</h4></center>
+
+	<div class="row">
+		<div class="col-xs-12 col-md-4 col-md-offset-4">
+			<form asp-action="SendForm" method="post">
+				<div class="form-group">
+					<label asp-for="@Model.UserId">User ID (VAT no)</label>
+					<input asp-for="@Model.UserId" id="userid" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="@Model.Email">Email</label>
+					<input asp-for="@Model.Email" id="email" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="@Model.Subject">Subject</label>
+					<input asp-for="@Model.Subject" id="subject" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="@Model.Message">Message</label>
+					<textarea asp-for="@Model.Message" id="message" rows="5" cols="50" class="form-control"></textarea>
+				</div>
+				<button type="submit" class="btn btn-default">Submit contact form</button>
+			</form>
+		</div>
+	</div>
+
+
+
+
+

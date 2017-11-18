@@ -14,16 +14,6 @@
 		<div class="collapse navbar-collapse" id="cg-nav-collapse">
 			<ul class="nav navbar-nav">
 				<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-				<li class="dropdown">
-					<a asp-area="" asp-controller="Home" asp-action="Index" data-toggle="dropdown">News</a>
-					<ul class="dropdown-menu" role="menu" style="margin-top: 1px; border:none; background-color: #393a35;">
-						<li><a href="#">Local</a></li>
-						<li><a href="#">Education</a></li>
-						<li><a href="#">Medical</a></li>
-						<li><a href="#">Global</a></li>
-						<li><a href="#">Economy</a></li>
-					</ul>
-				</li>
 				<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 			</ul>
 			@await Html.PartialAsync("_LoginPartial")
