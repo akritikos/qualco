@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;INITIAL;NETCOREAPP2_0</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SqlServer2016DtsPackageForCore2.0" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
+    <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
+    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
+  </ItemGroup>
+
+</Project>

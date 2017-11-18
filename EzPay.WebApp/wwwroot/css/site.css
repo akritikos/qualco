@@ -97,6 +97,10 @@ div .lc ul {
 	color: #00BA75 !important;
 }
 
+.text-warning {
+	color: #f47c3c !important;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
 	-webkit-appearance: none;

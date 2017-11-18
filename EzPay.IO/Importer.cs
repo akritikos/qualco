@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace EzPay.IO
 {
+    using System.IO;
+
     using EzPay.IO.ImportWrappers;
     using EzPay.Model.Entities;
 
@@ -21,24 +23,24 @@ namespace EzPay.IO
         /// <summary>
         /// Location of file to be imported
         /// </summary>
-        private readonly string file;
+        private readonly FileInfo file;
 
         /// <summary>
         /// Dictionary to be returned
         /// </summary>
-        private Dictionary<Citizen, List<Bill>> data;
-        
+        private readonly Dictionary<Citizen, List<Bill>> data;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Importer"/> class.
         /// </summary>
-        /// <param name="filepath">
+        /// <param name="importFile">
         /// The complete filepath of the CSV to be imported
         /// </param>
-        public Importer(string filepath = @"C:\CitizenDebts_1M_3.csv")
+        public Importer(FileInfo importFile)
         {
             data = data ?? new Dictionary<Citizen, List<Bill>>();
             engine = new FileHelperAsyncEngine<DebtRecord>();
-            file = filepath;
+            file = importFile;
         }
 
         /// <summary>
@@ -47,23 +49,28 @@ namespace EzPay.IO
         /// <returns>A dictionary with a Citizen index and a List of their Bills</returns>
         public Dictionary<Citizen, List<Bill>> GetResults()
         {
-            if (data.Count == 0)
+            if (data.Count != 0)
             {
-                using (engine.BeginReadFile(file))
+                return data;
+            }
+
+            engine.ErrorMode = ErrorMode.SaveAndContinue;
+            using (engine.BeginReadFile(file.FullName))
+            {
+                foreach (var debt in engine)
                 {
-                    foreach (var debt in engine)
+                    var c = debt.ParseCitizen();
+                    var b = debt.ParseBill();
+                    if (!data.ContainsKey(c))
                     {
-                        var c = debt.ParseCitizen();
-                        var b = debt.ParseBill();
-                        if (!data.ContainsKey(c))
-                        {
-                            data.Add(c,new List<Bill>());
-                        }
-                        data[c].Add(b);
+                        data.Add(c, new List<Bill>());
                     }
+
+                    data[c].Add(b);
                 }
             }
 
+            PrintErrors();
             return data;
         }
 
@@ -72,6 +79,29 @@ namespace EzPay.IO
         {
             ((IDisposable)engine)?.Dispose();
             data.Clear();
+        }
+
+        /// <summary>
+        /// Gets errors that occured while parsing
+        /// </summary>
+        /// <returns><see cref="ErrorInfo"/> array</returns>
+        public ErrorInfo[] GetErrors() 
+            => engine.ErrorManager.HasErrors ? 
+                engine.ErrorManager.Errors 
+                : new ErrorInfo[0];
+
+        /// <summary>
+        /// Outputs errors to console
+        /// </summary>
+        private void PrintErrors()
+        {
+            foreach (var error in engine.ErrorManager.Errors)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Error on Line number: {error.LineNumber}");
+                Console.WriteLine($"\tErroneous record: {error.RecordString}");
+                Console.WriteLine($"\tError Info: {error.ExceptionInfo}");
+            }
         }
     }
 }

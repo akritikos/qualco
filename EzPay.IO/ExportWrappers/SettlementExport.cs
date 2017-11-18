@@ -40,17 +40,17 @@ namespace EzPay.IO.ExportWrappers
         public SettlementExport(Settlement s)
         {
             var sb = new StringBuilder();
-            this.Vat = s.Bills.First().Citizen.Id;
-            this.Time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
+            Vat = s.Bills.First().Citizen.Id;
+            Time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
             foreach (var bill in s.Bills)
             {
                 sb.Append($"{{{bill.Id}}}");
             }
 
-            this.Bills = sb.ToString();
-            this.Downpayment = s.Type.Downpayment;
-            this.Installments = s.Installments;
-            this.Interest = s.Type.Interest;
+            Bills = sb.ToString();
+            Downpayment = s.Type.Downpayment;
+            Installments = s.Installments;
+            Interest = s.Type.Interest;
         }
 
         public SettlementExport()
