@@ -1,7 +1,7 @@
 ﻿@model EzPay.WebApp.Models.LoginViewModel
 
 @{
-	ViewData["Title"] = "Welcome";
+	ViewData["Title"] = "Profile";
 }
 
 <div class="container">
@@ -31,7 +31,6 @@
 				<!-- Profile Buttons -->
 				<div class="profile-buttons">
 					<a asp-controller="Citizen" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
-					<button type="button" class="btn btn-default btn-sm">Change Email</button>
 				</div>
 				<p>@Model.StatusMessage</p>
 				<!-- Profile Buttons -->
@@ -108,7 +107,7 @@
 
 												<div class="form-group">
 													<div class="col-sm-3 col-xs-3">
-														<label asp-for="@Model.BillsList[i].DueDate">@Model.BillsList[i].DueDate</label>
+														<label asp-for="@Model.BillsList[i].DueDate">@Model.BillsList[i].DueDate.ToString("dd-MM-yyyy")</label>
 														<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
 													</div>
 													<div class="col-sm-3 col-xs-3">
@@ -123,10 +122,10 @@
 														<center>
 															@if (Model.BillsList[i].SettlementId != null)
 															{
-																<p>Settlement Requested</p>		}
+																<p class="text-warning">Settled <i class="fa fa-check-square-o" aria-hidden="true"></i></p>		}
 															else if (Model.BillsList[i].Payment != null)
 															{
-																<p class="text-success">Paid</p>		}
+																<p class="text-success">Paid <i class="fa fa-check-square-o" aria-hidden="true"></i></p>		}
 															else
 															{
 																<a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.BillsList[i].Id" class="btn btn-sm btn-primary">Pay</a>
@@ -150,64 +149,74 @@
 										<button class="btn btn-warning lc" type="submit">Settle</button>
 									</div>
 								</form>
-
 						</div>
 
 						<div class="tab-pane fade" id="tab3">
-							<p>
-								You have already asked for the below settlements:
-							</p>
+							<center>
+								<h4>
+									- You have already asked for the below settlements -
+								</h4>
+							</center>
+							<div class="well well-settle">
+								<div class="container">
+									<div class="col-sm-3 col-xs-3">
+										<h5 class="wf">Date & Time</h5>
+									</div>
+									<div class="col-sm-2 col-xs-2">
+										<h5 class="wf">Total Amount</h5>
+									</div>
+									<div class="col-sm-2 col-xs-2">
+										<h5 class="wf">Downpayment</h5>
+									</div>
+									<div class="col-sm-2 col-xs-2">
+										<h5 class="wf">Installments</h5>
+									</div>
+									<div class="col-sm-2 col-xs-2">
+										<h5 class="wf">Monthly Amount</h5>
+									</div>
+									<div class="col-sm-1 col-xs-1">
+										<h5 class="wf text-left">Details</h5>
+									</div>
+								</div>
+							</div>
 							@{ var SettlementsDetail = Model.Settlements.FirstOrDefault(); }
-							<table class="table">
-								<thead>
-									<tr>
-										<th>@Html.DisplayNameFor(model => SettlementsDetail.Date)</th>
-										<th>Total Amount</th>
-										<th>Downpayment</th>
-										<th>@Html.DisplayNameFor(model => SettlementsDetail.Installments)</th>
-										<th>Monthly Amount</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
+							<div class="container">								
+								@foreach (var item in Model.Settlements)
+								{
+									var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
+									decimal TotalAmount = item.Bills.Sum(b => b.Amount);
+									decimal DownpaymentAmount = Math.Round((TypeInfo.Downpayment * TotalAmount) / (decimal)100, 2);
 
-									@foreach (var item in Model.Settlements)
-									{
-										var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
-										decimal TotalAmount = item.Bills.Sum(b => b.Amount);
-										decimal DownpaymentAmount = Math.Round((TypeInfo.Downpayment * TotalAmount) / (decimal)100,2);
+									decimal P = TotalAmount - DownpaymentAmount;
+									int N = item.Installments;
 
-										decimal P = TotalAmount - DownpaymentAmount;
-										int N = item.Installments;
+									decimal R = TypeInfo.Interest / (decimal)(12 * 100);
 
-										decimal R = TypeInfo.Interest / (decimal)(12 * 100);
+									decimal MonthlyAmount = Math.Round((P * R * ((decimal)Math.Pow((double)(1 + R), (double)N))) / ((decimal)(Math.Pow((double)(1 + R), (double)N) - 1)), 2);
 
-										decimal MonthlyAmount = Math.Round((P * R * ((decimal)Math.Pow((double)(1 + R), (double)N))) / ((decimal)(Math.Pow((double)(1 + R), (double)N) - 1)),2);
-										
-										<tr>
-											<td>
-												@Html.DisplayFor(modelItem => item.Date)
-											</td>
-											<td>
-												@TotalAmount
-											</td>
-											<td>
-												@DownpaymentAmount
-											</td>
-											<td>
-												@Html.DisplayFor(modelItem => item.Installments)
-											</td>
-											<td>
-												@MonthlyAmount
-											</td>
-											<td>
-												<a asp-controller="SettlementDetails" asp-action="BillsInSettlement" asp-route-id="@item.Id">Show settled bills.</a>
-											</td>
-										</tr>
-
-									}
-								</tbody>
-							</table>
+									<div class=" col-sm-12 col-xs-12 plr0">
+										<div class="col-sm-3 col-xs-3">
+											<label>@Html.DisplayFor(modelItem => item.Date)</label>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<label>@TotalAmount €</label>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<label>@DownpaymentAmount €</label>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<label>@Html.DisplayFor(modelItem => item.Installments)</label>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<label>@MonthlyAmount €</label>
+										</div>
+										<div class="col-sm-1 col-xs-1">
+											<a asp-controller="SettlementDetails" asp-action="BillsInSettlement" asp-route-id="@item.Id" class="btn btn-sm btn-primary">More</a>
+										</div>
+									</div>
+									<br />
+								}		
+							</div>
 						</div>
 					</div>
 				</div>

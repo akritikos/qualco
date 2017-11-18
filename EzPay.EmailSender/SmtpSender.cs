@@ -16,11 +16,12 @@ namespace EzPay.EmailSender
 
         private MailMessage msg;
 
-        public SmtpSender(string username, string password, int port = 587, bool ssl = false)
+        public SmtpSender(string username, string password, string host, int port = 587, bool ssl = false)
         {
             smtp = new SmtpClient()
                             {
                                 EnableSsl = ssl,
+                                Host = host,
                                 UseDefaultCredentials = false,
                                 Credentials = new NetworkCredential(username, password),
                                 Port = port,
