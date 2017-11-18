@@ -1,5 +1,6 @@
 ## EzPay Specific
 EzPay.Debug/**/*.cs
+!EzPay.Debug/Program.cs
 
 ## Visual Studio Code
 
