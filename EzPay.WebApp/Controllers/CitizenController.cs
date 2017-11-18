@@ -48,6 +48,13 @@ namespace EzPay.WebApp.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            var change_pwd =await  _userManager.GetLockoutEnabledAsync(user);//users imported with LockoutEnabled=true
+            if (change_pwd==true)
+            {
+                return RedirectToAction(nameof(CitizenController.ChangePassword), "Citizen");
+
+            }
+
             var model = new LoginViewModel
             {
                 CitizenId = user.Id,
@@ -177,7 +184,7 @@ namespace EzPay.WebApp.Controllers
                 AddErrors(changePasswordResult);
                 return View(model);
             }
-
+            await _userManager.SetLockoutEnabledAsync(user, false);
             await _signInManager.SignInAsync(user, isPersistent: false);
             CitizenStatusMessage = "Your password has been changed.";
 
