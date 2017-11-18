@@ -8,7 +8,6 @@
 				<th>@Html.DisplayNameFor(model => BillsDetail.DueDate)</th>
 				<th>@Html.DisplayNameFor(model => BillsDetail.Description)</th>
 				<th>@Html.DisplayNameFor(model => BillsDetail.Amount)</th>
-				<th>Status</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,12 +24,6 @@
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.Amount)
-					</td>
-					<td>
-						@if (item.SettlementId != null)
-						{
-							<p>Settled</p>
-						}
 					</td>
 				</tr>
 

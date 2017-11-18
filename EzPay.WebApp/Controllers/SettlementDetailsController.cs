@@ -69,7 +69,13 @@ namespace EzPay.WebApp.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            Settlement settlement= new Settlement();
+            if(_ctx.GetSet<SettlementType>().Where(c=>c.Id == model.SettlementTypeSelected).Count()!=1 ||
+                model.InstallmentsSelected==0)
+            {
+                throw new ApplicationException($"Incorrect settlement type.");
+            }
+
+            Settlement settlement = new Settlement();
             settlement.Id = Guid.NewGuid();
             settlement.Date = DateTime.Now;
             settlement.CitizenId = user.Id;
@@ -82,12 +88,14 @@ namespace EzPay.WebApp.Controllers
 
             foreach(var bill in model.BillsList)
             {
-                var upd_bill = _ctx.GetSet<Bill>().SingleOrDefault(c => c.Id == bill.Id);
-                upd_bill.SettlementId = settlement.Id;
-                status = _ctx.SaveChanges();
+                if (bill.IsSelected == true)
+                {
+                    var upd_bill = _ctx.GetSet<Bill>().SingleOrDefault(c => c.Id == bill.Id);
+                    upd_bill.SettlementId = settlement.Id;
+                    status = _ctx.SaveChanges();
+                }
                
             }
-            status = _ctx.SaveChanges();
 
             
 

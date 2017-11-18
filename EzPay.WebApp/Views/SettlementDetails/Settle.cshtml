@@ -42,25 +42,27 @@
 <center><h2>Total amount @TotalAmount</h2></center>
 
 <form asp-controller="SettlementDetails" asp-action="SubmitSettlement" method="post">
-	@for (int i = 0; i < Model.Bills.Count(); i++)
+	@for (int i = 0; i < Model.BillsList.Count(); i++)
 	{
 		<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
 		<input asp-for="@Model.BillsList[i].Id" type="hidden" />
 		<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
 		<input asp-for="@Model.BillsList[i].Description" type="hidden" />
 		<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
+		<input asp-for="@Model.BillsList[i].IsSelected" type="hidden" />
 	}
+
 
 	<center>
 		<div class="container">
 			<div class="dropdown">
 				Downpayment:
-				<select asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange(value,59)">
+				<select id="SettlementType" asp-for="@Model.SettlementTypeSelected" onchange="DownpaymentChange()">
 					<option value="0">Choose downpayment</option>
 					@foreach (var type in Model.SettlementTypes)
 					{
-						<option value=@type.Id>@(Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2)) </option>
-						<option value=@(Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2)) type="hidden" id="downpayment"/>
+						var downpayment = Decimal.Round(((type.Downpayment * TotalAmount) / (decimal)100.00), 2);
+						<option class="SettlementType" id="settlementtype" value=@type.Id data-downpayment=@downpayment data-interest=@type.Interest data-maxinst=@type.MaxInstallments>@downpayment</option>
 						
 					}
 				</select>
@@ -69,62 +71,14 @@
 	
 
 
-	<script>
-		function DownpaymentChange(value,maxinst) {
-			//var type = 'Model.SettlementTypes.Where(c => c.Id == value)';
-			//var maxInst = type.MaxInstallments.toString();
-
-			var newmax = 56;
-
-			document.getElementById("rangeInstInput").max = maxinst;
-			document.getElementById("rangeInstInput").min = "3";
-			document.getElementById("rangeInst").value = "0";
-			document.getElementById("rangeInstInput").value = "0";
-
-		}
-
-		function InstallmentChange(value, TotalAmount)
-		{
-
-			if (document.getElementById("rangeInstInput").value != "0")
-			{
-				
-				var N = document.getElementById("rangeInstInput").value;
-				alert(N);
-				alert(TotalAmount);
-
-				var downpayment = document.getElementById("downpayment").value;
-				alert(downpayment);
-
-			/*	var TypeInfo = Model.SettlementTypes.Where(c => c.Id == item.TypeId).FirstOrDefault();
-				var TotalAmount = TotalAmount;
-				var DownpaymentAmount = (TypeInfo.Downpayment * TotalAmount) / 100.00;
-
-				var P = TotalAmount - DownpaymentAmount;
-				var N = document.getElementById("rangeInstInput").value;
-
-				var R = TypeInfo.Interest / (12.00 * 100.00);
-
-				var MonthlyAmount = (P * R * (math.Pow((1 + R), N))) /
-						((math.Pow((1 + R), N) - 1));
-
-				var MonthlyAmount = 10.00;
-				var DownpaymentAmount = 13.55;
-				document.getElementById("Total").innerHTML =
-					"You have chosen to pay" + TotalAmount + " in " + N + " installments of " +
-				MonthlyAmount + ", providing " + DownpaymentAmount+" as downpayment";
-			*/
-			}
-		}
-		</script>
 
 
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
-						<h2>Installments</h2>
+						<h2 id="InstTitle">Installments</h2>
 						<div class="range">
-							<input asp-for="@Model.InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="100" step="3" value="0" onchange="InstallmentChange(value,@TotalAmount)" oninput="rangeInst.value = value">
+							<input asp-for="@Model.InstallmentsSelected" id="rangeInstInput" type="range" min="0" max="0" step="3" value="0" onchange="InstallmentChange('@TotalAmount')" oninput="rangeInst.value = value">
 							<output id="rangeInst">0</output>
 						</div>
 					</div>
@@ -133,9 +87,68 @@
 		
 			<p id="Total"></p>
 
-			<button class="btn btn-warning lc" type="submit">Submit</button>
+			<button class="btn btn-warning lc" type="submit" onclick="CheckValues()">Submit</button>
 </center>
 </form>
 
+<script>
+	function DownpaymentChange()
+	{
 
+			var sel = document.getElementById('SettlementType');
 
+			if (sel.selectedIndex == '0') {
+				document.getElementById("rangeInstInput").max = "0";
+				document.getElementById("rangeInstInput").min = "0";
+				document.getElementById("InstTitle").innerText = "Instalments";
+
+			}
+			else {
+				var selected = sel.options[sel.selectedIndex];
+				var data = selected.dataset;
+
+				document.getElementById("rangeInstInput").max = data.maxinst;
+				document.getElementById("rangeInstInput").min = "3";
+				document.getElementById("InstTitle").innerText = "Instalments (3-" + data.maxinst + ")";
+			}
+
+			document.getElementById("rangeInst").value = "0";
+			document.getElementById("rangeInstInput").value = "0";
+			document.getElementById("Total").innerHTML = "";
+	}
+
+	function InstallmentChange(TotalAmount)
+	{
+		var sel = document.getElementById('SettlementType');
+		var selected = sel.options[sel.selectedIndex];
+		var TypeInfo = selected.dataset;
+
+		if (document.getElementById("rangeInstInput").value != "0") {
+				var N = document.getElementById("rangeInstInput").value;
+				var TotalAmountDecimal = parseFloat(TotalAmount.replace(',', '.')).toFixed(2);
+				var DownpaymentDecimal = parseFloat(TypeInfo.downpayment.replace(',', '.')).toFixed(2)
+				var InterestDecimal = parseFloat(TypeInfo.interest.replace(',', '.')).toFixed(2)
+				var P = (TotalAmountDecimal - DownpaymentDecimal).toFixed(2);
+				var R = InterestDecimal / (12.00 * 100.00);
+
+				var MonthlyAmount = (P * R * (Math.pow((1 + R), N))) / ((Math.pow((1 + R), N) - 1)).toFixed(2);
+
+				alert(MonthlyAmount);
+
+				document.getElementById("Total").innerHTML =
+					"<h5>You have chosen to pay " + TotalAmountDecimal + "€ in " + N + " installments of " +
+					MonthlyAmount + "€ , providing " + DownpaymentDecimal + "€ as downpayment</h5>";
+
+		}
+	}
+
+	function CheckValues()
+	{
+			if (document.getElementById('SettlementType').selectedIndex == '0')
+				alert("Please select Downpayment.");
+
+			if (document.getElementById("rangeInstInput").value == "0")
+				alert("Please select Installments.");
+	}
+		
+</script>
