@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
+    <ProjectReference Include="..\EzPay.EmailSender\EzPay.EmailSender.csproj" />
     <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
     <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
   </ItemGroup>
