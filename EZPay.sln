@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Model", "EzPay.Model\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.IO", "EzPay.IO\EzPay.IO.csproj", "{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.ModelUpdater", "EzPay.ModelUpdater\EzPay.ModelUpdater.csproj", "{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.WebApp", "EzPay.WebApp\EzPay.WebApp.csproj", "{332F63B5-0319-41EB-91CC-BD236133185D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzPay.Context.SqlServer", "EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj", "{3E223113-C981-4C3C-808E-33F4777778BB}"
@@ -40,10 +38,6 @@ Global
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F810BD8D-ED0C-48BF-8CAA-ECBDDC53B457}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A14758FA-DE0F-49F4-91AF-E206D1B10F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332F63B5-0319-41EB-91CC-BD236133185D}.Release|Any CPU.ActiveCfg = Release|Any CPU
