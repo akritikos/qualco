@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EzPay.IO
 {
-    using System.IO;
-
-    using EzPay.IO.Wrapper;
-    using EzPay.Model.Comparer;
+    using EzPay.IO.ImportWrappers;
     using EzPay.Model.Entities;
 
     using FileHelpers;
