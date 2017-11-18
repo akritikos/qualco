@@ -1,4 +1,4 @@
-﻿namespace EzPay.Model
+namespace EzPay.Model
 {
     using System;
     using System.Collections.Generic;
@@ -24,10 +24,32 @@
         IEzPayRepository
     {
         /// <inheritdoc />
-        public EzPaySqlServerContext(DbContextOptions options) : base(options) => Database.Migrate();
+        public EzPaySqlServerContext(DbContextOptions options)
+            : base(options)
+        {
+        }
 
         /// <inheritdoc />
-        public EzPaySqlServerContext() => Database.Migrate();
+        public EzPaySqlServerContext()
+        {
+        }
+
+        /// <inheritdoc />
+        public bool CheckContext()
+        {
+            var isValid = false;
+            try
+            {
+                Database.Migrate();
+                isValid = true;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            return isValid;
+        }
 
         #region IEzPayRepository
         /// <inheritdoc />
@@ -92,9 +114,9 @@
         public void Remove(IEntity entity) => base.Remove(entity);
 
         /// <inheritdoc />
-        public void RemoveRange(ICollection<IEntity> entities) => base.RemoveRange(entities);
-
+        public void RemoveRange(IEnumerable<IEntity> entities) => base.RemoveRange(entities);
         #endregion
+
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

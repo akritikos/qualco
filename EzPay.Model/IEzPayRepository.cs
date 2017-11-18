@@ -61,6 +61,12 @@
         /// Deletes and stops tracking a collection of entities
         /// </summary>
         /// <param name="entities">The entities to be removed</param>
-        void RemoveRange(ICollection<IEntity> entities);
+        void RemoveRange(IEnumerable<IEntity> entities);
+
+        /// <summary>
+        /// Checks if repositry is up to date and contactable
+        /// </summary>
+        /// <returns>Is repository healthy</returns>
+        bool CheckContext();
     }
 }
