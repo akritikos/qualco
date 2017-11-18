@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
+    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
+  </ItemGroup>
+
 </Project>
