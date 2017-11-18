@@ -28,7 +28,7 @@ namespace EzPay.WebApp.Controllers
         }
 
         [TempData]
-        public string CitizenStatusMessage { get; set; }
+        public string BillStatusMessage { get; set; }
 
         public async Task<IActionResult> Index(Guid id)
         {
@@ -54,12 +54,25 @@ namespace EzPay.WebApp.Controllers
             payment.Method = "CREDIT";
 
             _ctx.Add(payment);
-            _ctx.SaveChanges();
+            bool status= _ctx.SaveChanges();
 
-           //CitizenStatusMessage = "Your payment is complete.";
+           if (status==true)
+                BillStatusMessage = "Your payment is complete.";
+           else
+                BillStatusMessage = "Your payment is unsuccessful.Please try again.";
 
             return RedirectToAction(nameof(CitizenController.Index), "Citizen");
 
         }
+
+        #region Payment Helpers
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+        #endregion
     }
 }

@@ -57,7 +57,7 @@
         public Settlement Settlement { get; set; }
 
         [NotMapped]
-        public bool ToSettle { get; set; }
+        public bool IsSelected { get; set; }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
