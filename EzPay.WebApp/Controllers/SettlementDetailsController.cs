@@ -27,8 +27,41 @@ namespace EzPay.WebApp.Controllers
             _ctx = ctx;
         }
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(Settlement settlement)
+        [TempData]
+        public string SettlementStatusMessage { get; set; }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Settle(LoginViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            //var model = new LoginViewModel
+            //{
+            //    CitizenId = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Address = user.Address,
+            //    County = user.County,
+            //    Email = user.Email,
+            //    PhoneNumber = user.PhoneNumber,
+            //    Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
+            //        .Where(c => c.IsSelected == true)
+            //        .Include(b => b.Settlement)
+            //        .Include(b => b.Payment),
+            //    Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
+            //        .Include(b => b.Bills),
+            model.SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable();
+            //};
+            model.Bills = model.BillsList.Where(b => b.IsSelected == true);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitSettlement(LoginViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -36,27 +69,43 @@ namespace EzPay.WebApp.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new LoginViewModel
+            if(_ctx.GetSet<SettlementType>().Where(c=>c.Id == model.SettlementTypeSelected).Count()!=1 ||
+                model.InstallmentsSelected==0)
             {
-                CitizenId = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Address = user.Address,
-                County = user.County,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
-                    .Include(b => b.Settlement)
-                    .Include(b => b.Payment),
-                Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
-                    .Include(b => b.Bills),
-                SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
-                newSettlement = settlement
-            };
+                throw new ApplicationException($"Incorrect settlement type.");
+            }
 
+            Settlement settlement = new Settlement();
+            settlement.Id = Guid.NewGuid();
+            settlement.Date = DateTime.Now;
+            settlement.CitizenId = user.Id;
+            settlement.TypeId = model.SettlementTypeSelected;
+            settlement.Installments = model.InstallmentsSelected;
+            //settlement.Bills = model.BillsList;
 
-            model.newSettlement.Id = Guid.NewGuid();
-            return View(model);
+            _ctx.Add(settlement);
+            bool status=_ctx.SaveChanges();
+
+            foreach(var bill in model.BillsList)
+            {
+                if (bill.IsSelected == true)
+                {
+                    var upd_bill = _ctx.GetSet<Bill>().SingleOrDefault(c => c.Id == bill.Id);
+                    upd_bill.SettlementId = settlement.Id;
+                    status = _ctx.SaveChanges();
+                }
+               
+            }
+
+            
+
+            if(status==true)
+                SettlementStatusMessage = "Settlement has been requested.";
+            else
+                SettlementStatusMessage = "Settlement unsuccessful. Please try again.";
+
+            return RedirectToAction(nameof(CitizenController.Index), "Citizen");
+
         }
 
         [HttpGet]
