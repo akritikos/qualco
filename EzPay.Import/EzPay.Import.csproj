@@ -12,15 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
-    <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
-    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
+    <PackageReference Include="SqlServer2016DtsPackageForCore2.0" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.SqlServer.ManagedDTS">
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.SqlServer.ManagedDTS\v4.0_14.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.ManagedDTS.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
+    <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
+    <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
   </ItemGroup>
 
 </Project>
