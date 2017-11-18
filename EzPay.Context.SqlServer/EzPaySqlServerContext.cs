@@ -58,6 +58,7 @@ namespace EzPay.Model
         /// </summary>
         private void CreateProcedures()
         {
+            #region StagingTables
             var query = Database.ExecuteSqlCommand(@"
                 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[StagedCitizenUpdates]') AND type IN ('U'))
                 DROP TABLE [dbo].[StagedCitizenUpdates]");
@@ -73,59 +74,129 @@ namespace EzPay.Model
                 [COUNTY] varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
                 [USERNAME] nvarchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL)");
 
+            //query = Database.ExecuteSqlCommand(@"
+            //    IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[StagedHashAdditions]') AND type IN ('U'))
+	           // DROP TABLE [dbo].[StagedHashAdditions]");
+
+            //query = Database.ExecuteSqlCommand(@"
+            //    CREATE TABLE [dbo].[StagedHashAdditions] (
+            //    [VAT] bigint NULL,
+            //    [NORMALMAIL] nvarchar(40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+            //    [NORMALUSER] nvarchar(12) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+            //    [HASH] nvarchar(84) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+            //    [CONCURENCY] uniqueidentifier NULL,
+            //    [SECURITY] uniqueidentifier NULL)");
+
             query = Database.ExecuteSqlCommand(@"
                 ALTER TABLE [dbo].[StagedCitizenUpdates] SET (LOCK_ESCALATION = TABLE)");
-            try
-            {
-                Database.ExecuteSqlCommand(
-                    @"
-                    CREATE PROCEDURE [dbo].[ClearData]
-                    AS
-                    BEGIN
-                        DELETE FROM Payments;
-                        DELETE FROM Bills;
-                        DELETE FROM Settlements;
-                    END");
-            }
-            catch (SqlException ex)
-            {
-                if (ex.Number != 2714)
-                {
-                }
-            }
+            #endregion
 
-            try
-            {
-                query = Database.ExecuteSqlCommand(@"
-                CREATE PROCEDURE [dbo].[UpdatePassword]
-                    @NormMail nvarchar(40),
-                    @NormUserName nvarchar(14),
-                    @Hash nvarchar(84),
-                    @VAT bigint,
-                    @Concurency uniqueidentifier,
-                    @Security uniqueidentifier
+            #region StoredProcedures
+            Execute(@"
+                CREATE PROCEDURE [dbo].[ClearData] AS
+                BEGIN
+                    ALTER TABLE Payments NOCHECK CONSTRAINT all;
+                    ALTER TABLE Bills NOCHECK CONSTRAINT all;
+                    ALTER TABLE Settlements NOCHECK CONSTRAINT all;
+                    DELETE FROM Payments;
+                    DELETE FROM Bills;
+                    DELETE FROM Settlements;
+                    ALTER TABLE Payments WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Bills WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Settlements WITH CHECK CHECK CONSTRAINT all;
+                END");
+
+            Execute(@"
+                CREATE PROCEDURE [dbo].[ClearStagedCitizens]
                 AS
                 BEGIN
-                    SET NOCOUNT ON;
+                    DELETE FROM StagedCitizenUpdates
+                END");
+
+            Execute(@"
+                CREATE PROCEDURE [dbo].[ClearStagedHashes]
+                AS
+                BEGIN
+                    DELETE FROM StagedHashAdditions
+                END");
+
+            Execute(@"
+                CREATE PROCEDURE [dbo].[StageCitizens]
+                AS
+                BEGIN
+                    ALTER TABLE Bills NOCHECK CONSTRAINT all;
+                    ALTER TABLE Settlements NOCHECK CONSTRAINT all;
                     UPDATE Citizens
                     SET
-                        NormalizedEmail = @NormMail,
-                        NormalizedUserName = @NormUserName,
-                        PasswordHash = @Hash,
-                        ConcurrencyStamp = @Concurency,
-                        SecurityStamp = @Security
-                    WHERE ID = @VAT
+                        FirstName = StagedCitizenUpdates.FIRST_NAME, LastName = StagedCitizenUpdates.LAST_NAME, Email = StagedCitizenUpdates.EMAIL, PhoneNumber = StagedCitizenUpdates.PHONE, Address = StagedCitizenUpdates.ADDRESS, County = StagedCitizenUpdates.COUNTY, UserName=StagedCitizenUpdates.USERNAME
+                    FROM     Citizens INNER JOIN StagedCitizenUpdates
+                    ON Citizens.ID = StagedCitizenUpdates.VAT
+                    ALTER TABLE Settlements WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Bills WITH CHECK CHECK CONSTRAINT all;
                 END");
+
+            Execute(@"
+                CREATE PROCEDURE [dbo].[StageHashes]
+                AS
+                BEGIN
+                    ALTER TABLE Bills NOCHECK CONSTRAINT all;
+                    ALTER TABLE Settlements NOCHECK CONSTRAINT all;
+                    UPDATE Citizens
+                    SET
+                    NormalizedEmail = NORMALMAIL, NormalizedUserName = NORMALUSER, PasswordHash = StagedHashAdditions.HASH, ConcurrencyStamp = CONCURENCY, SecurityStamp = SECURITY
+                    FROM
+                    Citizens INNER JOIN StagedHashAdditions
+                    ON Citizens.ID = StagedHashAdditions.VAT
+                    ALTER TABLE Bills WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Settlements WITH CHECK CHECK CONSTRAINT all;
+                END");
+
+            Execute(@"
+                CREATE PROCEDURE [dbo].[Empty]
+                AS
+                BEGIN
+                    ALTER TABLE Payments NOCHECK CONSTRAINT all;
+                    ALTER TABLE SettlementTypes NOCHECK CONSTRAINT all;
+                    ALTER TABLE Bills NOCHECK CONSTRAINT all;
+                    ALTER TABLE Settlements NOCHECK CONSTRAINT all;
+                    ALTER TABLE Citizens NOCHECK CONSTRAINT all;
+                    DELETE FROM Payments;
+                    DELETE FROM Bills;
+                    DELETE FROM Settlements;
+                    DELETE FROM SettlementTypes;
+                    DELETE FROM Citizens;
+                    ALTER TABLE Payments WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE SettlementTypes WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Bills WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Settlements WITH CHECK CHECK CONSTRAINT all;
+                    ALTER TABLE Citizens WITH CHECK CHECK CONSTRAINT all;
+                END");
+            #endregion
+        }
+
+        /// <summary>
+        /// Executes a query directly on the database
+        /// </summary>
+        /// <param name="q">Query to execute</param>
+        /// <returns>Status code</returns>
+        public int Execute(string q)
+        {
+            var r = 0;
+            try
+            {
+                r = Database.ExecuteSqlCommand(q);
             }
             catch (SqlException ex)
             {
                 if (ex.Number != 2714)
                 {
+                    throw;
                 }
             }
+            return r;
         }
 
-        #region IEzPayRepository
+#region IEzPayRepository
         /// <inheritdoc />
         public void ClearVolatile()
         {
@@ -176,7 +247,7 @@ namespace EzPay.Model
 
         /// <inheritdoc />
         public void RemoveRange(IEnumerable<IEntity> entities) => base.RemoveRange(entities);
-        #endregion
+#endregion
 
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -191,7 +262,7 @@ namespace EzPay.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("dbo");
-            #region EzPay Model
+#region EzPay Model
             modelBuilder.Entity<Citizen>(
                 entity =>
                     {
@@ -312,9 +383,9 @@ namespace EzPay.Model
                         entity.Property(e => e.MaxInstallments)
                             .HasMaxLength(3);
                 });
-            #endregion
+#endregion
 
-            #region Identity
+#region Identity
 
             modelBuilder.Entity<CitizenClaim>(
                 entity =>
@@ -357,7 +428,7 @@ namespace EzPay.Model
                         entity.ToTable("_RoleClaim");
                         entity.HasKey(e => e.RoleClaimId);
                     });
-            #endregion
+#endregion
         }
     }
 }

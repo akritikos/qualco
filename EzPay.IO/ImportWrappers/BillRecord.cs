@@ -5,6 +5,7 @@
     using EzPay.IO.Interfaces;
 
     using FileHelpers;
+    using EzPay.Model.Entities;
 
     [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Fields are documented in respective classes")]
     [SuppressMessage("ReSharper", "StyleCop.SA1401", Justification = "Entity is meant for record parsing, access modifier is Public for FileHelpers interop on fields")]
