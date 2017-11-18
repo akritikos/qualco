@@ -32,10 +32,10 @@
         /// </param>
         public PaymentExport(Payment p)
         {
-            this.Bill = p.BillId.ToString();
-            this.Time = $"{p.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
-            this.Amount = p.Bill.Amount;
-            this.Method = p.Method;
+            Bill = p.BillId.ToString();
+            Time = $"{p.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
+            Amount = p.Bill.Amount;
+            Method = p.Method;
         }
 
         public PaymentExport()

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace EzPay.IO.ExportWrappers
 {
@@ -40,17 +38,17 @@ namespace EzPay.IO.ExportWrappers
         public SettlementExport(Settlement s)
         {
             var sb = new StringBuilder();
-            this.vat = s.Bills.First().Citizen.Id;
-            this.time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
+            vat = s.Bills.First().Citizen.Id;
+            time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
             foreach (var bill in s.Bills)
             {
                 sb.Append($"{{{bill.Id}}}");
             }
 
-            this.bills = sb.ToString();
-            this.downpayment = s.Type.Downpayment;
-            this.installments = s.Installments;
-            this.interest = s.Type.Interest;
+            bills = sb.ToString();
+            downpayment = s.Type.Downpayment;
+            installments = s.Installments;
+            interest = s.Type.Interest;
         }
 
         public SettlementExport()

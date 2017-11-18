@@ -65,32 +65,32 @@ namespace EzPay.IO.ImportWrappers
         /// Parses data from this record into a new <see cref="Citizen"/> object
         /// </summary>
         /// <returns>Valid <see cref="Citizen"/> object</returns>
-        public Citizen ParseCitizen() => this.c = this.c ?? new Citizen
+        public Citizen ParseCitizen() => c = c ?? new Citizen
                                                       {
-                                                          Id = this.citizenVat,
-                                                          FirstName = this.citizenName,
-                                                          LastName = this.citizenSurname,
-                                                          Email = this.citizenEmail,
-                                                          PhoneNumber = this.citizenPhone.ToString(),
-                                                          Address = this.citizenAddress,
-                                                          County = this.citizenCounty
-                                                      };
+                                                          Id = citizenVat,
+                                                          FirstName = citizenName,
+                                                          LastName = citizenSurname,
+                                                          Email = citizenEmail,
+                                                          PhoneNumber = citizenPhone.ToString(),
+                                                          Address = citizenAddress,
+                                                          County = citizenCounty
+        };
 
         /// <summary>
         /// Parses data from this record into a new <see cref="Bill"/> object
         /// </summary>
         /// <returns>Valid <see cref="Bill"/> object</returns>
-        public Bill ParseBill() => this.b = this.b ?? new Bill
+        public Bill ParseBill() => b = b ?? new Bill
                                                 {
-                                                    Id = Guid.Parse(this.billId.ToUpper()),
-                                                    CitizenId = this.citizenVat,
+                                                    Id = Guid.Parse(billId.ToUpper()),
+                                                    CitizenId = citizenVat,
                                                     Amount = decimal.Parse(
-                                                        this.billAmount.Replace(",", "."),
+                                                        billAmount.Replace(",", "."),
                                                         NumberStyles.Float,
                                                         CultureInfo.InvariantCulture),
-                                                    Description = this.billDescription,
+                                                    Description = billDescription,
                                                     DueDate = DateTime.ParseExact(
-                                                        this.billDate,
+                                                        billDate,
                                                         "yyyyMMdd",
                                                         CultureInfo.InvariantCulture)
                                                 };
