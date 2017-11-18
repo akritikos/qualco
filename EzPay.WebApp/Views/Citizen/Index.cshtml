@@ -31,7 +31,6 @@
 				<!-- Profile Buttons -->
 				<div class="profile-buttons">
 					<a asp-controller="Citizen" asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
-					<button type="button" class="btn btn-default btn-sm">Change Email</button>
 				</div>
 				<p>@Model.StatusMessage</p>
 				<!-- Profile Buttons -->
@@ -123,7 +122,7 @@
 														<center>
 															@if (Model.BillsList[i].SettlementId != null)
 															{
-																<p>Settlement Requested</p>		}
+																<p class="text-warning">Settled</p>		}
 															else if (Model.BillsList[i].Payment != null)
 															{
 																<p class="text-success">Paid</p>		}
