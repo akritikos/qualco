@@ -3,13 +3,14 @@
     using System.Diagnostics.CodeAnalysis;
 
     using EzPay.IO.Interfaces;
+    using EzPay.Model.Entities;
 
     using FileHelpers;
 
     [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Fields are documented in respective classes")]
     [SuppressMessage("ReSharper", "StyleCop.SA1401", Justification = "Entity is meant for record parsing, access modifier is Public for FileHelpers interop on fields")]
     [DelimitedRecord(";")]
-    public class CitizenRecord : IEntityRecord
+    public class CitizenUpdateRecord : IEntityRecord
     {
         public long Id;
 
