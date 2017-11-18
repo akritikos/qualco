@@ -58,9 +58,9 @@ namespace EzPay.WebApp.Models
                Amount = 8,75e*/
 
 
-            decimal P = TotalAmount - DownpaymentAmount;
+            var P = TotalAmount - DownpaymentAmount;
 
-            decimal R = settlementType.Interest / (decimal) (12 * 100);
+            var R = settlementType.Interest / (decimal) (12 * 100);
 
             MonthlyAmount = (P * R * ((decimal)Math.Pow((double)(1 + R), (double)N))) / ((decimal)(Math.Pow((double)(1 + R),(double)N) - 1));
 

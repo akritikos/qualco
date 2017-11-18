@@ -211,10 +211,7 @@ namespace EzPay.WebApp.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
 
         #endregion
 
