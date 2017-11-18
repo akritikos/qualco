@@ -2,6 +2,7 @@ namespace EzPay.Model
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
@@ -48,16 +49,33 @@ namespace EzPay.Model
                 // ignored
             }
 
+            CreateProcedures();
             return isValid;
         }
 
-        #region IEzPayRepository
-        /// <inheritdoc />
-        public void ClearVolatile()
+        /// <summary>
+        /// Ensures Stored Procedures required by DTSX packages are present
+        /// </summary>
+        private void CreateProcedures()
         {
-            var query = Database.ExecuteSqlCommand(
-                $"SELECT COUNT(*) FROM [sys].[objects] WHERE [type_desc] = 'SQL_STORED_PROCEDURE' AND [name] = 'ClearData';");
-            if (query < 1)
+            var query = Database.ExecuteSqlCommand(@"
+                IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[StagedCitizenUpdates]') AND type IN ('U'))
+                DROP TABLE [dbo].[StagedCitizenUpdates]");
+
+            query = Database.ExecuteSqlCommand(@"
+                CREATE TABLE [dbo].[StagedCitizenUpdates] (
+                [VAT] bigint NULL,
+                [FIRST_NAME] nvarchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [LAST_NAME] nvarchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [EMAIL] varchar(40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [PHONE] varchar(13) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [ADDRESS] varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [COUNTY] varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+                [USERNAME] nvarchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL)");
+
+            query = Database.ExecuteSqlCommand(@"
+                ALTER TABLE [dbo].[StagedCitizenUpdates] SET (LOCK_ESCALATION = TABLE)");
+            try
             {
                 Database.ExecuteSqlCommand(
                     @"
@@ -69,6 +87,49 @@ namespace EzPay.Model
                         DELETE FROM Settlements;
                     END");
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number != 2714)
+                {
+                }
+            }
+
+            try
+            {
+                query = Database.ExecuteSqlCommand(@"
+                CREATE PROCEDURE [dbo].[UpdatePassword]
+                    @NormMail nvarchar(40),
+                    @NormUserName nvarchar(14),
+                    @Hash nvarchar(84),
+                    @VAT bigint,
+                    @Concurency uniqueidentifier,
+                    @Security uniqueidentifier
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+                    UPDATE Citizens
+                    SET
+                        NormalizedEmail = @NormMail,
+                        NormalizedUserName = @NormUserName,
+                        PasswordHash = @Hash,
+                        ConcurrencyStamp = @Concurency,
+                        SecurityStamp = @Security
+                    WHERE ID = @VAT
+                END");
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number != 2714)
+                {
+                }
+            }
+        }
+
+        #region IEzPayRepository
+        /// <inheritdoc />
+        public void ClearVolatile()
+        {
+
             Database.ExecuteSqlCommand("exec ClearData");
         }
 
@@ -184,7 +245,8 @@ namespace EzPay.Model
                         entity
                             .HasOne(b => b.Settlement)
                             .WithMany(s => s.Bills)
-                            .HasForeignKey(b => b.SettlementId);
+                            .HasForeignKey(b => b.SettlementId)
+                            .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity<Payment>(

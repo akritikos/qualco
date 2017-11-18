@@ -25,6 +25,8 @@
 
         public string County;
 
+        public string Username;
+
         public int AccessFailedCount = 0;
 
         public int EmailConfirmed = 1;
