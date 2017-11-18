@@ -131,9 +131,7 @@
 				var P = (TotalAmountDecimal - DownpaymentDecimal).toFixed(2);
 				var R = InterestDecimal / (12.00 * 100.00);
 
-				var MonthlyAmount = (P * R * (Math.pow((1 + R), N))) / ((Math.pow((1 + R), N) - 1)).toFixed(2);
-
-				alert(MonthlyAmount);
+				var MonthlyAmount = parseFloat(((P * R * (Math.pow((1 + R), N))) / ((Math.pow((1 + R), N) - 1)))).toFixed(2);
 
 				document.getElementById("Total").innerHTML =
 					"<h5>You have chosen to pay " + TotalAmountDecimal + "€ in " + N + " installments of " +
