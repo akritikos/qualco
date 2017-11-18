@@ -14,22 +14,24 @@ namespace EzPay.IO.ExportWrappers
     /// Wrapper class for exporting CSV records of <see cref="Settlement"/> entities
     /// </summary>
     [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Fields are documented in respective classes")]
+    [SuppressMessage("ReSharper", "StyleCop.SA1401", Justification = "Entity is meant for record parsing, access modifier is Public for FileHelpers interop on fields")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "FileHelpers needs to be able to access fields")]
     [DelimitedRecord(";")]
     public class SettlementExport : IEntityRecord
     {
-        private long vat;
+        public long Vat;
 
-        private string time;
+        public string Time;
 
-        private string bills;
-
-        [FieldConverter(ConverterKind.Decimal, ",")]
-        private decimal downpayment;
-
-        private int installments;
+        public string Bills;
 
         [FieldConverter(ConverterKind.Decimal, ",")]
-        private decimal interest;
+        public decimal Downpayment;
+
+        public int Installments;
+
+        [FieldConverter(ConverterKind.Decimal, ",")]
+        public decimal Interest;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettlementExport"/> class.
@@ -38,17 +40,17 @@ namespace EzPay.IO.ExportWrappers
         public SettlementExport(Settlement s)
         {
             var sb = new StringBuilder();
-            vat = s.Bills.First().Citizen.Id;
-            time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
+            this.Vat = s.Bills.First().Citizen.Id;
+            this.Time = $"{s.Date.ToUniversalTime():yyyy-MM-ddTHH:mm:ssZ}";
             foreach (var bill in s.Bills)
             {
                 sb.Append($"{{{bill.Id}}}");
             }
 
-            bills = sb.ToString();
-            downpayment = s.Type.Downpayment;
-            installments = s.Installments;
-            interest = s.Type.Interest;
+            this.Bills = sb.ToString();
+            this.Downpayment = s.Type.Downpayment;
+            this.Installments = s.Installments;
+            this.Interest = s.Type.Interest;
         }
 
         public SettlementExport()

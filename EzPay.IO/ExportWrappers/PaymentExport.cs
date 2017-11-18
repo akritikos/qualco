@@ -12,6 +12,7 @@
     /// </summary>
     [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Fields are documented in respective classes")]
     [SuppressMessage("ReSharper", "StyleCop.SA1401", Justification = "Entity is meant for record parsing, access modifier is Public for FileHelpers interop on fields")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "FileHelpers needs to be able to access fields")]
     [DelimitedRecord(";")]
     public class PaymentExport : IEntityRecord
     {

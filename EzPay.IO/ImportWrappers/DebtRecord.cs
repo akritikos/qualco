@@ -16,6 +16,7 @@ namespace EzPay.IO.ImportWrappers
     /// </summary>
     [IgnoreFirst, DelimitedRecord(";")]
     [SuppressMessage("ReSharper", "StyleCop.SA1600", Justification = "Fields are documented in respective classes")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Class is used for parsing data from flat files")]
     public class DebtRecord : IEntityRecord
     {
         [FieldHidden]
