@@ -57,6 +57,10 @@
 .mtop5c {
 	margin-top: 5%;
 }
+.plr0 {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
 
 @media(max-width:768px) {
 	.mtop15-mob{
@@ -65,27 +69,39 @@
 }
 
 
-	/******************
+/******************
      Styling
 ******************/
 
-	li {
-		list-style-type: none !important;
-	}
+li {
+	list-style-type: none !important;
+}
 
-	div .lc ul {
-		padding-left: 0;
-	}
+div .lc ul {
+	padding-left: 0;
+}
 
-	.lc {
-		text-transform: none !important;
-	}
+.well {
+	padding: 0 !important;
+	background-color: #00BA75 !important;
+}
 
-	input[type=number]::-webkit-inner-spin-button,
-	input[type=number]::-webkit-outer-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
+.lc {
+	text-transform: none !important;
+}
+.wf {
+	color: #ffffff !important;
+}
+
+.text-success {
+	color: #00BA75 !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
 
 .alert, .success, .error {
 	border: 1px solid black;

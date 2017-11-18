@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 			<div class="tabbable-panel">
 				<div class="tabbable-line">
 					<ul class="nav nav-tabs ">
@@ -72,52 +72,85 @@
 							<p>You have @CountSettlements Settlement(s) requested, including @CountSettledBills Bill(s).</p>
 						</div>
 						<div class="tab-pane fade" id="tab2">
-							<p>
-								You can choose to pay or request a settlement for the below bills:
-							</p>
+							<center>
+								<h4>
+									- You can choose to pay or request a settlement for the bills below -
+								</h4>
+							</center>
+							<div class="well">
+								<div class="container">
+									<div class="col-sm-3 col-xs-3">
+										<h5 class="wf">Due Date</h5>
+									</div>
+									<div class="col-sm-3 col-xs-3">
+										<h5 class="wf">Description</h5>
+									</div>
+									<div class="col-sm-3 col-xs-3">
+										<h5 class="wf">Amount</h5>
+									</div>
+									<div class="col-sm-2 col-xs-2">
+										<h5 class="wf">Status</h5>
+									</div>
+									<div class="col-sm-1 col-xs-1">
+										<h5 class="wf text-left">Select</h5>
+									</div>
+								</div>
+							</div>
 							@{ var BillsDetail = Model.Bills.FirstOrDefault(); }
 							
 								<form asp-controller="SettlementDetails" asp-action="Settle" method="post">
-									@for (int i = 0; i < Model.BillsList.Count(); i++)
-									{
-										<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
-										<input asp-for="@Model.BillsList[i].Id" type="hidden" />
-										
-										<div class="form-group">
-											<label asp-for="@Model.BillsList[i].DueDate">@Model.BillsList[i].DueDate</label>
-											<input asp-for="@Model.BillsList[i].DueDate" type="hidden"/>										
-										</div>
-										<div class="form-group">
-											<label asp-for="@Model.BillsList[i].Description">@Model.BillsList[i].Description</label>
-											<input asp-for="@Model.BillsList[i].Description" type="hidden" />										
-										</div>
-										<div class="form-group">
-											<label asp-for="@Model.BillsList[i].Amount">@Model.BillsList[i].Amount</label>
-											<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
-										</div>
-										<div class="form-group">
-											@if (Model.BillsList[i].SettlementId != null)
-											{
-												<p>Settlement Requested</p>		}
-											else if (Model.BillsList[i].Payment != null)
-											{
-												<p>Paid</p>		}
-											else
-											{
-												<a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.BillsList[i].Id" class="btn btn-primary">Pay</a>		}
-										</div>
-										<div class="form-group">
-											@if (Model.BillsList[i].SettlementId == null && Model.BillsList[i].Payment == null)
-											{
-												<input asp-for="@Model.BillsList[i].IsSelected" type="checkbox" />
-											}
-										</div>
-									}
+									<div class="container">
+										@for (int i = 0; i < Model.BillsList.Count(); i++)
+										{
+											<div class=" col-sm-12 col-xs-12 plr0">
+												<input asp-for="@Model.BillsList[i].CitizenId" type="hidden" />
+												<input asp-for="@Model.BillsList[i].Id" type="hidden" />
+
+												<div class="form-group">
+													<div class="col-sm-3 col-xs-3">
+														<label asp-for="@Model.BillsList[i].DueDate">@Model.BillsList[i].DueDate</label>
+														<input asp-for="@Model.BillsList[i].DueDate" type="hidden" />
+													</div>
+													<div class="col-sm-3 col-xs-3">
+														<label asp-for="@Model.BillsList[i].Description" class="text-center">@Model.BillsList[i].Description</label>
+														<input asp-for="@Model.BillsList[i].Description" type="hidden" />
+													</div>
+													<div class="col-sm-2 col-xs-2">
+														<label asp-for="@Model.BillsList[i].Amount" class="text-center">@Model.BillsList[i].Amount €</label>
+														<input asp-for="@Model.BillsList[i].Amount" type="hidden" />
+													</div>
+													<div class="col-sm-3 col-xs-3">
+														<center>
+															@if (Model.BillsList[i].SettlementId != null)
+															{
+																<p>Settlement Requested</p>		}
+															else if (Model.BillsList[i].Payment != null)
+															{
+																<p class="text-success">Paid</p>		}
+															else
+															{
+																<a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.BillsList[i].Id" class="btn btn-sm btn-primary">Pay</a>
+
+															}
+														</center>
+													</div>
+													<div class="col-sm-1 col-xs-1">
+														@if (Model.BillsList[i].SettlementId == null && Model.BillsList[i].Payment == null)
+														{
+															<input asp-for="@Model.BillsList[i].IsSelected" type="checkbox" class="text-center"/>	
+														}
+													</div>
+													<br /><br />
+												</div>
+											</div>
+										}
+									</div>
+
 									<div class="pull-right">
-										<button class="btn btn-warning lc" type="submit">Blala</button>
+										<button class="btn btn-warning lc" type="submit">Settle</button>
 									</div>
 								</form>
-							
+
 						</div>
 
 						<div class="tab-pane fade" id="tab3">
