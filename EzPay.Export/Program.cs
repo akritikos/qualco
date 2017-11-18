@@ -10,6 +10,7 @@ namespace EzPay.Export
     using EzPay.IO.ExportWrappers;
     using EzPay.Model;
     using EzPay.Model.Entities;
+    using EzPay.Services;
     using EzPay.Services.Utilities;
 
     using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace EzPay.Export
         public static void Main(string[] args)
         {
             _local = false;
+            config = new ConfigFile();
             config.LoadConfig(new FileInfo(Path.Combine(rootDir.FullName, "priv", "appsettings.txt")));
             var exportRoot = new DirectoryInfo(Path.Combine(rootDir.FullName, "export"));
             if (!exportRoot.Exists)
