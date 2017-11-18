@@ -5,36 +5,21 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="HERMES"
   DTS:CreatorName="HERMES\akritikos"
-  DTS:DTSID="{665651D3-03A7-40BE-B25E-654D6FA1B9F5}"
+  DTS:DTSID="{59531948-D042-4C4E-A987-C9D3A8997884}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="14.0.0800.98"
   DTS:LocaleID="1032"
-  DTS:ObjectName="Azure_Import"
+  DTS:ObjectName="SQLExpress_Import"
   DTS:PackageType="5"
-  DTS:VersionBuild="44"
-  DTS:VersionGUID="{1B70667D-C0FE-4EE8-B799-ECFD484C074D}">
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{82C9D46F-5416-4142-A1A0-37C53EDB60AD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Azure]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{CD746B22-EE2B-40FD-A91A-03C264EFF788}"
-      DTS:ObjectName="Azure">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=ezpay.database.windows.net;User ID=qualco2;Initial Catalog=ezpay;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAAVIWvWr2WkKtuRB8UmKG6AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADQADQwikEdz2BYCl9EAEFarirvciEOWnTun++5aSumjQAAAAAOgAAAAAIAACAAAAD+hL+vRMfE7nAmPHR5J0zQ4T6NgP9PCoQ8d74I/ypMryAAAACBb5NY+HWroxd7zoDdCSM+mEcOEcoul/ICvUC00HmBVkAAAAB1uQCImN7Fv4mZ0LGDDXBfBiqpFTj1MXeNqvCBQVDptZ9svukX7qK24Af1HjIK5x33T4OGDG/qnqDwVV6bDqBW</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Bills]"
       DTS:CreationName="FLATFILE"
-      DTS:DTSID="{06E1F039-D99E-4129-B2D0-DEFE76CACE31}"
+      DTS:DTSID="{E6AB74A3-FE68-47AC-8F67-E0E6C1847EB3}"
       DTS:ObjectName="Bills">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -53,7 +38,7 @@
               DTS:DataType="72"
               DTS:TextQualified="True"
               DTS:ObjectName="ID"
-              DTS:DTSID="{DE31F6F7-B1AD-44A3-921B-A90735F26728}"
+              DTS:DTSID="{61A73C8A-450D-4D08-9ED4-868A7561AED9}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -62,7 +47,7 @@
               DTS:DataScale="2"
               DTS:TextQualified="True"
               DTS:ObjectName="AMOUNT"
-              DTS:DTSID="{DEA96430-574A-4279-91CA-87B05037E3B4}"
+              DTS:DTSID="{E054918A-F83E-4680-BF4F-1A097880BAB9}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -70,7 +55,7 @@
               DTS:DataType="20"
               DTS:TextQualified="True"
               DTS:ObjectName="VAT"
-              DTS:DTSID="{9F504F5A-F576-45F8-B0EE-C3F1DE02215E}"
+              DTS:DTSID="{60ACCB93-7B3A-4CF9-A3D7-733195738A1D}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -79,7 +64,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="DESCRIPTION"
-              DTS:DTSID="{83A93B07-B8D4-49DF-90E0-72C1AE00BE39}"
+              DTS:DTSID="{F4D0B8AA-A40B-47DD-8CED-70C2F73A5A0E}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -87,7 +72,7 @@
               DTS:DataType="7"
               DTS:TextQualified="True"
               DTS:ObjectName="DUE_DATE"
-              DTS:DTSID="{541CDF74-0A64-40CD-B598-F612843CE88C}"
+              DTS:DTSID="{6D11DB55-E0AD-48D6-B559-AD2606DAAD17}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -96,7 +81,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Citizens]"
       DTS:CreationName="FLATFILE"
-      DTS:DTSID="{3EEA82AA-8A79-4FD3-9880-212B6B48207C}"
+      DTS:DTSID="{511DED46-FC38-4316-A70D-CA5B8E9B8E19}"
       DTS:ObjectName="Citizens">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -115,7 +100,7 @@
               DTS:DataType="20"
               DTS:TextQualified="True"
               DTS:ObjectName="VAT"
-              DTS:DTSID="{84AFA17C-7393-4E1A-ADC7-A825D48DF6BE}"
+              DTS:DTSID="{F2B86E98-DC8F-4909-8B43-644216F86372}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -124,7 +109,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="FIRST_NAME"
-              DTS:DTSID="{9199F140-C8F2-41BD-851C-C5DB129FBD12}"
+              DTS:DTSID="{FE81B52A-0115-48D8-90E8-2FD7296611B4}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -133,7 +118,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="LAST_NAME"
-              DTS:DTSID="{C0A5C7DD-E6FE-435D-BE03-3C481EF0AB65}"
+              DTS:DTSID="{D6EAB99E-4450-4614-8888-1713FDE98B4D}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -142,7 +127,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="EMAIL"
-              DTS:DTSID="{6BE62B77-7954-4CFD-96F4-ED1E58F356E6}"
+              DTS:DTSID="{4AD98B87-3D2E-4FF2-9986-7352BB624A47}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -151,7 +136,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="PHONE"
-              DTS:DTSID="{3821FCE8-1958-4531-93B7-1818501B81CE}"
+              DTS:DTSID="{BE34F5EF-3554-4F54-850F-73460DC8CE27}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -160,7 +145,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ADDRESS"
-              DTS:DTSID="{7290314A-D98A-4272-8539-73ACFBE19558}"
+              DTS:DTSID="{E50410D4-5C41-403F-8B58-440A28C7C028}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -169,7 +154,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="COUNTY"
-              DTS:DTSID="{54880824-A707-4BA4-9A30-CEEEAF624E96}"
+              DTS:DTSID="{7F8A7275-05E6-4D1D-9987-BDD2F1826BC2}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -178,7 +163,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="USERNAME"
-              DTS:DTSID="{12ECC80F-FF6A-45CD-8E13-96825FEA7CA3}"
+              DTS:DTSID="{4BCC68F9-F38E-4370-BD2C-64D1673D9B8F}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -186,7 +171,7 @@
               DTS:DataType="3"
               DTS:TextQualified="True"
               DTS:ObjectName="ACCESS_FAILED_COUNT"
-              DTS:DTSID="{72CA6F0E-5AC8-4AE1-9B63-EA483F8185B4}"
+              DTS:DTSID="{ACD60186-E676-4F0E-963D-28BA7D30CA41}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -194,7 +179,7 @@
               DTS:DataType="11"
               DTS:TextQualified="True"
               DTS:ObjectName="EMAIL_CONFIRMED"
-              DTS:DTSID="{3D852A78-9107-4ED0-87CE-D233696A9AEB}"
+              DTS:DTSID="{E7380ECE-B82F-4C6D-8D49-6FAE17E3D99A}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -202,7 +187,7 @@
               DTS:DataType="11"
               DTS:TextQualified="True"
               DTS:ObjectName="LOCKOUT_ENABLED"
-              DTS:DTSID="{09722ACC-BA1B-4C9E-97D6-4AD9A732D0A2}"
+              DTS:DTSID="{3D917D08-F0FE-462F-A3E7-F2CAE21A3800}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -210,7 +195,7 @@
               DTS:DataType="11"
               DTS:TextQualified="True"
               DTS:ObjectName="PHONE_CONFIRMED"
-              DTS:DTSID="{AA813449-BA78-4217-807E-5B3E69D913C6}"
+              DTS:DTSID="{7D8E9C20-379E-4608-BE4E-7E5C90778C2E}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -218,7 +203,7 @@
               DTS:DataType="11"
               DTS:TextQualified="True"
               DTS:ObjectName="TWOFACTOR_ENABLED"
-              DTS:DTSID="{A7231BBE-4F4F-4DE6-8568-B6A140FC47B5}"
+              DTS:DTSID="{9EB8FC67-26BA-4A8B-AFAE-79CAFBB535E6}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -227,7 +212,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Hashes]"
       DTS:CreationName="FLATFILE"
-      DTS:DTSID="{0505EF7F-E08C-4B85-8153-E96293B932EE}"
+      DTS:DTSID="{4B9B165D-D735-4C88-B9FA-0325F807CADD}"
       DTS:ObjectName="Hashes">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -246,7 +231,7 @@
               DTS:DataType="20"
               DTS:TextQualified="True"
               DTS:ObjectName="VAT"
-              DTS:DTSID="{2F9A1504-99AF-434D-ACB0-CA26C0E341D9}"
+              DTS:DTSID="{7F501CC9-A45C-4BAD-A813-0AF7E7FF624B}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -255,7 +240,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="NORMALMAIL"
-              DTS:DTSID="{7181F17E-4BBF-4548-899D-11D57D1D7505}"
+              DTS:DTSID="{B091EF13-9FB1-4FAA-86B1-ABCD094D9EF2}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -264,7 +249,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="NORMALUSER"
-              DTS:DTSID="{2AD82E67-1F6F-47B1-BDE8-47076F55572A}"
+              DTS:DTSID="{EABEA5B1-4D45-40E2-8B2C-72358C4FB84E}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -273,7 +258,7 @@
               DTS:DataType="130"
               DTS:TextQualified="True"
               DTS:ObjectName="HASH"
-              DTS:DTSID="{E54B71DA-5B5A-4AEB-8DE7-A2C2B2F7A04B}"
+              DTS:DTSID="{5F8DBAF0-8FC9-454C-81F0-26600283DFE9}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -281,7 +266,7 @@
               DTS:DataType="72"
               DTS:TextQualified="True"
               DTS:ObjectName="CONCURENCY"
-              DTS:DTSID="{CCF8A443-DD74-4D24-9DB5-A11D65E27889}"
+              DTS:DTSID="{F3A08DAC-EF1B-41C2-9A4E-802611AA42F5}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -289,7 +274,7 @@
               DTS:DataType="72"
               DTS:TextQualified="True"
               DTS:ObjectName="SECURITY"
-              DTS:DTSID="{3BE0CF09-84B2-436B-887C-B78C48EB1484}"
+              DTS:DTSID="{2BE99A6B-E356-4C31-A2E2-D80A3628622E}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -298,7 +283,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[SettlementTypes]"
       DTS:CreationName="FLATFILE"
-      DTS:DTSID="{D422E0EA-BD54-4792-A7DC-1F472D944C52}"
+      DTS:DTSID="{9BF76842-FE2C-49B9-B876-EE7FBE2988D8}"
       DTS:ObjectName="SettlementTypes">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -317,7 +302,7 @@
               DTS:DataType="72"
               DTS:TextQualified="True"
               DTS:ObjectName="ID"
-              DTS:DTSID="{FD1E8DCF-F255-49D7-8F37-8F6BC84275EF}"
+              DTS:DTSID="{1CB81910-9AC5-477F-B55B-303F8483F203}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -326,7 +311,7 @@
               DTS:DataScale="2"
               DTS:TextQualified="True"
               DTS:ObjectName="DOWNPAYMENT"
-              DTS:DTSID="{12326DE8-22FB-4FFE-B945-F05B909C3500}"
+              DTS:DTSID="{DA81270A-B82F-4E43-A924-4673774D05C5}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -335,7 +320,7 @@
               DTS:DataScale="2"
               DTS:TextQualified="True"
               DTS:ObjectName="INTEREST"
-              DTS:DTSID="{F97FF646-E72E-448C-B8A1-707B9E3530B5}"
+              DTS:DTSID="{C608CB4E-D577-4261-8F48-097CD2C245EA}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -343,10 +328,20 @@
               DTS:DataType="3"
               DTS:TextQualified="True"
               DTS:ObjectName="INSTALLMENTS"
-              DTS:DTSID="{1B14B672-FB32-4BD1-9892-32FFADD06A7F}"
+              DTS:DTSID="{E8B5AAE6-AFC7-4835-BAA7-CF1595E9ED3C}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SQLExpress]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4ECE3309-69B1-4BA9-B0C2-E6ED6E013B9C}"
+      DTS:ObjectName="SQLExpress">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Qualco;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -356,7 +351,7 @@
       DTS:refId="Package\Clear Staged Updates"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
-      DTS:DTSID="{9CD0458E-CF0F-45EC-A5BF-CF5F549A13DE}"
+      DTS:DTSID="{5DAEEC7B-A2AF-4D1D-AEBA-BD964046CE18}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear Staged Updates"
@@ -365,7 +360,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{4ECE3309-69B1-4BA9-B0C2-E6ED6E013B9C}"
           SQLTask:SqlStatementSource="exec dbo.ClearStagedCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -373,7 +368,7 @@
       DTS:refId="Package\Clear Stale Transaction Data"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
-      DTS:DTSID="{9A3D877C-66ED-4458-A54A-5958165B987E}"
+      DTS:DTSID="{42E20A69-A672-49AF-9B2E-495F1F213A21}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Clear Stale Transaction Data"
@@ -382,7 +377,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{4ECE3309-69B1-4BA9-B0C2-E6ED6E013B9C}"
           SQLTask:SqlStatementSource="exec dbo.ClearData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -390,7 +385,7 @@
       DTS:refId="Package\Import Bills"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{2F91718F-D6DD-4CFE-B139-96A32E92079E}"
+      DTS:DTSID="{B354A5C6-17D1-4BD1-BDA8-776DCA667C7D}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Import Bills"
@@ -650,8 +645,8 @@
               <connections>
                 <connection
                   refId="Package\Import Bills\Insert Bills into DB.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Azure]"
-                  connectionManagerRefId="Package.ConnectionManagers[Azure]"
+                  connectionManagerID="Package.ConnectionManagers[SQLExpress]"
+                  connectionManagerRefId="Package.ConnectionManagers[SQLExpress]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -770,7 +765,7 @@
       DTS:refId="Package\Import Citizens"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{03C4A2C6-40FE-4ACD-98E4-CBD97F4CE484}"
+      DTS:DTSID="{E206648F-1CC3-48E1-9243-A64883466400}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Import Citizens"
@@ -850,8 +845,8 @@ where [refTable].[ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Citizens\Filter existing Citizens.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Azure]"
-                  connectionManagerRefId="Package.ConnectionManagers[Azure]"
+                  connectionManagerID="Package.ConnectionManagers[SQLExpress]"
+                  connectionManagerRefId="Package.ConnectionManagers[SQLExpress]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1594,8 +1589,8 @@ where [refTable].[ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Citizens\Insert new Citizens into Database.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Azure]"
-                  connectionManagerRefId="Package.ConnectionManagers[Azure]"
+                  connectionManagerID="Package.ConnectionManagers[SQLExpress]"
+                  connectionManagerRefId="Package.ConnectionManagers[SQLExpress]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2980,8 +2975,8 @@ where [refTable].[ID] = ?</property>
               <connections>
                 <connection
                   refId="Package\Import Citizens\Stage existing Citizens for update.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Azure]"
-                  connectionManagerRefId="Package.ConnectionManagers[Azure]"
+                  connectionManagerID="Package.ConnectionManagers[SQLExpress]"
+                  connectionManagerRefId="Package.ConnectionManagers[SQLExpress]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3171,7 +3166,7 @@ where [refTable].[ID] = ?</property>
       DTS:refId="Package\Update Existing Citizens"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
-      DTS:DTSID="{A7D3700B-65ED-4D91-990B-6FF2DA1D559B}"
+      DTS:DTSID="{57B7ACA1-CD7E-48D4-803A-06858CCCB488}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Update Existing Citizens"
@@ -3180,7 +3175,7 @@ where [refTable].[ID] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{4ECE3309-69B1-4BA9-B0C2-E6ED6E013B9C}"
           SQLTask:SqlStatementSource="exec dbo.StageCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -3189,7 +3184,7 @@ where [refTable].[ID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{28118831-7A23-4609-8258-EAC469A4ED0C}"
+      DTS:DTSID="{0CEAE7AB-8A07-494B-8DB3-E4C7D0679C2D}"
       DTS:From="Package\Import Citizens"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
@@ -3197,7 +3192,7 @@ where [refTable].[ID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{79DE89E5-ADCB-45EA-BD66-3415C27FC9CA}"
+      DTS:DTSID="{6825B648-12B1-4D2D-AA38-3337ED38A2CC}"
       DTS:From="Package\Clear Stale Transaction Data"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
@@ -3205,7 +3200,7 @@ where [refTable].[ID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{8D32C7BA-41B8-4B7F-8528-744ACBD0DAFA}"
+      DTS:DTSID="{C3336728-BD26-4AB9-866B-85532205AD6F}"
       DTS:From="Package\Import Citizens"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
@@ -3213,7 +3208,7 @@ where [refTable].[ID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{F43547B2-6D0F-4AAA-918A-BF03B7478FD1}"
+      DTS:DTSID="{33CFCDAC-3E93-4DD9-9F0A-FA0B601B6F47}"
       DTS:From="Package\Update Existing Citizens"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
@@ -3221,7 +3216,7 @@ where [refTable].[ID] = ?</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
-      DTS:DTSID="{80E4B901-FB02-4E76-AE56-BE4EC91E5E55}"
+      DTS:DTSID="{A2CC8C95-7BCE-492A-8398-262EBAC9EE58}"
       DTS:From="Package\Import Bills"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
@@ -3527,7 +3522,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3561,7 +3558,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3583,7 +3582,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3653,7 +3654,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3675,7 +3678,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3687,7 +3692,7 @@ where [refTable].[ID] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3697,7 +3702,7 @@ where [refTable].[ID] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
