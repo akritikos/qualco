@@ -67,10 +67,6 @@ namespace EzPay.WebApp.Controllers
                 Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
                     .Include(b => b.Bills),
                 SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable(),
-                NewSettlement = new Settlement {
-                    Id=new Guid(),
-                    Bills=new List<Bill>()
-                },
                 StatusMessage = CitizenStatusMessage
             };
             
@@ -211,10 +207,7 @@ namespace EzPay.WebApp.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
 
         #endregion
 

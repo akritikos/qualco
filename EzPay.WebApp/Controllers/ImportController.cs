@@ -25,10 +25,7 @@ namespace EzPay.WebApp.Controllers
 
         /// <inheritdoc />
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public ImportController(IEzPayRepository ctx)
-        {
-            _ctx = ctx;
-        }
+        public ImportController(IEzPayRepository ctx) => _ctx = ctx;
 
         //[HttpPost]
         //public IActionResult Import()
@@ -80,14 +77,15 @@ namespace EzPay.WebApp.Controllers
                     process = 0;
                 }
             }
-            this._ctx.SaveChanges();
+            _ctx.SaveChanges();
             process = 0;
             foreach (var value in data.Values)
             {
-                this._ctx.AddRange(value);
+                _ctx.AddRange(value);
             }
-            this._ctx.SaveChanges();
+
             _ctx.SaveChanges();
+            await _ctx.SaveChangesAsync();
             return new EmptyResult();
         }
 
