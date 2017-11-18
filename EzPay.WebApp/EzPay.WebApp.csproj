@@ -19,6 +19,13 @@
 </Target>
 
   <ItemGroup>
+    <Compile Remove="Utils\**" />
+    <Content Remove="Utils\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <None Remove="Utils\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -34,10 +41,6 @@
     <ProjectReference Include="..\EzPay.Context.SqlServer\EzPay.Context.SqlServer.csproj" />
     <ProjectReference Include="..\EzPay.IO\EzPay.IO.csproj" />
     <ProjectReference Include="..\EzPay.Services\EzPay.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
