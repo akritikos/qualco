@@ -48,7 +48,7 @@ namespace EzPay.Import
         /// </param>
         public static void Main(string[] args)
         {
-            _local = true;
+            _local = false;
             if (!rootDir.Exists || !rootDir.GetDirectories()
                     .Any(r => r.FullName.Equals(Path.Combine(rootDir.FullName, "import"))))
             {

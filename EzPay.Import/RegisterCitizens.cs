@@ -74,6 +74,7 @@ namespace EzPay.Import
                             LastName = citizen.LastName
                         },
                     plaintext ?? "123");
+                citizen.LockoutEnabled = true;
                 current++;
             }
             Exporter.ExportRecords(
