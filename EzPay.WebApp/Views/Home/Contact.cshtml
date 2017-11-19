@@ -1,10 +1,13 @@
 ﻿@model EzPay.WebApp.Models.ContactViewModel
 
-<center><h2>@ViewBag.Title</h2></center>
+@{
+	ViewData["Title"] = "Contact";
+}
+<center><h2>@ViewData["Title"] Us</h2></center>
 
 <center><h4>We are here for you! Please provide your comments or contact us for any issue:</h4></center>
 
-	<div class="row">
+	<div class="container">
 		<div class="col-xs-12 col-md-4 col-md-offset-4">
 			<form asp-action="SendForm" method="post">
 				<div class="form-group">
