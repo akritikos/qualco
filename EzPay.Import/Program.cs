@@ -57,13 +57,13 @@ namespace EzPay.Import
 
             var file = new FileInfo(
                 Path.Combine(rootDir.FullName, "import", $"DEBTS_{DateTime.Now:yyyMMdd}.txt"));
-#if (INITIAL)
             config.LoadConfig(new FileInfo(Path.Combine(rootDir.FullName, "priv", "appsettings.txt")));
             sender = new SmtpSender(
                 config.GetConfigValue("GmailUser"),
                 config.GetConfigValue("GmailPass"),
                 config.GetConfigValue("GmailSMTP"),
                 ssl: true);
+#if (INITIAL)
             if (!file.Exists)
             {
                 file = new FileInfo(Path.Combine(rootDir.FullName, "import", "CitizenDebts_1M_3.txt"));
@@ -79,7 +79,7 @@ namespace EzPay.Import
             var filepath = Path.Combine(
                 rootDir.FullName,
                 "priv",
-                _local ? "Local_Import.dtsx" : "Azure_Import.dtsx");
+                _local ? "SQLExpress_Import.dtsx" : "Azure_Import.dtsx");
             import = new Importer(file);
             SplitDebtFiles(file);
             PrintImportErrors();
@@ -95,13 +95,13 @@ namespace EzPay.Import
             foreach (var item in register.ToNotify)
             {
                 var body =
-                    $"This mail is sent as a verification that your account on<br><a href=\"https://ezpay.akritikos.info/\">EzPay</a> billing system is now active."
-                    + "<br>Your first login requires you to use the following password: {item.Value}"
+                    "This mail is sent as a verification that your account on<br><a href=\"https://ezpay.akritikos.info/\">EzPay</a> billing system is now active."
+                    + $"<br>Your first login requires you to use the following password: <b>{item.Value}</b>"
                     + "<br> After successfully logging in you may change it to a secure password you will remember."
-                    + "<br>Enjoy the easy payment of bills provided by your county!";
+                    + "<br><br>Enjoy the easy payment of bills provided by your county!";
 
                 sender.SetParameters(
-                    "akritikos86@gmail.com",
+                    $"{item.Key.Email}",
                     "EZPayVerify@gmail.com",
                     "EzPay Admin",
                     "New Citizen registration",
