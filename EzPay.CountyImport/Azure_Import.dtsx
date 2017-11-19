@@ -11,8 +11,8 @@
   DTS:LocaleID="1032"
   DTS:ObjectName="Azure_Import"
   DTS:PackageType="5"
-  DTS:VersionBuild="44"
-  DTS:VersionGUID="{1B70667D-C0FE-4EE8-B799-ECFD484C074D}">
+  DTS:VersionBuild="47"
+  DTS:VersionGUID="{3B8E7100-1F0D-4969-863F-25477407ED55}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAAVIWvWr2WkKtuRB8UmKG6AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADQADQwikEdz2BYCl9EAEFarirvciEOWnTun++5aSumjQAAAAAOgAAAAAIAACAAAAD+hL+vRMfE7nAmPHR5J0zQ4T6NgP9PCoQ8d74I/ypMryAAAACBb5NY+HWroxd7zoDdCSM+mEcOEcoul/ICvUC00HmBVkAAAAB1uQCImN7Fv4mZ0LGDDXBfBiqpFTj1MXeNqvCBQVDptZ9svukX7qK24Af1HjIK5x33T4OGDG/qnqDwVV6bDqBW</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAAVIWvWr2WkKtuRB8UmKG6AAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADG4gxotwRDrvUPxBWtSuWJwtebgvc2MX0sjv4+918SWgAAAAAOgAAAAAIAACAAAABefuPOkMXb3j1EN9AYrwJGwIZ78UchLEGNENejnZyuKiAAAABzE27XvVU71SFLjEC80zf9wbgTFhG1xxLhby089Bz4QEAAAAC7uXM7vDYaG/jJDj3rtoZ4fsnmHA4gJ0nQ5QjjSB6ElogYAT5w9grCEceDihHWboKKRdZEmiLV/b7pyLcT64NF</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -365,7 +365,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{CD746B22-EE2B-40FD-A91A-03C264EFF788}"
           SQLTask:SqlStatementSource="exec dbo.ClearStagedCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -382,7 +382,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{CD746B22-EE2B-40FD-A91A-03C264EFF788}"
           SQLTask:SqlStatementSource="exec dbo.ClearData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -3180,7 +3180,7 @@ where [refTable].[ID] = ?</property>
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{2CF0AB13-DAF9-4618-AAA1-831783D77D90}"
+          SQLTask:Connection="{CD746B22-EE2B-40FD-A91A-03C264EFF788}"
           SQLTask:SqlStatementSource="exec dbo.StageCitizens" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -3412,7 +3412,7 @@ where [refTable].[ID] = ?</property>
     design-time-name="Package\Import Bills">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="165.6,41.6"
           Id="Package\Import Bills\Insert Bills into DB"
@@ -3440,7 +3440,9 @@ where [refTable].[ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3587,30 +3589,6 @@ where [refTable].[ID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Import Citizens.Paths[Lookup No Match Output]"
-          TopLeft="226.285715073955,133.670589818262">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="49.7142896262968,0"
-              Start="0,0"
-              End="42.2142896262968,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="42.2142896262968,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-34.6992419056016,5,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\Import Citizens.Paths[Lookup Match Output]"
           TopLeft="139.428572031916,154.776472175493">
           <EdgeLayout.Curve>
@@ -3678,6 +3656,30 @@ where [refTable].[ID] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Citizens.Paths[Lookup No Match Output]"
+          TopLeft="226.285715073955,133.670589818262">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="49.7142896262968,0"
+              Start="0,0"
+              End="42.2142896262968,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="42.2142896262968,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-34.6992419056016,5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -3687,7 +3689,7 @@ where [refTable].[ID] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -3697,7 +3699,7 @@ where [refTable].[ID] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
