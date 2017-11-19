@@ -79,7 +79,7 @@ namespace EzPay.Import
             var filepath = Path.Combine(
                 rootDir.FullName,
                 "priv",
-                _local ? "Local_Import.dtsx" : "Azure_Import.dtsx");
+                _local ? "SQLExpress_Import.dtsx" : "Azure_Import.dtsx");
             import = new Importer(file);
             SplitDebtFiles(file);
             PrintImportErrors();
