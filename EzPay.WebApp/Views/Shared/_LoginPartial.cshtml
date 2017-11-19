@@ -30,17 +30,16 @@ else
 					<div class="row">
 						<div class="col-md-12">
 							<form asp-controller="Citizen" asp-action="Login" method="post" accept-charset="UTF-8" id="login-nav" novalidate>
+								<div asp-validation-summary="All" class="text-danger"></div>
 								<div class="form-group">
 									<label asp-for="CitizenId" class="sr-only" for="CitizenId">Citizen Id</label>
 									<input asp-for="CitizenId" type="number" class="form-control" id="CitizenId" placeholder="Citizen ID" autofocus required>
-									<span asp-validation-for="CitizenId" class="text-danger lc"></span>
 								</div>
 								<div class="form-group">
 									<label asp-for="Password" class="sr-only" for="Password">Password</label>
 									<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password" required>
-									<span asp-validation-for="Password" class="text-danger lc"></span>
 									<div class="help-block text-right">
-										<a href="" class="text-success lc">Forgot your password?</a>
+										<a asp-controller="Home" asp-action="Contact" class="text-success lc">Forgot your password?</a>
 									</div>
 								</div>
 								<div class="form-group">

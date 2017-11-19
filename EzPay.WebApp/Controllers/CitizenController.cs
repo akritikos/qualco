@@ -118,14 +118,9 @@ namespace EzPay.WebApp.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(nameof(LoginViewModel.Password), "Password is invalid.");
+                        ModelState.AddModelError(string.Empty, "ID or Password is invalid.");
                         return View(model);
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError(nameof(LoginViewModel.CitizenId), "Citizen ID is invalid.");
-                    return View(model);
                 }
             }
 
