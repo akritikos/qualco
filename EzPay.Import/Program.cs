@@ -2,10 +2,13 @@
 
 namespace EzPay.Import
 {
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
 
+    using EzPay.EmailSender;
     using EzPay.IO;
     using EzPay.IO.ImportWrappers;
     using EzPay.Model;
@@ -16,7 +19,6 @@ namespace EzPay.Import
     using FileHelpers;
 
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.SqlServer.Dts.Runtime;
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Entry point for Console App")]
@@ -28,9 +30,15 @@ namespace EzPay.Import
 
         private static IEzPayRepository ctx;
 
+        private static IEmailSender sender;
+
         private static IConfigFile config = new ConfigFile();
 
         private static ErrorInfo[] errors;
+
+        private static IEnumerable<Citizen> toRegister = new List<Citizen>();
+
+        private static Importer import;
 
         /// <summary>
         /// Entry point for console app
@@ -49,7 +57,13 @@ namespace EzPay.Import
 
             var file = new FileInfo(
                 Path.Combine(rootDir.FullName, "import", $"DEBTS_{DateTime.Now:yyyMMdd}.txt"));
-#if(INITIAL)
+#if (INITIAL)
+            config.LoadConfig(new FileInfo(Path.Combine(rootDir.FullName, "priv", "appsettings.txt")));
+            sender = new SmtpSender(
+                config.GetConfigValue("GmailUser"),
+                config.GetConfigValue("GmailPass"),
+                config.GetConfigValue("GmailSMTP"),
+                ssl: true);
             if (!file.Exists)
             {
                 file = new FileInfo(Path.Combine(rootDir.FullName, "import", "CitizenDebts_1M_3.txt"));
@@ -59,7 +73,6 @@ namespace EzPay.Import
             {
                 return;
             }
-            config.LoadConfig(new FileInfo(Path.Combine(rootDir.FullName, "priv", "appsettings.txt")));
             var options = new DbContextOptionsBuilder();
             options.UseSqlServer(_local ? config.GetConfigValue("SQLExpress") : config.GetConfigValue("Azure"));
             ctx = new EzPaySqlServerContext(options.Options);
@@ -67,18 +80,37 @@ namespace EzPay.Import
                 rootDir.FullName,
                 "priv",
                 _local ? "Local_Import.dtsx" : "Azure_Import.dtsx");
+            import = new Importer(file);
             SplitDebtFiles(file);
             PrintImportErrors();
 
-            RunDtsx(new FileInfo(filepath), "Importing daily records");
+            // RunDtsx(new FileInfo(filepath), "Importing daily records");
             filepath = Path.Combine(
                 rootDir.FullName,
                 "priv",
                 _local ? "Local_Import.dtsx" : "Azure_Import.dtsx");
 
-            // RunDtsx(new FileInfo(filepath), "Import passwords for new users");
-            var register = new RegisterCitizens(ctx, _local);
+            var register = new RegisterCitizens(ctx, toRegister);
             
+            foreach (var item in register.ToNotify)
+            {
+                var body =
+                    $"This mail is sent as a verification that your account on<br><a href=\"https://ezpay.akritikos.info/\">EzPay</a> billing system is now active."
+                    + "<br>Your first login requires you to use the following password: {item.Value}"
+                    + "<br> After successfully logging in you may change it to a secure password you will remember."
+                    + "<br>Enjoy the easy payment of bills provided by your county!";
+
+                sender.SetParameters(
+                    "akritikos86@gmail.com",
+                    "EZPayVerify@gmail.com",
+                    "EzPay Admin",
+                    "New Citizen registration",
+                    string.Empty,
+                    body);
+                sender.Send();
+            }
+
+            import.Dispose();
         }
 
         /// <summary>
@@ -108,10 +140,11 @@ namespace EzPay.Import
         /// </param>
         private static void SplitDebtFiles(FileInfo file)
         {
-            var import = new Importer(file);
+            var existingCitizens = ctx.GetSet<Citizen>().ToList();
+
             var data = import.GetResults();
             var citizens = data.Keys.Select(
-                citizen => new CitizenRecord()
+                citizen => new CitizenUpdateRecord
                 {
                     Id = citizen.Id,
                     FirstName = citizen.FirstName,
@@ -122,8 +155,9 @@ namespace EzPay.Import
                     County = citizen.County,
                     Username = citizen.Id.ToString()
                 });
+            toRegister = data.Keys.Select(c => c).Except(existingCitizens);
             var bills = data.Values.SelectMany(x => x).Select(
-                bill => new BillRecord()
+                bill => new BillRecord
                 {
                     Id = $"{{{bill.Id}}}",
                     Amount = bill.Amount,
@@ -140,7 +174,6 @@ namespace EzPay.Import
                 bills,
                 Path.Combine(file.Directory.FullName, "BILLS.CSV"),
                 "ID;AMOUNT;VAT;DESCRIPTION;DUE_DATE");
-           import.Dispose();
         }
 
         private static void PrintImportErrors()
