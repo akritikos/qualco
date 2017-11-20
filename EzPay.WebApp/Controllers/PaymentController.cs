@@ -8,9 +8,11 @@ using EzPay.Model.Entities;
 using Microsoft.AspNetCore.Identity;
 using EzPay.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EzPay.WebApp.Controllers
 {
+    [Authorize]
     public class PaymentController : Controller
     {
         private readonly UserManager<Citizen> _userManager;
@@ -46,8 +48,15 @@ namespace EzPay.WebApp.Controllers
             return View(model);
         }
 
-        public IActionResult Pay(Guid id)
+        
+        public async Task<IActionResult> Pay(Guid id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
             Payment payment = new Payment();
             payment.BillId = id;
             payment.Date = DateTime.Now;

@@ -1,4 +1,4 @@
-# .NET Coding School [![Build Status](https://travis-ci.com/akritikos/qualco.svg?token=mYyotAgYHz5qAPrDsB42&branch=master)](https://travis-ci.com/akritikos/qualco)
+# .NET Coding School [![Build Status](https://travis-ci.org/akritikos/akritikos.github.io.svg?branch=master)](https://travis-ci.com/akritikos/qualco)
 
 ## Qualco Project (Team #2)
 

@@ -8,9 +8,11 @@ using EzPay.Model.Entities;
 using Microsoft.AspNetCore.Identity;
 using EzPay.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EzPay.WebApp.Controllers
 {
+    [Authorize]
     public class SettlementDetailsController : Controller
     {
         private readonly UserManager<Citizen> _userManager;
@@ -39,23 +41,9 @@ namespace EzPay.WebApp.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            //var model = new LoginViewModel
-            //{
-            //    CitizenId = user.Id,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName,
-            //    Address = user.Address,
-            //    County = user.County,
-            //    Email = user.Email,
-            //    PhoneNumber = user.PhoneNumber,
-            //    Bills = _ctx.GetSet<Bill>().Where(c => c.CitizenId == user.Id)
-            //        .Where(c => c.IsSelected == true)
-            //        .Include(b => b.Settlement)
-            //        .Include(b => b.Payment),
-            //    Settlements = _ctx.GetSet<Settlement>().Where(c => c.CitizenId == user.Id)
-            //        .Include(b => b.Bills),
+ 
             model.SettlementTypes = _ctx.GetSet<SettlementType>().AsQueryable();
-            //};
+            
             model.Bills = model.BillsList.Where(b => b.IsSelected == true);
             return View(model);
         }
@@ -109,8 +97,14 @@ namespace EzPay.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult BillsInSettlement(Guid id)
+        public async Task<IActionResult> BillsInSettlement(Guid id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
             var model = new LoginViewModel
             {
                 Bills = _ctx.GetSet<Bill>().Where(c => c.SettlementId == id)

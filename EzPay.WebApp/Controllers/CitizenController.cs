@@ -148,12 +148,6 @@ namespace EzPay.WebApp.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            /*var hasPassword = await _userManager.HasPasswordAsync(user);
-            if (!hasPassword)
-            {
-                return RedirectToAction(nameof(SetPassword));
-            }*/
-
             var model = new LoginViewModel { StatusMessage = CitizenStatusMessage };
             return View(model);
         }
