@@ -50,70 +50,78 @@
 	</div>
 
 	<div class="form-group">
-		<label for="CardIssuer" class="sr-only">Card Issuer</label>
-		<div class="col-xs-12 col-sm-4 col-sm-offset-3">
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></span>
-				<select class="form-control" id="CardIssuer">
-					<option>VISA</option>
-					<option>Mastercard</option>
-					<option>Maestro</option>
-					<option>American Express</option>
-					<option>Diners</option>
-				</select>
-			</div>
-		</div>
-
-		<label for="cvv2" class="sr-only">CVV2:</label>
-		<div class="col-xs-6 col-sm-2 mtop15-mob">
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
-				<input type="number" min="3" maxlength="4" required class="form-control" name="cvv2" id="cvv2" placeholder="CVV" />
-			</div>
-		</div>
-
-	</div>
-
-	<div class="form-group">
+		<label for="expdate" class="sr-only">Exp. Date:</label>
 		<div class="col-xs-12 col-sm-6 col-sm-offset-3">
-			<button type="submit" class="btn btn-primary col-xs-3 col-sm-3 lc" onclick="return is_valid_card();">Pay your bill</button>
-			<a asp-controller="Citizen" asp-action="Index" class="btn btn-default col-xs-3 col-sm-3 pull-right lc">Go Back</a>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+				<input type="month" name="expdate" id="expdate" required class="form-control" />
+			</div>
 		</div>
 	</div>
 
-<script>
+		<div class="form-group">
+			<label for="CardIssuer" class="sr-only">Card Issuer</label>
+			<div class="col-xs-12 col-sm-4 col-sm-offset-3">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></span>
+					<select class="form-control" id="CardIssuer">
+						<option>VISA</option>
+						<option>Mastercard</option>
+						<option>Maestro</option>
+						<option>American Express</option>
+						<option>Diners</option>
+					</select>
+				</div>
+			</div>
 
-	function is_valid_card()
-	{
-		var ccNum = document.getElementById("cardno").value;
+			<label for="cvv2" class="sr-only">CVV2:</label>
+			<div class="col-xs-6 col-sm-2 mtop15-mob">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
+					<input type="number" min="3" maxlength="4" required class="form-control" name="cvv2" id="cvv2" placeholder="CVV" />
+				</div>
+			</div>
 
-		var arr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
-		var
-			len = ccNum.length,
-			bit = 1,
-			sum = 0,
-			val;
+		</div>
 
-		if (len < 13 || len > 19)
-			return false;
+		<div class="form-group">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+				<button type="submit" class="btn btn-primary col-xs-3 col-sm-3 lc" onclick="return is_valid_card();">Pay your bill</button>
+				<a asp-controller="Citizen" asp-action="Index" class="btn btn-default col-xs-3 col-sm-3 pull-right lc">Go Back</a>
+			</div>
+		</div>
 
-		while (len)
-		{
-				val = parseInt(ccNum.charAt(--len), 10);
-				sum += (bit ^= 1) ? arr[val] : val;
-		}
+		<script>
 
-		var result = sum && sum % 10 === 0;
+			function is_valid_card() {
+				var ccNum = document.getElementById("cardno").value;
 
-		if (result == false)
-			alert("Invalid card number");
+				var arr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
+				var
+					len = ccNum.length,
+					bit = 1,
+					sum = 0,
+					val;
 
-		return result;
-	
-		
-		
-	}
-</script>
+				if (len < 13 || len > 19)
+					return false;
+
+				while (len) {
+					val = parseInt(ccNum.charAt(--len), 10);
+					sum += (bit ^= 1) ? arr[val] : val;
+				}
+
+				var result = sum && sum % 10 === 0;
+
+				if (result == false)
+					alert("Invalid card number");
+
+				return result;
+
+
+
+			}
+		</script>
 </form>
 
 @section Scripts {
